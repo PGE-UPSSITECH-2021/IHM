@@ -1,0 +1,19 @@
+﻿.main{
+    display:flex;
+    flex-direction:row;
+}
+
+.menu-bar{
+   width:14%;
+}
+
+.middle-screen {
+    width: 61%;
+    border-right-style: solid;
+    border-right-color: #273339;
+    border-right-width: 2px;
+}
+
+.configuration{
+    width:25%;
+}
