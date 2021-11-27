@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactIHM_PGE", "ReactIHM_PGE\ReactIHM_PGE.csproj", "{FB3B7CA7-11DD-4382-9290-35E44B746319}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FB3B7CA7-11DD-4382-9290-35E44B746319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB3B7CA7-11DD-4382-9290-35E44B746319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB3B7CA7-11DD-4382-9290-35E44B746319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB3B7CA7-11DD-4382-9290-35E44B746319}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C9529F6E-42B0-493B-ABD8-F20D7A39C2BC}
+	EndGlobalSection
+EndGlobal
