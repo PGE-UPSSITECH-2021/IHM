@@ -29,11 +29,35 @@ function Configuration() {
     const [selectedDiam, setSelectedDiam] = useState("");
     const [rangevalConf, setRangevalConf] = useState(50); 
 
+    //Import/Export fichier .csv
+    const csvFileCreator = require('csv-file-creator');
+
+    function saveConfig() {
+        if (selectedAction === "Localiser la plaque") {
+            var csv_data = [
+                ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
+                [selectedAction, selectedPlaque, "", ""]
+            ];
+        } else if (selectedAction === "Déplacer le robot") {
+            var csv_data = [
+                ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
+                [selectedAction, selectedPlaque, selectedDiam, ""]
+            ];
+        } else {
+            var csv_data = [
+                ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
+                [selectedAction, selectedPlaque, selectedDiam, rangevalConf]
+            ];
+        }
+        
+        csvFileCreator('config.csv', csv_data);
+    }
+
     function selectAll() {
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
         var allAlreadySelected = true;
         for (var checkbox of checkboxes) {
-            if (checkbox.checked == false) {
+            if (checkbox.checked === false) {
                 allAlreadySelected = false;
             }
         }
@@ -53,8 +77,8 @@ function Configuration() {
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
         var str = "";
         for (var checkbox of checkboxes) {
-            if (checkbox.checked == true) {
-                if (str == "") {
+            if (checkbox.checked === true) {
+                if (str === "") {
                     str += checkbox.value;
                 } else {
                     str += ", " + checkbox.value;
@@ -65,12 +89,12 @@ function Configuration() {
     }
 
     function configValid() {
-        if (isOpen || selectedAction=="") {
+        if (isOpen || selectedAction==="") {
             return false;
-        }else if (selectedAction == "Localiser la plaque") {
-            return selectedPlaque != "";
+        }else if (selectedAction === "Localiser la plaque") {
+            return selectedPlaque !== "";
         } else {
-            return selectedPlaque != "" && selectedDiam != "";
+            return selectedPlaque !== "" && selectedDiam !== "";
         }        
     }
 
@@ -84,19 +108,14 @@ function Configuration() {
         setSelectedPlaque(event.target.value);
     }
 
-    function handleSelectDiam(event) {
-        event.preventDefault();
-        setSelectedDiam(event.target.value);
-    }
-
     function disableGeneral() {
         return isOpen;
     }
     function disableDiam() {
-        return selectedAction == "Localiser la plaque" || isOpen;
+        return selectedAction === "Localiser la plaque" || isOpen;
     }
     function disableConf() {
-        return selectedAction == "Localiser la plaque" || selectedAction == "Déplacer le robot" ||isOpen;
+        return selectedAction === "Localiser la plaque" || selectedAction === "Déplacer le robot" ||isOpen;
     }
 
     
@@ -153,7 +172,7 @@ function Configuration() {
                     
                 </div>
             </div>
-            <button type="button" className="bouton-normal" disabled={!configValid()}>Sauvegarder</button>
+            <button type="button" className="bouton-normal" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
             <button type="button" className="bouton-normal" disabled={disableGeneral()}>Configuration par défaut</button>
             <button type="submit" className="bouton-run" onClick={togglePopup} disabled={!configValid()}>Run</button>
             {isOpen && <Popup
@@ -162,8 +181,8 @@ function Configuration() {
                     <p className="popup-recap-title"> Récapitulatif de la configuration </p>
                     <p className="popup-element"> Action choisie : {selectedAction}</p>
                     <p className="popup-element"> Type de la plaque : {selectedPlaque} </p>
-                    {(selectedAction == "Localiser la plaque") ? <span></span> : <p className="popup-element"> Diamètre(s) des trous : {selectedDiam} </p>}
-                    {(selectedAction == "Localiser la plaque" || selectedAction == "Déplacer le robot" ) ? <span></span> : <p className="popup-element"> Taux de confiance minimum : {rangevalConf} %</p>}
+                    {(selectedAction === "Localiser la plaque") ? <span></span> : <p className="popup-element"> Diamètre(s) des trous : {selectedDiam} </p>}
+                    {(selectedAction === "Localiser la plaque" || selectedAction === "Déplacer le robot" ) ? <span></span> : <p className="popup-element"> Taux de confiance minimum : {rangevalConf} %</p>}
                     <div className='img-pause-stop'>
                         <img src={pause} alt='bouton pause' className='bouton-pause' />
                         <img src={stop} alt='bouton emergency stop' className='bouton-stop' />

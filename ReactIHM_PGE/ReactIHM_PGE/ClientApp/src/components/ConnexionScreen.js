@@ -34,7 +34,7 @@ function ConnexionScreen(props) {
 
     function handleSubmit(event) {
         event.preventDefault();
-        if (userID == "user" && password == "eXcent") { //TODO à changer
+        if (userID === "user" && password === "eXcent") { //TODO à changer
             userHasAuthenticated(true);
         } else {
             userHasFailed(true);
