@@ -19,8 +19,10 @@ import "react-pro-sidebar/dist/css/styles.css";
 import "../styles/MenuBar.css";
 import { Button } from '@material-ui/core';
 import { useAppContextAuth } from "../lib/contextLibAuth";
+import { useAppContextPage } from "../lib/contextLibPage";
 
-const Header = () => {
+function Header() {
+
     //create initial menuCollapse state using useState hook
     const [menuCollapse, setMenuCollapse] = useState(false)
 
@@ -31,11 +33,19 @@ const Header = () => {
     };
 
     const { userHasAuthenticated } = useAppContextAuth();
-
+    const { setCurrentPage }= useAppContextPage();
 
     function handleLogout() {
         userHasAuthenticated(false);
     }
+
+    function changePageToMain() {
+        setCurrentPage(0);
+    }
+    function changePageToResult() {
+        setCurrentPage(1);
+    }
+
 
     return (
         <div id="header">
@@ -49,18 +59,18 @@ const Header = () => {
                 </SidebarHeader>
                 <SidebarContent>
                     <Menu iconShape="square">
-                        <MenuItem active={true} icon={<FiHome />} className="menuItem"><span className='textItem'>Accueil</span></MenuItem>
-                        <MenuItem icon={<FaList />} className="menuItem"><span className='textItem'>Résultats</span></MenuItem>
-                        <MenuItem icon={<BiCog />} className="menuItem"><span className='textItem'>Paramètres</span></MenuItem>
-                        <MenuItem icon={<FaRegUser />} className="menuItem"><span className='textItem'>Utilisateur</span></MenuItem>
-                        <MenuItem icon={<MdOutlineHelpOutline />} className="menuItem"><span className='textItem'>Aide</span></MenuItem>
+                        <MenuItem active={true} icon={<FiHome />} onClick={changePageToMain} className="menuItem"><span className='textItem'>Accueil</span></MenuItem>
+                        <MenuItem active={false} icon={<FaList />} onClick={changePageToResult} className="menuItem"><span className='textItem'>Résultats</span></MenuItem>
+                        <MenuItem active={false} icon={<BiCog />} className="menuItem"><span className='textItem'>Paramètres</span></MenuItem>
+                        <MenuItem active={false} icon={<FaRegUser />} className="menuItem"><span className='textItem'>Utilisateur</span></MenuItem>
+                        <MenuItem active={false} icon={<MdOutlineHelpOutline />} className="menuItem"><span className='textItem'>Aide</span></MenuItem>
                         <div className='space'><Button type="solid" startIcon={<FaPowerOff />} className="boutonDeconnexion" onClick={handleLogout}>Déconnexion</Button></div>
                     </Menu>
                 </SidebarContent>
             </ProSidebar>
         </div>
     );
-};
+}
 
 
 export default Header;

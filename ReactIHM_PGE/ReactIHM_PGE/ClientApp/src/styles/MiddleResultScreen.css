@@ -1,0 +1,119 @@
+﻿.middleResult{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding-top: 3%;
+}
+
+.cardDescript {
+    height: 55vh;
+    width: 30vw;
+    background-color: #E6E7E7;
+    overflow-y: scroll;
+    border-radius:4px;
+}
+
+.cardImage {
+    padding-top:5px;
+    width: 50%;
+}
+
+.image_res {
+    width: 105%;
+    align-self: center;
+    border-style:solid;
+    border-color:#E7E6E6;
+    border-width:5px;
+    border-radius:4px;
+}
+
+.cardDescriptTitle{
+    text-align:center;
+    font-weight: bold;
+    font-size: 120%;
+    background-color:rgba(39,51,57,0.9);
+    padding-bottom:10px;
+    padding-top:10px;
+    color:white;
+}
+
+.cardResult {
+    background-color:#E6E7E7;
+    border-radius:4px;
+    text-align: center;
+}
+
+.test {
+    display: flex;
+    flex-direction: row;
+    padding-top:2%;
+    justify-content:center;
+    align-items: center;
+}
+
+.BackNextButtons{
+    padding-top:15px;
+    padding-bottom:5px;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.unconformSection{
+    padding-left: 5%;
+}
+
+.validateSection{
+    padding-left: 5%;
+}
+
+.iconValidate {
+    color: #7ABD6A;
+}
+
+.iconUnconform {
+    color: #E30613;
+}
+
+.cardTrous{
+    padding-top:5%;
+    border-bottom-style:solid;
+    border-bottom-width:1px;
+    border-bottom-color:rgba(39,51,57,0.8);
+}
+
+#numPage{
+    font-size: 120%;
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.icone-result{
+    height: 60%;
+}
+
+.headerTrou{
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    background-color:rgba(135,135,135,0.4);
+}
+
+.iconSearchDiv{
+    padding-left: 80%;
+}
+
+.iconSearch{
+    height: 100%;
+}
+
+.buttonNextBack{
+    border-radius:10px;
+    width: 8vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+
