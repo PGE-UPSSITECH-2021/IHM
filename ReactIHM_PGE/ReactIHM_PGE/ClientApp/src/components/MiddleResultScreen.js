@@ -1,4 +1,5 @@
-﻿import '../styles/MiddleResultScreen.css'
+﻿import '../styles/bootstrapStyle.scss'
+import '../styles/MiddleResultScreen.css'
 import noCamRes from '../assets/NoCamera.png'
 import Card from 'react-bootstrap/Card'
 import React, { useState, useEffect, useRef} from 'react'
@@ -7,7 +8,6 @@ import { BsCheck2Circle } from 'react-icons/bs'
 import { BiErrorCircle } from 'react-icons/bi'
 import { HiOutlineDocumentSearch } from 'react-icons/hi'
 import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
-
 
 
 
