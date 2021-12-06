@@ -1,8 +1,22 @@
-﻿.middleResult {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+﻿.img-noCamera{
+    /*align-self:center;*/
+    /*border-style:solid;*/
+    /*border-width:13px;*/
+    border-color:#878787;
+    width:50%;
+    padding-top:20px;
+}
+
+.middleResult{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
     padding-top: 2%;
+}
+
+.title{
+    font-weight: bold;
+    font-size:30px;
 }
 
 .cardDescript {
@@ -14,21 +28,26 @@
     /*overflow-y: scroll;*/
 }
 
-.cardBody {
+.cardBody{
     scroll-behavior: smooth;
     overflow-y: scroll;
 }
 
-.cardImage {
+/*#scrollable {
+    scroll-behavior: smooth;*/
+    /*align-self: center;*/
+    /*overflow-y: scroll;
+}*/
+.cardImage{
     width: 50%;
     /*height: 50vh;*/
     /*height: 75%;*/
 }
-
-.cardDescriptTitle {
-    text-align: center;
+.cardDescriptTitle{
+    text-align:center;
     font-weight: bold;
     font-size: 120%;
+    background-color:#E7E6E6  !important;
 }
 
 .titleDiametre {
@@ -39,27 +58,29 @@
 
 .cardResult {
     text-align: center;
+    /*background-color: white !important;*/
 }
 
 .test {
     display: flex;
     flex-direction: row;
-    padding-top: 2%;
-    justify-content: center;
+    padding-top:2%;
+    justify-content:center;
     align-items: center;
 }
 
-.BackNextButtons {
-    padding-top: 3%;
+.BackNextButtons{
+    padding-top:3%;
     display: flex;
     flex-direction: row;
+
 }
 
-.unconformSection {
+.unconformSection{
     padding-left: 5%;
 }
 
-.validateSection {
+.validateSection{
     padding-left: 5%;
 }
 
@@ -71,17 +92,18 @@
     color: #E30613;
 }
 
-.cardTrous {
-    padding-top: 8%;
+.cardTrous{
+    padding-top:8%;
+    /*background-color: white !important;*/
 }
 
-#numPage {
+#numPage{
     font-size: 120%;
     padding-left: 2%;
     padding-right: 2%;
 }
 
-.icone-result {
+.icone{
     height: 60%;
 }
 
@@ -89,13 +111,15 @@
     font-weight: bold;
     display: flex;
     flex-direction: row;
+    background-color: #E7E6E6 !important;
+    /*background-color: #E7E6E6;*/
 }
 
-.iconSearchDiv {
+.iconSearchDiv{
     padding-left: 80%;
 }
 
-.iconSearch {
+.iconSearch{
     height: 100%;
 }
 
@@ -107,4 +131,7 @@
     align-items: center;
     /*justify-items: center;*/
     justify-content: center;
+    background-color: white !important;
 }
+
+
