@@ -7,27 +7,49 @@ import Popup from './PopUp'
 import PopUpConfirm from './PopUpConfirm'
 import pause from '../assets/pause.png'
 import stop from '../assets/stop.png'
+import 'eventemitter2';
+import * as ROSLIB from 'roslib';
 
 function Configuration() {
 
+    //ROS
+    var ros = new ROSLIB.Ros({
+        url: 'ws://192.168.101.172:9090'
+    })
+    // Récupération du topic sur lequel on veut publier
+    var message_ihm_run = new ROSLIB.Topic({
+        ros: ros,
+        name: '/message_ihm_run',
+        messageType: 'test_com/test_msg'
+    });
+
     const [openFileSelector, { filesContent, loading, errors, plainFiles, clear }] = useFilePicker({ multiple: false, accept: ['.csv'] })
+
+
+    //Gestion séléction configuration
+    const [selectedAction, setSelectedAction] = useState("");
+    const [selectedPlaque, setSelectedPlaque] = useState("");
+    const [selectedDiam, setSelectedDiam] = useState("");
+    const [rangevalConf, setRangevalConf] = useState(50);
 
     //Gestion des POPUPS
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenConfirm, setIsOpenConfirm] = useState(false);
     const togglePopup = () => {
+        // Création du message à envoyer
+        var msg = new ROSLIB.Message({
+            action: String(selectedAction),
+            plaque: String(selectedPlaque),
+            diametre: String(selectedDiam),
+            confiance: String(rangevalConf)
+        });
+        message_ihm_run.publish(msg);
         setIsOpen(!isOpen);
         setIsOpenConfirm(false);
     }
     const togglePopupConfirm = () => {
         setIsOpenConfirm(!isOpenConfirm);
     }
-
-    //Gestion séléction configuration
-    const [selectedAction, setSelectedAction] = useState("");
-    const [selectedPlaque, setSelectedPlaque] = useState("");
-    const [selectedDiam, setSelectedDiam] = useState("");
-    const [rangevalConf, setRangevalConf] = useState(50); 
 
     //Import/Export fichier .csv
     const csvFileCreator = require('csv-file-creator');
@@ -131,16 +153,16 @@ function Configuration() {
                     <option selected disabled hidden value="">-----</option>
                     <option value="Localiser la plaque">Localiser la plaque</option>
                     <option value="Identifier">Identifier</option>
-                    <option value="Vérifier conformité">Vérifier conformité</option>
+                    <option value="Verifier conformite">Vérifier conformité</option>
                     <option value="Déplacer le robot">Déplacer le robot</option>
                 </select>
             </div>
             <div className='champ'><label className='labels'>Type de plaque :</label>
                 <select value={selectedPlaque} onChange={handleSelectPlaque} disabled={disableGeneral()}>
                     <option selected disabled hidden value="">-----</option>
-                    <option value="Tôle plate">Tôle plate</option>
-                    <option value="Tôle cintrée">Tôle cintrée</option>
-                    <option value="Tôle épaisse">Tôle épaisse</option>
+                    <option value="Tole plate">Tôle plate</option>
+                    <option value="Tole cintree">Tôle cintrée</option>
+                    <option value="Tole epaisse">Tôle épaisse</option>
                 </select>
             </div>
             <div className='champ'>
