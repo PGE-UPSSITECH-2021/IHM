@@ -6,6 +6,8 @@ import { useFilePicker } from 'use-file-picker'
 import Popup from './PopUp'
 import PopUpConfirm from './PopUpConfirm'
 import PopUpEmergency from './PopUpEmergency'
+import PopUpPause from './PopUpPause'
+import pause from '../assets/pause.png'
 import stop from '../assets/stop.png'
 import cancel from '../assets/cancel.png'
 import 'eventemitter2';
