@@ -14,6 +14,7 @@ import 'eventemitter2';
 import * as ROSLIB from 'roslib';
 
 function Configuration() {
+    const [msg_act_courante, setMsgActCourante] = useState("");
 
     //ROS
     var ros = new ROSLIB.Ros({
@@ -39,6 +40,15 @@ function Configuration() {
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenConfirm, setIsOpenConfirm] = useState(false);
     const togglePopup = () => {
+        if (selectedAction === "Deplacer le robot") {
+            setMsgActCourante("Déplacement du robot");
+        } else if (selectedAction === "Identifier") {
+            setMsgActCourante("Identification");
+        } else if (selectedAction === "Verifier conformite") {
+            setMsgActCourante("Vérification de la conformité");
+        } else if (selectedAction === "Localiser la plaque") {
+            setMsgActCourante("Localisation de la plaque");
+        }
         // Création du message à envoyer
         var msg = new ROSLIB.Message({
             action: String(selectedAction),
@@ -49,6 +59,7 @@ function Configuration() {
         message_ihm_run.publish(msg);
         setIsOpen(!isOpen);
         setIsOpenConfirm(false);
+
     }
     const togglePopupConfirm = () => {
         setIsOpenConfirm(!isOpenConfirm);
@@ -71,12 +82,6 @@ function Configuration() {
     const togglePopupPause = () => {
         setIsOpenPause(!isOpenPause);
     }
-
-    //Gestion séléction configuration
-    const [selectedAction, setSelectedAction] = useState("");
-    const [selectedPlaque, setSelectedPlaque] = useState("");
-    const [selectedDiam, setSelectedDiam] = useState("");
-    const [rangevalConf, setRangevalConf] = useState(50); 
 
     //Import/Export fichier .csv
     const csvFileCreator = require('csv-file-creator');
@@ -140,7 +145,7 @@ function Configuration() {
     function configValid() {
         if (isOpen || selectedAction==="") {
             return false;
-        }else if (selectedAction === "Localiser la plaque") {
+        } else if (selectedAction === "Localiser la plaque") {
             return selectedPlaque !== "";
         } else {
             return selectedPlaque !== "" && selectedDiam !== "";
@@ -164,13 +169,9 @@ function Configuration() {
         return selectedAction === "Localiser la plaque" || isOpen;
     }
     function disableConf() {
-        return selectedAction === "Localiser la plaque" || selectedAction === "Déplacer le robot" ||isOpen;
+        return selectedAction === "Localiser la plaque" || selectedAction === "Deplacer le robot" ||isOpen;
     }
 
-    function getSelectedAction() {
-        return selectedAction;
-    }
-    
 
     return (
         <div className="config">
@@ -183,7 +184,7 @@ function Configuration() {
                     <option value="Localiser la plaque">Localiser la plaque</option>
                     <option value="Identifier">Identifier</option>
                     <option value="Verifier conformite">Vérifier conformité</option>
-                    <option value="Déplacer le robot">Déplacer le robot</option>
+                    <option value="Deplacer le robot">Déplacer le robot</option>
                 </select>
             </div>
             <div className='champ'><label className='labels'>Type de plaque :</label>
@@ -234,7 +235,7 @@ function Configuration() {
                     <p className="popup-element"> Action choisie : {selectedAction}</p>
                     <p className="popup-element"> Type de la plaque : {selectedPlaque} </p>
                     {(selectedAction === "Localiser la plaque") ? <span></span> : <p className="popup-element"> Diamètre(s) des trous : {selectedDiam} </p>}
-                    {(selectedAction === "Localiser la plaque" || selectedAction === "Déplacer le robot" ) ? <span></span> : <p className="popup-element"> Taux de confiance minimum : {rangevalConf} %</p>}
+                    {(selectedAction === "Localiser la plaque" || selectedAction === "Deplacer le robot" ) ? <span></span> : <p className="popup-element"> Taux de confiance minimum : {rangevalConf} %</p>}
                     <div className='img-pause-stop'>
                         <img src={cancel} alt='bouton annuler' className='bouton-cancel' onClick={togglePopupConfirm} />
                         {isOpenConfirm && <PopUpConfirm
@@ -247,14 +248,14 @@ function Configuration() {
                         <img src={stop} alt='bouton emergency stop' className='bouton-stop' onClick={togglePopupEmergency}/>
                         {isOpenEmergency && <PopUpEmergency
                             content={<>
-                                <h3 className="popup-title">Arrêt d'urgence demandé</h3>
-                                <p> Toutes les actions ont été arrêtées. Pour revenir à la page d'accueil, cliquez sur OK. </p>
+                                <h3 className="popup-title">Arrêt d'urgence effectué</h3>
+                                <p> Toutes les actions ont été arrêtées. <br/> Pour revenir à la page d'accueil, cliquez sur OK. </p>
                                 <button className="bouton-popupEmergency-ok" onClick={togglePopupEmergency, togglePopupEmerg}>OK</button>
                             </>}
                          />}
                     </div>
                     <div className="avancement-box">
-                        <p className="etat-title"> {selectedAction} en cours ...</p>
+                        <p className="etat-title"> {msg_act_courante} en cours ...</p>
                     </div>
                     
                 </>}
@@ -264,7 +265,7 @@ function Configuration() {
                     <div className='etat-import'>
                         <GiRobotGrab className="icone" />
                         Etat du robot :
-                        <span className='rep'> LIBRE </span>
+                    {isOpen ? <span className='rep-occ'>OCCUPE </span> : <span className='rep'>LIBRE</span>}
                     </div>
                     <div className='etat-import'>
                         <AiFillSafetyCertificate className="icone" />
