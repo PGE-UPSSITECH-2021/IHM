@@ -5,8 +5,11 @@ import { GiRobotGrab } from "react-icons/gi";
 import { useFilePicker } from 'use-file-picker'
 import Popup from './PopUp'
 import PopUpConfirm from './PopUpConfirm'
+import PopUpEmergency from './PopUpEmergency'
+import PopUpPause from './PopUpPause'
 import pause from '../assets/pause.png'
 import stop from '../assets/stop.png'
+import cancel from '../assets/cancel.png'
 
 function Configuration() {
 
@@ -21,6 +24,24 @@ function Configuration() {
     }
     const togglePopupConfirm = () => {
         setIsOpenConfirm(!isOpenConfirm);
+    }
+
+    const [isOpenEmergency, setIsOpenEmergency] = useState(false);
+    const togglePopupEmerg = () => {
+        setIsOpen(!isOpen);
+        setIsOpenEmergency(false);
+    }
+    const togglePopupEmergency = () => {
+        setIsOpenEmergency(!isOpenEmergency);
+    }
+
+    const [isOpenPause, setIsOpenPause] = useState(false);
+    const togglePopupHold = () => {
+        setIsOpen(!isOpen);
+        setIsOpenPause(false);
+    }
+    const togglePopupPause = () => {
+        setIsOpenPause(!isOpenPause);
     }
 
     //Gestion séléction configuration
@@ -118,7 +139,9 @@ function Configuration() {
         return selectedAction === "Localiser la plaque" || selectedAction === "Déplacer le robot" ||isOpen;
     }
 
-
+    function getSelectedAction() {
+        return selectedAction;
+    }
     
 
     return (
@@ -185,17 +208,23 @@ function Configuration() {
                     {(selectedAction === "Localiser la plaque") ? <span></span> : <p className="popup-element"> Diamètre(s) des trous : {selectedDiam} </p>}
                     {(selectedAction === "Localiser la plaque" || selectedAction === "Déplacer le robot" ) ? <span></span> : <p className="popup-element"> Taux de confiance minimum : {rangevalConf} %</p>}
                     <div className='img-pause-stop'>
-                        <img src={pause} alt='bouton pause' className='bouton-pause' />
-                        <img src={stop} alt='bouton emergency stop' className='bouton-stop' />
+                        <img src={cancel} alt='bouton annuler' className='bouton-cancel' onClick={togglePopupConfirm} />
+                        {isOpenConfirm && <PopUpConfirm
+                            content={<>
+                                <h3 className="popup-title">Voulez-vous annuler l'action en cours ?</h3>
+                                <button className="bouton-popupConfirm-oui" onClick={togglePopupConfirm, togglePopup}>Oui</button>
+                                <button className="bouton-popupConfirm-non" onClick={togglePopupConfirm}>Non</button>
+                            </>}
+                        />}
+                        <img src={stop} alt='bouton emergency stop' className='bouton-stop' onClick={togglePopupEmergency}/>
+                        {isOpenEmergency && <PopUpEmergency
+                            content={<>
+                                <h3 className="popup-title">Arrêt d'urgence demandé</h3>
+                                <p> Toutes les actions ont été arrêtées. Pour revenir à la page d'accueil, cliquez sur OK. </p>
+                                <button className="bouton-popupEmergency-ok" onClick={togglePopupEmergency, togglePopupEmerg}>OK</button>
+                            </>}
+                         />}
                     </div>
-                    <button className="annuler" onClick={togglePopupConfirm}>Annuler</button>
-                    {isOpenConfirm && <PopUpConfirm
-                        content={<>
-                            <h3 className="popup-title">Voulez-vous annuler l'action en cours ?</h3>
-                            <button className="bouton-popupConfirm-oui" onClick={togglePopupConfirm, togglePopup}>Oui</button>
-                            <button className="bouton-popupConfirm-non" onClick={togglePopupConfirm}>Non</button>
-                        </>}
-                    />}
                     <div className="avancement-box">
                         <p className="etat-title"> {selectedAction} en cours ...</p>
                     </div>
