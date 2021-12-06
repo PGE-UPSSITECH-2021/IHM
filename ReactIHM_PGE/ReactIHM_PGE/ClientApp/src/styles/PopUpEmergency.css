@@ -1,0 +1,41 @@
+﻿.popup-box-emergency {
+    position: absolute;
+    background: rgba(39,51,57,0.6);
+    border-radius: 4px;
+    padding: 7px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #273339;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
+    top: 30%;
+    right: -7%;
+    width: 110%;
+}
+
+.box-emergency {
+    border-radius: 4px;
+    background-color: #E7E6E6;
+    border: 2px solid #999;
+    padding: 10px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+.popup-title {
+    font-weight: bold;
+    color: #273339;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+.bouton-popupEmergency-ok {
+    background-color: #E30613;
+    color: white;
+    opacity: 0.7;
+    width: 50%;
+}
+
+    .bouton-popupEmergency-ok:hover {
+        opacity: 1;
+    }
