@@ -118,6 +118,7 @@ function Configuration() {
         return selectedAction === "Localiser la plaque" || selectedAction === "Déplacer le robot" ||isOpen;
     }
 
+
     
 
     return (

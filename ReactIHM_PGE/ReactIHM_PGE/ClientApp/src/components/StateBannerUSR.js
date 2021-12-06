@@ -1,12 +1,12 @@
 import '../styles/StateBannerUSR.css'
+import moment from 'react-moment'
 
 function StateBannerUSR() {
     var now = new Date();
-    var annee = now.getFullYear();
-    var mois = now.getMonth() + 1;
-    var jour = now.getDate();
+    const moment = require('moment');
+    
     return (<div className='pge-statebanner'>
-        <span className='date'> {jour}/{mois}/{annee}</span>
+        <span className='date'> {moment(now).format('DD/MM/YYYY')}</span>
         <span className='recette'> Aucune action en cours </span>
         <span className='mode'> Utilisateur </span>
     </div>)

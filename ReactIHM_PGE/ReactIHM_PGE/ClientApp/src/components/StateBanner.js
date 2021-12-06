@@ -1,12 +1,12 @@
 import '../styles/StateBanner.css'
+import moment from 'react-moment'
 
 function StateBanner() {
     var now = new Date();
-    var annee = now.getFullYear();
-    var mois = now.getMonth() + 1;
-    var jour = now.getDate();
+    const moment = require('moment');
+
     return (<div className='pge-statebanner_co'>
-        <span className='date_co'> {jour}/{mois}/{annee}</span>
+        <span className='date_co'>  {moment(now).format('DD/MM/YYYY')}</span>
     </div>)
 }
 
