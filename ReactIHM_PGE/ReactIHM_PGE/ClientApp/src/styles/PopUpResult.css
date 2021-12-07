@@ -1,0 +1,61 @@
+/* Popup style */
+.popup-box-result {
+    position: absolute;
+    background: rgba(39,51,57,0.6);
+    border-radius: 4px;
+    top: 18%;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #273339;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
+    width: 40%;
+}
+
+.cardImagePopUp{
+    width:80%;
+    align-content:center;
+    align-self:center;
+}
+
+#imgPopUpResult{
+    /*width: 99.9%;*/
+   
+}
+
+.box-result {
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    background-color: #E7E6E6;
+    border: 2px solid #999;
+    width: 93%;
+    padding: 5px;
+    margin: 8px;
+}
+
+.annuler-result {
+    border-radius: 6px;
+    color: #273339;
+}
+
+.forcer-conform {
+    background-color: #273339;
+    color: white;
+    border-radius:6px;
+    opacity:0.8;
+}
+
+.forcer-conform:hover {
+    opacity: 1;
+}
+
+.forcer-conform:disabled {
+    opacity: 0.2;
+}
+
+.popup-title{
+    font-weight:bold;
+    color:#273339;
+    padding-bottom:0px;
+    padding-top:0px;
+}

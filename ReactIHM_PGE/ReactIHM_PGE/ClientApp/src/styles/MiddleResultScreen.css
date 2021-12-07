@@ -103,7 +103,7 @@
     padding-right: 2%;
 }
 
-.icone{
+.icone-res{
     height: 60%;
 }
 
@@ -116,7 +116,8 @@
 }
 
 .iconSearchDiv{
-    padding-left: 80%;
+    padding-left: 75%;
+    /*height:60%;*/
 }
 
 .iconSearch{
@@ -133,5 +134,7 @@
     justify-content: center;
     background-color: white !important;
 }
+
+
 
 
