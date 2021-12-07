@@ -4,7 +4,6 @@ import StateBannerUSR from './StateBannerUSR';
 import MainScreenUSR from './MainScreenUSR';
 import React, { useState } from "react";
 import ResultScreen from './ResultScreen';
-// import { AppContextPage } from "../lib/contextLibPage";
 
 
 function AppMainScreen() { // main screen Usr mode
@@ -15,23 +14,19 @@ function AppMainScreen() { // main screen Usr mode
 
     if (currentPage === 0) {
         return (
-            // <AppContextPage.Provider value={{ currentPage, setCurrentPage }}>
             <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
                 <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} /></div>
                 <div className='main'><MainScreenUSR actionEnCrous={actionEnCours} setActionEnCours={setActionEnCours} currentPage={currentPage} setCurrentPage={setCurrentPage} /></div>
             </div>
-            // </AppContextPage.Provider >
             )
     } else if (currentPage === 1) {
         return (
-            // <AppContextPage.Provider value={{ currentPage, setCurrentPage }}>
             <div className='bodyMain'>
                 <div className='topBanner'><TopBanner /></div>
                 <div className='stateBanner'><StateBannerUSR  actionEnCours={actionEnCours} /></div>
                 <div className='main'><ResultScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={currentPage} setCurrentPage={setCurrentPage}/></div>
             </div>
-            // </AppContextPage.Provider >
         )
     }
 }

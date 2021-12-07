@@ -19,7 +19,6 @@ import "react-pro-sidebar/dist/css/styles.css";
 import "../styles/MenuBar.css";
 import { Button } from '@material-ui/core';
 import { useAppContextAuth } from "../lib/contextLibAuth";
-// import { useAppContextPage } from "../lib/contextLibPage";
 
 
 
@@ -35,7 +34,6 @@ function Header({ isDecoDisabled, currentPage, setCurrentPage }) {
     };
 
     const { userHasAuthenticated } = useAppContextAuth();
-    // const { setCurrentPage } = useAppContextPage();
 
     function handleLogout() {
         userHasAuthenticated(false);

@@ -11,12 +11,8 @@
 }
 
 .cardDescript {
-    /*width: 30%;*/
     height: 52vh;
     width: 30vw;
-    /*scroll-behavior: smooth;*/
-    /*align-self: center;*/
-    /*overflow-y: scroll;*/
 }
 
 .cardBody {
@@ -24,15 +20,8 @@
     overflow-y: scroll;
 }
 
-/*#scrollable {
-    scroll-behavior: smooth;*/
-/*align-self: center;*/
-/*overflow-y: scroll;
-}*/
 .cardImage {
-    width: 48%;
-    /*height: 50vh;*/
-    /*height: 75%;*/
+    width: 46%;
 }
 
 .cardDescriptTitle {
@@ -50,7 +39,6 @@
 
 .cardResult {
     text-align: center;
-    /*background-color: white !important;*/
 }
 
 .test {
@@ -62,7 +50,7 @@
 }
 
 .BackNextButtons {
-    padding-top: 1%;
+    padding-top: 2%;
     display: flex;
     flex-direction: row;
 }
@@ -85,7 +73,6 @@
 
 .cardTrous {
     padding-top: 8%;
-    /*background-color: white !important;*/
 }
 
 #numPage {
@@ -103,7 +90,6 @@
     display: flex;
     flex-direction: row;
     background-color: #E7E6E6 !important;
-    /*background-color: #E7E6E6;*/
 }
 
 .iconSearchDiv {
@@ -120,7 +106,6 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    /*justify-items: center;*/
     justify-content: center;
     background-color: white !important;
 }

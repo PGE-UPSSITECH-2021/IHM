@@ -12,7 +12,6 @@ import '../styles/bootstrapStyle.scss'
 
 
 function MiddleResultScreen() {
-    //document.getElementById('card').style.height = document.getElementById('img').style.height;
 
     const inputRef = useRef()
 
@@ -37,22 +36,19 @@ function MiddleResultScreen() {
                             </div>
 
                         </Card.Text>
-                        {/*<Button variant="primary">Go somewhere</Button>*/}
                     </Card.Body>
                 </Card>
             </div>
 
             <div className="test">
 
-                {/*<img src={noCam} alt='noCamera' className='img-noCamera' />*/}
                 <Card className="cardImage" ref={inputRef}>
                     <Card.Img id="img" src={noCam} />
                 </Card>
                 <Card className="cardDescript" id="card">
                     <Card.Header className="cardDescriptTitle">Descriptif des trous identifiés</Card.Header>
                     <Card.Body className="cardBody">
-                        {/*<div className="cardDescriptTitle">*/}
-                        {/*<Card.Title>Descriptif des trous identifiés</Card.Title></div>*/}
+
                         <Card.Text>
                             <div className="cardTrous">
                                 <Card >
@@ -129,8 +125,6 @@ function MiddleResultScreen() {
                             </div>
 
                         </Card.Text>
-
-                        {/*<Button variant="primary">Go somewhere</Button>*/}
                     </Card.Body>
                 </Card>
             </div>
