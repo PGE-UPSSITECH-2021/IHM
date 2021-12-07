@@ -8,17 +8,27 @@ import { BiErrorCircle } from 'react-icons/bi'
 import { HiOutlineDocumentSearch} from 'react-icons/hi'
 import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 import '../styles/bootstrapStyle.scss'
+import PopUpResult from './PopUpResult'
+import Popup from './PopUp'
 
 
 
 function MiddleResultScreen() {
     //document.getElementById('card').style.height = document.getElementById('img').style.height;
 
-    const inputRef = useRef()
+    const inputRef = useRef();
+    const [numTrou, setnumTrou] = useState("Title");
+    //PopUp details result
+    const [isOpen, setIsOpen] = useState(false);
+    const togglePopupResult = () => {
+        setIsOpen(!isOpen);
+    }
+ 
 
     
     return (
         <div className='middleResult'>
+
           
             <div className='cardResult'>
                 <Card style={{ width: '18rem' }} >
@@ -28,7 +38,7 @@ function MiddleResultScreen() {
                             <BsCheck2Circle
                                 className="iconValidate" />
                             <span className = "validateSection">
-                                2/4 trous identifiés </span>
+                                3/4 trous identifiés </span>
                             <div>
                                 <BiErrorCircle
                                     className="iconUnconform" />
@@ -37,22 +47,20 @@ function MiddleResultScreen() {
                             </div>
 
                         </Card.Text>
-                        {/*<Button variant="primary">Go somewhere</Button>*/}
                     </Card.Body>
                 </Card>
             </div>
 
             <div className="test">
-
-                {/*<img src={noCam} alt='noCamera' className='img-noCamera' />*/}
+              
                 <Card className="cardImage" ref={inputRef}>
                     <Card.Img id="img" src={noCam} />
+                    
                 </Card>
                 <Card className="cardDescript" id="card">
                     <Card.Header className="cardDescriptTitle">Descriptif des trous identifiés</Card.Header>
                     <Card.Body className="cardBody">
-                        {/*<div className="cardDescriptTitle">*/}
-                            {/*<Card.Title>Descriptif des trous identifiés</Card.Title></div>*/}
+                      
                         <Card.Text>
                             <div className = "cardTrous">
                             <Card >
@@ -60,7 +68,9 @@ function MiddleResultScreen() {
                                         <div>
                                         Trou 1</div>
                                         <div className="iconSearchDiv">
-                                        <HiOutlineDocumentSearch className="iconSearch"/></div>
+                                            <button className="buttonDetails" onClick={function (event) { setnumTrou("Trou 1"); togglePopupResult();}} >
+                                                <HiOutlineDocumentSearch className="iconSearch" /></button></div>
+                                        
                                 </Card.Header>
                                 <Card.Body>
                                     <Card.Text>
@@ -80,11 +90,13 @@ function MiddleResultScreen() {
 
                             <div className="cardTrous">
                                 <Card >
+
                                     <Card.Header className="headerTrou">
                                         <div>
                                             Trou 2</div>
                                         <div className="iconSearchDiv">
-                                            <HiOutlineDocumentSearch className="iconSearch"/></div>
+                                            <button className="buttonDetails" onClick={function (event) { setnumTrou("Trou 2"); togglePopupResult(); }} >
+                                                <HiOutlineDocumentSearch className="iconSearch" /></button></div>
 
                                     </Card.Header>
                                     <Card.Body>
@@ -109,7 +121,8 @@ function MiddleResultScreen() {
                                         <div>
                                             Trou 3</div>
                                         <div className="iconSearchDiv">
-                                            <HiOutlineDocumentSearch className="iconSearch"/></div>
+                                            <button className="buttonDetails" onClick={function (event) { setnumTrou("Trou 3"); togglePopupResult(); }} >
+                                                <HiOutlineDocumentSearch className="iconSearch" /></button></div>
 
                                     </Card.Header>
                                     <Card.Body>
@@ -133,24 +146,32 @@ function MiddleResultScreen() {
                         {/*<Button variant="primary">Go somewhere</Button>*/}
                     </Card.Body>
                 </Card>
+                
             </div>
             <div className='BackNextButtons'>
 
             
                 <button className="buttonNextBack"> <GrPrevious
-                    className="icone" />
+                    className="icone-res" />
                     Précédent
                 </button>
 
                 <label id="numPage"> 1/3 </label>
                 <button className="buttonNextBack"> Suivant <GrNext
-                    className="icone" /></button>
+                    className="icone-res" /></button>
+                
 
             </div>
-
-
+                {isOpen && <PopUpResult
+                    content={<>
+                    <h3 className="popup-title">{numTrou}</h3>
+                    </>}
+                    handleClose={togglePopupResult}
+                />}
+           
             
-            </div>
+        </div>
+
        
     )
 }
