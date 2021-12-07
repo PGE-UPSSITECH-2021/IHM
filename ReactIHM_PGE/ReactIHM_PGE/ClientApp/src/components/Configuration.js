@@ -6,16 +6,14 @@ import { useFilePicker } from 'use-file-picker'
 import Popup from './PopUp'
 import PopUpConfirm from './PopUpConfirm'
 import PopUpEmergency from './PopUpEmergency'
-import PopUpPause from './PopUpPause'
-import pause from '../assets/pause.png'
 import stop from '../assets/stop.png'
 import cancel from '../assets/cancel.png'
 import 'eventemitter2';
 import * as ROSLIB from 'roslib';
 
-function Configuration() {
-    const [msg_act_courante, setMsgActCourante] = useState("");
 
+function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours}) {
+    const [msg_act_courante, setMsgActCourante] = useState("");
     //ROS
     var ros = new ROSLIB.Ros({
         url: 'ws://192.168.101.172:9090'
@@ -40,14 +38,20 @@ function Configuration() {
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenConfirm, setIsOpenConfirm] = useState(false);
     const togglePopup = () => {
-        if (selectedAction === "Deplacer le robot") {
-            setMsgActCourante("Déplacement du robot");
-        } else if (selectedAction === "Identifier") {
-            setMsgActCourante("Identification");
-        } else if (selectedAction === "Verifier conformite") {
-            setMsgActCourante("Vérification de la conformité");
-        } else if (selectedAction === "Localiser la plaque") {
-            setMsgActCourante("Localisation de la plaque");
+        if (isOpen === false) {
+            if (selectedAction === "Deplacer le robot") {
+                setActionEnCours("Déplacement du robot en cours...");
+                setMsgActCourante("Déplacement du robot en cours...");
+            } else if (selectedAction === "Identifier") {
+                setActionEnCours("Identification en cours...");
+                setMsgActCourante("Identification en cours...");
+            } else if (selectedAction === "Verifier conformite") {
+                setActionEnCours("Vérification de la conformité en cours...");
+                setMsgActCourante("Vérification de la conformité en cours...");
+            } else if (selectedAction === "Localiser la plaque") {
+                setActionEnCours("Localisation de la plaque en cours...");
+                setMsgActCourante("Localisation de la plaque en cours...");
+            }
         }
         // Création du message à envoyer
         var msg = new ROSLIB.Message({
@@ -59,32 +63,26 @@ function Configuration() {
         message_ihm_run.publish(msg);
         setIsOpen(!isOpen);
         setIsOpenConfirm(false);
-
+        setIsOpenEmergency(false);
+        setDecoDisabled(!isDecoDisabled);
+        if (isOpen === true) {
+            setActionEnCours("Aucune action en cours");
+        }
     }
+
     const togglePopupConfirm = () => {
         setIsOpenConfirm(!isOpenConfirm);
     }
 
     const [isOpenEmergency, setIsOpenEmergency] = useState(false);
-    const togglePopupEmerg = () => {
-        setIsOpen(!isOpen);
-        setIsOpenEmergency(false);
-    }
     const togglePopupEmergency = () => {
         setIsOpenEmergency(!isOpenEmergency);
     }
 
-    const [isOpenPause, setIsOpenPause] = useState(false);
-    const togglePopupHold = () => {
-        setIsOpen(!isOpen);
-        setIsOpenPause(false);
-    }
-    const togglePopupPause = () => {
-        setIsOpenPause(!isOpenPause);
-    }
 
     //Import/Export fichier .csv
     const csvFileCreator = require('csv-file-creator');
+
 
     function saveConfig() {
         if (selectedAction === "Localiser la plaque") {
@@ -250,12 +248,12 @@ function Configuration() {
                             content={<>
                                 <h3 className="popup-title">Arrêt d'urgence effectué</h3>
                                 <p> Toutes les actions ont été arrêtées. <br/> Pour revenir à la page d'accueil, cliquez sur OK. </p>
-                                <button className="bouton-popupEmergency-ok" onClick={togglePopupEmergency, togglePopupEmerg}>OK</button>
+                                <button className="bouton-popupEmergency-ok" onClick={togglePopupEmergency, togglePopup}>OK</button>
                             </>}
                          />}
                     </div>
                     <div className="avancement-box">
-                        <p className="etat-title"> {msg_act_courante} en cours ...</p>
+                        <p className="etat-title"> {msg_act_courante}</p>
                     </div>
                     
                 </>}
@@ -277,4 +275,4 @@ function Configuration() {
     )
 }
 
-export default Configuration
+export default Configuration;
