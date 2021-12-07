@@ -1,5 +1,5 @@
 ﻿import '../styles/MiddleScreen.css'
-import noCam from '../assets/NoCamera.png'
+import noCam from '../assets/NoCamera.png' // a garder pour la démo
 import 'eventemitter2'
 import * as ROSLIB from 'roslib';
 

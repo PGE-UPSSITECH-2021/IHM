@@ -2,11 +2,14 @@
 import MenuBar from './MenuBar'
 import MiddleResultScreen from './MiddleResultScreen'
 
-function ResultScreen() {
+
+function ResultScreen({ currentPage, setCurrentPage }) {
     return (
         <div className='mainResult'>
-            <span className='menu-bar'><MenuBar /></span>
-            <span className='middle-result-screen'><MiddleResultScreen /></span>
+            <span className='menu-bar'><MenuBar currentPage={currentPage} setCurrentPage={setCurrentPage}/></span>
+            <MiddleResultScreen />
+
+
         </div>)
 }
 

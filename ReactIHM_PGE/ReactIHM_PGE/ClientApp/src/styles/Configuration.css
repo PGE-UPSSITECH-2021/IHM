@@ -155,6 +155,13 @@ h3 {
     color:#7ABD6A
 }
 
+.rep-occ {
+    padding-left: 15px;
+    font-weight: bold;
+    font-size: large;
+    color: #EC6427;
+}
+
 .champCheck {
     display: flex;
     flex-direction: column;

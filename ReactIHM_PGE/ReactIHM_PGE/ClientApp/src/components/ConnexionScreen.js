@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { useAppContextWrongID } from "../lib/contextLibWrongID";
 import { useAppContextAuth } from "../lib/contextLibAuth";
 import logo_usr from '../assets/logo_usr.png'
-import { Text, Linking } from 'react-native'
+import { Text } from 'react-native'
 import Popup from './PopUpMDP'
 
 

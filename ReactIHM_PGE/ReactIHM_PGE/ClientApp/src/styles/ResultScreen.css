@@ -1,10 +1,10 @@
-﻿.mainResult{
-    display:flex;
-    flex-direction:row;
+﻿﻿.mainResult {
+    display: flex;
+    flex-direction: row;
 }
 
-.menu-bar{
-   width:14%;
+.menu-bar {
+    width: 14%;
 }
 
 .middle-result-screen {
@@ -12,5 +12,5 @@
     border-right-style: solid;
     border-right-color: #273339;
     border-right-width: 2px;
-    margin-left:127px;
+    align-content: center;
 }

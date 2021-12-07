@@ -1,5 +1,4 @@
 import '../styles/StateBanner.css'
-import moment from 'react-moment'
 
 function StateBanner() {
     var now = new Date();

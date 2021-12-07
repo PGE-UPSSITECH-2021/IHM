@@ -5,13 +5,14 @@
     padding-top: 2%;
 }
 
+.title {
+    font-weight: bold;
+    font-size: 30px;
+}
+
 .cardDescript {
-    /*width: 30%;*/
     height: 52vh;
     width: 30vw;
-    /*scroll-behavior: smooth;*/
-    /*align-self: center;*/
-    /*overflow-y: scroll;*/
 }
 
 .cardBody {
@@ -20,15 +21,14 @@
 }
 
 .cardImage {
-    width: 50%;
-    /*height: 50vh;*/
-    /*height: 75%;*/
+    width: 46%;
 }
 
 .cardDescriptTitle {
     text-align: center;
     font-weight: bold;
     font-size: 120%;
+    background-color: #E7E6E6 !important;
 }
 
 .titleDiametre {
@@ -50,7 +50,7 @@
 }
 
 .BackNextButtons {
-    padding-top: 3%;
+    padding-top: 2%;
     display: flex;
     flex-direction: row;
 }
@@ -81,7 +81,7 @@
     padding-right: 2%;
 }
 
-.icone-result {
+.icone-res {
     height: 60%;
 }
 
@@ -89,6 +89,7 @@
     font-weight: bold;
     display: flex;
     flex-direction: row;
+    background-color: #E7E6E6 !important;
 }
 
 .iconSearchDiv {
@@ -105,6 +106,6 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    /*justify-items: center;*/
     justify-content: center;
+    background-color: white !important;
 }
