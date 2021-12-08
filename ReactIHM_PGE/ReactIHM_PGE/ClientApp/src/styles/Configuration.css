@@ -18,6 +18,10 @@
     opacity:0.1;
 }
 
+.slider :disabled:hover {
+    opacity: 0.1;
+}
+
 /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
 .slider::-webkit-slider-thumb {
     width: 13px; /* Set a specific slider handle width */
