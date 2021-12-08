@@ -23,7 +23,6 @@ function AppLogin() { // login screen
                     <StateBanner />
                     <ConnexionScreen failed={wrongIdentification} />
                 </div> }
-            }
         </AppContextWrongID.Provider>
         
   );
