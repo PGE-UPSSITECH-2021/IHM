@@ -44,17 +44,28 @@
 .img-pause-stop {
     display: flex;
     flex-direction: row;
-    padding-bottom: 10px;
+    justify-content: center;
+    padding-bottom:2%;
 }
 
 .bouton-stop{
   width: 50px;
+  opacity:0.6;
+}
+
+.bouton-stop:hover{
+    opacity:1;
+    cursor:pointer;
 }
 
 .bouton-cancel {
     width: 50px;
-    padding-left: 140px;
-    padding-right: 40px;
+    opacity:0.5;
+}
+
+.bouton-cancel:hover {
+    opacity: 1;
+    cursor:pointer;
 }
 
 .avancement-box {
@@ -69,4 +80,9 @@
   padding-top: 20px;
   padding-bottom: 0px;
   color:white
+}
+
+.espace-boutons {
+    padding-left: 7%;
+    padding-right: 7%;
 }
