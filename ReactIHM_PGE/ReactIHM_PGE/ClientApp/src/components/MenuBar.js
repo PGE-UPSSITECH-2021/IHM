@@ -49,6 +49,21 @@ function Header({ isDecoDisabled, currentPage, setCurrentPage }) {
             setCurrentPage(1);
         }
     }
+    function changePageToParam() {
+        if (!isDecoDisabled) {
+            setCurrentPage(2);
+        }
+    }
+    function changePageToUser() {
+        if (!isDecoDisabled) {
+            setCurrentPage(3);
+        }
+    }
+    function changePageToHelp() {
+        if (!isDecoDisabled) {
+            setCurrentPage(4);
+        }
+    }
 
     function isMainActive() {
         return currentPage === 0;
@@ -81,9 +96,9 @@ function Header({ isDecoDisabled, currentPage, setCurrentPage }) {
                     <Menu iconShape="square">
                         <MenuItem active={isMainActive()} icon={<FiHome />} onClick={changePageToMain} className="menuItem"><span className='textItem'>Accueil</span></MenuItem>
                         <MenuItem active={isResultsActive()} icon={<FaList />} onClick={changePageToResult} className="menuItem"><span className='textItem'>Résultats</span></MenuItem>
-                        <MenuItem active={isParamActive()} icon={<BiCog />} className="menuItem"><span className='textItem'>Paramètres</span></MenuItem>
-                        <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem"><span className='textItem'>Utilisateur</span></MenuItem>
-                        <MenuItem active={isHelpActive()} icon={<MdOutlineHelpOutline />} className="menuItem"><span className='textItem'>Aide</span></MenuItem>
+                        <MenuItem active={isParamActive()} icon={<BiCog />} className="menuItem" onClick={changePageToParam}><span className='textItem'>Paramètres</span></MenuItem>
+                        <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem" onClick={changePageToUser}><span className='textItem'>Utilisateur</span></MenuItem>
+                        <MenuItem active={isHelpActive()} icon={<MdOutlineHelpOutline />} className="menuItem" onClick={changePageToHelp}><span className='textItem'>Aide</span></MenuItem>
                         <div className='space'><Button type="solid" startIcon={<FaPowerOff />} className="boutonDeconnexion" onClick={handleLogout} disabled={isDecoDisabled}>Déconnexion</Button></div>
                     </Menu>
                 </SidebarContent>

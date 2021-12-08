@@ -180,3 +180,19 @@ h3 {
     padding-right:5px;
     color:#EC6427;
 }
+
+.value-conf{
+    opacity:1;
+}
+
+.value-conf-disabled{
+    opacity:0.2;
+}
+
+.value-diam {
+    opacity: 1;
+}
+
+.value-diam-disabled {
+    opacity: 0.2;
+}

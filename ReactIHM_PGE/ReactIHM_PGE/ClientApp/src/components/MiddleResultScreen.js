@@ -27,7 +27,7 @@ function MiddleResultScreen() {
                             <BsCheck2Circle
                                 className="iconValidate" />
                             <span className="validateSection">
-                                2/4 trous identifiés </span>
+                                3/4 trous identifiés </span>
                             <div>
                                 <BiErrorCircle
                                     className="iconUnconform" />

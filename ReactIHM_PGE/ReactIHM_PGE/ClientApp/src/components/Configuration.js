@@ -170,6 +170,21 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
         return selectedAction === "Localiser la plaque" || selectedAction === "Deplacer le robot" ||isOpen;
     }
 
+    function getClassNameDisConf() {
+        if (selectedAction === "Localiser la plaque" || selectedAction === "Deplacer le robot" || isOpen) {
+            return 'value-conf-disabled';
+        } else {
+            return 'value-conf';
+        }
+    }
+
+    function getClassNameDisDiam() {
+        if (selectedAction === "Localiser la plaque" || isOpen) {
+            return 'value-diam-disabled';
+        } else {
+            return 'value-diam';
+        }
+    }
 
     return (
         <div className="config">
@@ -194,30 +209,30 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
                 </select>
             </div>
             <div className='champ'>
-                <label className='labels'>Diamètre des trous :</label>
+                <label className='labels'><span className={getClassNameDisDiam()}>Diamètre des trous :</span></label>
                 <input type="button" className="bouton-select" onClick={selectAll} id="boutonSelect" value="Tout sélectionner/déselectionner" disabled={disableDiam()}></input>
                 <div className='champCheck'>
-                    <label>
+                    <label className={getClassNameDisDiam()}>
                         <input type="checkbox" disabled={disableDiam()} value="5 mm" onChange={setCheckedDiam} />
                         5 mm
                     </label>
-                    <label>
+                    <label className={getClassNameDisDiam()}>
                         <input type="checkbox" disabled={disableDiam()} value="7 mm" onChange={setCheckedDiam}/>
                         7 mm
                     </label>
-                    <label>
+                    <label className={getClassNameDisDiam()}>
                         <input type="checkbox" disabled={disableDiam()} value="12 mm" onChange={setCheckedDiam}/>
                         12 mm
                     </label>
-                    <label>
+                    <label className={getClassNameDisDiam()}>
                         <input type="checkbox" disabled={disableDiam()} value="18 mm" onChange={setCheckedDiam}/>
                         18 mm
                     </label>
                 </div>
             </div>
             <div className='champ-slider'>
-                <div className='slider'><label className='labels'>Taux de confiance minimum :</label>
-                    <span className='value'>{rangevalConf} %</span>
+                <div className='slider'><label className='labels'><span className={getClassNameDisConf()}>Taux de confiance minimum :</span></label>
+                    <span className={getClassNameDisConf()}>{rangevalConf} %</span>
                     <br /><br />
                     <input type="range" defaultValue="50" min="0" max="100" class="slider" id="myRange" step="1" onChange={(event) => setRangevalConf(event.target.value)} disabled={disableConf()}></input>
                     
@@ -243,6 +258,7 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
                                 <button className="bouton-popupConfirm-non" onClick={togglePopupConfirm}>Non</button>
                             </>}
                         />}
+                        <span className='espace-boutons'/>
                         <img src={stop} alt='bouton emergency stop' className='bouton-stop' onClick={togglePopupEmergency}/>
                         {isOpenEmergency && <PopUpEmergency
                             content={<>
