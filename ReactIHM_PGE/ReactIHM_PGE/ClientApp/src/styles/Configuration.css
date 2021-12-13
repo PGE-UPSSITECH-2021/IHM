@@ -1,12 +1,12 @@
 ﻿.slider input {
-    width: 75%; /* Full-width */
+    width: 65%; /* Full-width */
     height: 8px; /* Specified height */
     background: #878787; /* Grey background */
     outline: none; /* Remove outline */
     opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
     -webkit-transition: .2s; /* 0.2 seconds transition on hover */
     transition: opacity .2s;
-    float:right;
+    float: right;
 }
 
 /* Mouse-over effects */
@@ -74,8 +74,8 @@ h3 {
     color: white;
     opacity: 0.7;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
-    border-radius:6px;
-    width:50%;
+    border-radius: 6px;
+    width: 50%;
 }
 /* Mouse-over effects */
 .bouton-import:hover {
@@ -85,10 +85,10 @@ h3 {
     opacity: 0.2; 
 }
 
-.champImport{
-    display:flex;
-    flex-direction:row-reverse;
-    padding-right:5px;
+.champImport {
+    display: flex;
+    flex-direction: row-reverse;
+    padding-right: 5px;
 }
 
 .bouton-select {
@@ -96,7 +96,7 @@ h3 {
     color: black;
     box-shadow: 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.8);
     border-radius: 6px;
-    width:58%;
+    width:38%;
     text-align:center;
     font-size:small;
     opacity:0.8;
@@ -139,7 +139,7 @@ h3 {
 }
 
 .etat-courant {
-    padding-top:62px;
+    padding-top:15px;
 }
 
 .etat{

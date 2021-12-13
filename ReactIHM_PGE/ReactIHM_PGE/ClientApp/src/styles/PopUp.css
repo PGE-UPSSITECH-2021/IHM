@@ -68,6 +68,16 @@
     cursor:pointer;
 }
 
+.bouton-confirm {
+    width: 50px;
+    opacity: 0.5;
+}
+
+    .bouton-confirm:hover {
+        opacity: 1;
+        cursor: pointer;
+    }
+
 .avancement-box {
   background: black;
   border-radius: 4px;

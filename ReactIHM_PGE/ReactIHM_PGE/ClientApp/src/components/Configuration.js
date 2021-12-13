@@ -1,12 +1,14 @@
 ﻿import '../styles/Configuration.css'
 import React,{ useState } from 'react';
-import { AiFillSafetyCertificate } from "react-icons/ai";
+import { AiFillSafetyCertificate, AiFillVideoCamera } from "react-icons/ai";
 import { GiRobotGrab } from "react-icons/gi";
 import { useFilePicker } from 'use-file-picker'
 import Popup from './PopUp'
 import PopUpConfirm from './PopUpConfirm'
 import PopUpEmergency from './PopUpEmergency'
+import PopUpLancement from './PopUpLancement'
 import stop from '../assets/stop.png'
+import confirm from '../assets/confirm.png'
 import cancel from '../assets/cancel.png'
 import 'eventemitter2';
 import * as ROSLIB from 'roslib';
@@ -74,9 +76,18 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
         setIsOpenConfirm(!isOpenConfirm);
     }
 
+    const [isOpenAnnuler, setIsOpenAnnuler] = useState(false);
+    const togglePopupAnnuler = () => {
+        setIsOpenAnnuler(!isOpenAnnuler);
+    }
+
     const [isOpenEmergency, setIsOpenEmergency] = useState(false);
     const togglePopupEmergency = () => {
         setIsOpenEmergency(!isOpenEmergency);
+    }
+    const [isOpenLancement, setIsOpenLancement] = useState(false);
+    const togglePopupLancement = () => {
+        setIsOpenLancement(!isOpenLancement);
     }
 
 
@@ -188,7 +199,7 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
 
     return (
         <div className="config">
-            <h3>CONFIGURATION</h3>
+            <h3> CONFIGURATION</h3>
             <span className="champImport"><button type="button" className="bouton-import" onClick={() => openFileSelector()} disabled={disableGeneral()}>Importer une configuration</button></span>
             {plainFiles.length > 0 ? <span className="import-ok">{plainFiles[0].name} importé</span> : <div className="import-ok"><br/></div>}
             <div className='champ'><label className='labels'>Action :</label>
@@ -250,28 +261,24 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
                     {(selectedAction === "Localiser la plaque") ? <span></span> : <p className="popup-element"> Diamètre(s) des trous : {selectedDiam} </p>}
                     {(selectedAction === "Localiser la plaque" || selectedAction === "Deplacer le robot" ) ? <span></span> : <p className="popup-element"> Taux de confiance minimum : {rangevalConf} %</p>}
                     <div className='img-pause-stop'>
-                        <img src={cancel} alt='bouton annuler' className='bouton-cancel' onClick={togglePopupConfirm} />
-                        {isOpenConfirm && <PopUpConfirm
+                        <img src={cancel} alt='bouton annuler' className='bouton-cancel' onClick={togglePopupAnnuler} />
+                        {isOpenAnnuler && <PopUpConfirm
                             content={<>
                                 <h3 className="popup-title">Voulez-vous annuler l'action en cours ?</h3>
-                                <button className="bouton-popupConfirm-oui" onClick={togglePopupConfirm, togglePopup}>Oui</button>
-                                <button className="bouton-popupConfirm-non" onClick={togglePopupConfirm}>Non</button>
+                                <button className="bouton-popupConfirm-oui" onClick={togglePopupAnnuler, togglePopup}>Oui</button>
+                                <button className="bouton-popupConfirm-non" onClick={togglePopupAnnuler}>Non</button>
                             </>}
                         />}
-                        <span className='espace-boutons'/>
-                        <img src={stop} alt='bouton emergency stop' className='bouton-stop' onClick={togglePopupEmergency}/>
-                        {isOpenEmergency && <PopUpEmergency
+                        <span className='espace-boutons' />
+                        <img src={confirm} alt='bouton confirmer l action' className='bouton-confirm' onClick={togglePopupConfirm} />
+                        {isOpenConfirm && <PopUpConfirm
                             content={<>
-                                <h3 className="popup-title">Arrêt d'urgence effectué</h3>
-                                <p> Toutes les actions ont été arrêtées. <br/> Pour revenir à la page d'accueil, cliquez sur OK. </p>
-                                <button className="bouton-popupEmergency-ok" onClick={togglePopupEmergency, togglePopup}>OK</button>
+                                <h3 className="popup-title">Voulez-vous lancer cette configuration ?</h3>
+                                <button className="bouton-popupConfirm-oui" onClick={togglePopupConfirm, togglePopupLancement}>Oui</button>
+                                <button className="bouton-popupConfirm-non" onClick={togglePopupConfirm, togglePopup}>Non</button>
                             </>}
-                         />}
-                    </div>
-                    <div className="avancement-box">
-                        <p className="etat-title"> {msg_act_courante}</p>
-                    </div>
-                    
+                        />}
+                    </div>                  
                 </>}
             />}
             
@@ -285,6 +292,11 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
                         <AiFillSafetyCertificate className="icone" />
                         Sécurité :
                         <span className='rep'> OK </span>
+                    </div>
+                    <div className='etat-import'>
+                    <   AiFillVideoCamera className="icone" />
+                        Etat caméra :
+                    {isOpen ? <span className='rep-occ'>OCCUPE </span> : <span className='rep'>LIBRE</span>}
                     </div>
                 </div>
         </div>
