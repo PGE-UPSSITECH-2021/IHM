@@ -73,10 +73,10 @@
     opacity: 0.5;
 }
 
-    .bouton-confirm:hover {
-        opacity: 1;
-        cursor: pointer;
-    }
+.bouton-confirm:hover {
+    opacity: 1;
+    cursor: pointer;
+}
 
 .avancement-box {
   background: black;

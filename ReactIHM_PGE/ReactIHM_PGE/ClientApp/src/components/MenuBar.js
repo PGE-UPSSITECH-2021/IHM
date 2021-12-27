@@ -12,7 +12,6 @@ import { FaList } from "react-icons/fa";
 import { FiHome } from "react-icons/fi";
 import { FaPowerOff } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
-import { BiCog } from "react-icons/bi";
 import { MdOutlineHelpOutline} from "react-icons/md"
 //import sidebar css from react-pro-sidebar module and our custom css 
 import "react-pro-sidebar/dist/css/styles.css";
@@ -49,19 +48,14 @@ function Header({ isDecoDisabled, currentPage, setCurrentPage }) {
             setCurrentPage(1);
         }
     }
-    function changePageToParam() {
+    function changePageToUser() {
         if (!isDecoDisabled) {
             setCurrentPage(2);
         }
     }
-    function changePageToUser() {
-        if (!isDecoDisabled) {
-            setCurrentPage(3);
-        }
-    }
     function changePageToHelp() {
         if (!isDecoDisabled) {
-            setCurrentPage(4);
+            setCurrentPage(3);
         }
     }
 
@@ -71,14 +65,11 @@ function Header({ isDecoDisabled, currentPage, setCurrentPage }) {
     function isResultsActive() {
         return currentPage === 1;
     }
-    function isParamActive() {
+    function isUserActive() {
         return currentPage === 2;
     }
-    function isUserActive() {
-        return currentPage === 3;
-    }
     function isHelpActive() {
-        return currentPage === 4;
+        return currentPage === 3;
     }
 
 
@@ -96,7 +87,6 @@ function Header({ isDecoDisabled, currentPage, setCurrentPage }) {
                     <Menu iconShape="square">
                         <MenuItem active={isMainActive()} icon={<FiHome />} onClick={changePageToMain} className="menuItem"><span className='textItem'>Accueil</span></MenuItem>
                         <MenuItem active={isResultsActive()} icon={<FaList />} onClick={changePageToResult} className="menuItem"><span className='textItem'>Résultats</span></MenuItem>
-                        <MenuItem active={isParamActive()} icon={<BiCog />} className="menuItem" onClick={changePageToParam}><span className='textItem'>Paramètres</span></MenuItem>
                         <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem" onClick={changePageToUser}><span className='textItem'>Utilisateur</span></MenuItem>
                         <MenuItem active={isHelpActive()} icon={<MdOutlineHelpOutline />} className="menuItem" onClick={changePageToHelp}><span className='textItem'>Aide</span></MenuItem>
                         <div className='space'><Button type="solid" startIcon={<FaPowerOff />} className="boutonDeconnexion" onClick={handleLogout} disabled={isDecoDisabled}>Déconnexion</Button></div>

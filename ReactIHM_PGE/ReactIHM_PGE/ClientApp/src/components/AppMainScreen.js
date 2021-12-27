@@ -4,7 +4,6 @@ import StateBannerUSR from './StateBannerUSR';
 import MainScreenUSR from './MainScreenUSR';
 import React, { useState } from "react";
 import ResultScreen from './ResultScreen';
-import ParamScreen from './ParamScreen';
 import UserScreen from './UserScreen';
 import HelpScreen from './HelpScreen';
 
@@ -36,18 +35,10 @@ function AppMainScreen() { // main screen Usr mode
             <div className='bodyMain'>
                 <div className='topBanner'><TopBanner /></div>
                 <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} /></div>
-                <div className='main'><ParamScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={currentPage} setCurrentPage={setCurrentPage} /></div>
-            </div>
-        )
-    } else if (currentPage === 3) {
-        return (
-            <div className='bodyMain'>
-                <div className='topBanner'><TopBanner /></div>
-                <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} /></div>
                 <div className='main'><UserScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={currentPage} setCurrentPage={setCurrentPage} /></div>
             </div>
         )
-    } else if (currentPage === 4) {
+    } else if (currentPage === 3) {
         return (
             <div className='bodyMain'>
                 <div className='topBanner'><TopBanner /></div>

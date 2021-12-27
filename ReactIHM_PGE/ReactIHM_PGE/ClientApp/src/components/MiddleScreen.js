@@ -1,7 +1,11 @@
 ﻿import '../styles/MiddleScreen.css'
 import 'eventemitter2'
 import * as ROSLIB from 'roslib';
-
+import noCam from '../assets/NoCamera.png'
+import start from '../assets/start.png'
+import pause from '../assets/pause.png'
+import stop from '../assets/stop.png'
+import React, { useState } from 'react';
 
 var ros = new ROSLIB.Ros({
     url : 'ws://192.168.101.172:9090'
@@ -55,11 +59,68 @@ image_listener.subscribe(callbackImage);
 // Affectation de la fonction de callback
 
 
+function MiddleScreen({ actionEnCours, setActionEnCours, actionRunning, setActionRunning, setDecoDisabled }) {
 
-function MiddleScreen() {
+    const [isPaused, setIsPaused] = useState(false);
+
+    function startAction() {
+        if (isPaused) {
+            setIsPaused(!isPaused);
+        }
+    }
+
+    function pauseAction() {
+        if (!isPaused) {
+            setIsPaused(!isPaused);
+        }
+    }
+
+    function stopAction() {
+        setActionRunning(false);
+        setActionEnCours("Aucune action en cours");
+        setDecoDisabled(false);
+        setIsPaused(false);
+    }
+
+    function getClassNameStartButton() {
+        if (actionRunning && !isPaused) {
+            return 'bouton-runmode-disabled';
+        } else {
+            return 'bouton-runmode';
+        }
+    }
+
+    function getClassNamePauseButton() {
+        if (isPaused) {
+            return 'bouton-runmode-disabled';
+        } else {
+            return 'bouton-runmode';
+        }
+    }
+
     return (
-        <div className='middle'>
+       /* <div className='middle'>
             <canvas id="img_ROS" width="800" height="500" className="img-noCamera"></canvas>
+        </div> */
+        <div className='middle'>
+            {actionRunning === true ?
+                <div className='middle-run'>
+                    <div className='run-buttons'>
+                        <span className='space-button-runmode'>
+                            <img src={start} alt='bouton start' className={getClassNameStartButton()} onClick={startAction} />
+                        </span>
+                        <span className='space-button-runmode'>
+                            <img src={pause} alt='bouton pause' className={getClassNamePauseButton()} onClick={pauseAction} />
+                        </span>
+                        <img src={stop} alt='bouton stop' className='bouton-runmode-stop' onClick={stopAction} />
+                    </div>
+                    <div className='run-console'>
+                        <div className='run-console-text'>• Caméra calibrée...   OK</div>
+                        <br />
+                        <div className='run-console-text'>• Action en cours...</div>
+                    </div>
+                </div>
+                : <img src={noCam} alt="No available image" className="img-demonstrateur" />}
         </div>
     )
 }
