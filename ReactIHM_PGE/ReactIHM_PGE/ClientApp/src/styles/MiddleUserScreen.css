@@ -1,0 +1,28 @@
+﻿.param-menu-bar{
+    width:15%;
+}
+
+.param-middle {
+    width: 85%;
+}
+
+.whole-middle-user {
+    width: 55%;
+    padding-left:50%;
+    padding-top:12%;
+}
+
+.menu-usr-screen {
+    display: flex;
+    flex-direction: column;
+}
+
+.mdp-mail-area {
+    display: flex;
+    flex-direction: column;
+}
+
+.label-identifiant {
+    color: #273339;
+    padding-bottom: 2%;
+}

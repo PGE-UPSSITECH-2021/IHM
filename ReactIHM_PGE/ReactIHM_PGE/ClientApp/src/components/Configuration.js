@@ -1,7 +1,7 @@
 ﻿import '../styles/Configuration.css'
 import React,{ useState } from 'react';
 import { AiFillSafetyCertificate, AiFillVideoCamera } from "react-icons/ai";
-import { GiRobotGrab } from "react-icons/gi";
+import { GiRobotGrab, GiMetalPlate} from "react-icons/gi";
 import { useFilePicker } from 'use-file-picker'
 import Popup from './PopUp'
 import PopUpConfirm from './PopUpConfirm'
@@ -184,6 +184,10 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
         setDecoDisabled(true);
     }
 
+    function disableBoutonParking() {
+        //TODO
+    }
+
     return (
         <div className="config">
             <h3> CONFIGURATION</h3>
@@ -251,7 +255,7 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
                         <img src={cancel} alt='bouton annuler' className='bouton-cancel' onClick={togglePopupAnnuler} />
                         {isOpenAnnuler && <PopUpConfirm
                             content={<>
-                                <h3 className="popup-title">Voulez-vous annuler l'action en cours ?</h3>
+                                <h3 className="popup-title">Voulez-vous annuler l'action choisie ?</h3>
                                 <button className="bouton-popupConfirm-oui" onClick={togglePopupAnnuler, togglePopup}>Oui</button>
                                 <button className="bouton-popupConfirm-non" onClick={togglePopupAnnuler}>Non</button>
                             </>}
@@ -262,22 +266,35 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
                 </>}
             />}
             
-                <div className='etat-courant'>
-                    <div className='etat-import'>
-                        <GiRobotGrab className="icone" />
-                        Etat du robot :
-                    {actionRunning ? <span className='rep-occ'>EN PRODUCTION </span> : <span className='rep'>LIBRE</span>}
-                    </div>
+            <div className='etat-courant'>
+                <div className='etat-col-1'>
                     <div className='etat-import'>
                         <AiFillSafetyCertificate className="icone" />
                         Sécurité :
                         <span className='rep'> OK </span>
                     </div>
                     <div className='etat-import'>
+                        <GiRobotGrab className="icone" />
+                        Etat du robot :
+                        {actionRunning ? <span className='rep-occ'>EN PRODUCTION </span> : <span className='rep'>LIBRE INIT</span>}
+                    </div>
+                    <div className='wrap-bouton-parking'>
+                        <button type="button" className="bouton-normal" disabled={true}>Déplacer en position initiale</button>
+                    </div>
+                </div>
+                <div className='etat-col-2'>
+                    <div className='etat-import'>
                     <   AiFillVideoCamera className="icone" />
                         Etat caméra : <span className='rep'>EN MARCHE</span>
                     </div>
+                    <div className='etat-import'>
+                        <GiMetalPlate className="icone" />
+                        Plaque détectée : <span className='rep'>OK</span>
+                    </div>
                 </div>
+            </div>
+
+           
         </div>
     )
 }

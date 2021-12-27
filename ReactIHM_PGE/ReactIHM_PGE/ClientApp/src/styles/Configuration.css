@@ -142,7 +142,15 @@ h3 {
 }
 
 .etat-courant {
-    padding-top:27px;
+    padding-top:5%;
+    display: flex;
+    flex-direction:row;
+}
+
+.etat-col-1{
+    display:flex;
+    flex-direction:column;
+    width:55%;
 }
 
 .etat{
@@ -202,4 +210,9 @@ h3 {
 
 .value-diam-disabled {
     opacity: 0.2;
+}
+
+.wrap-bouton-parking{
+    padding-left:10%;
+    padding-bottom:3%;
 }
