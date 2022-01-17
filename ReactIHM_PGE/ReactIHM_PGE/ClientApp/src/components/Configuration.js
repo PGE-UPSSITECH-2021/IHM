@@ -26,12 +26,13 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
 
     const [openFileSelector, { filesContent, loading, errors, plainFiles, clear }] = useFilePicker({ multiple: false, accept: ['.csv'] })
 
-
     //Gestion séléction configuration
     const [selectedAction, setSelectedAction] = useState("");
     const [selectedPlaque, setSelectedPlaque] = useState("");
     const [selectedDiam, setSelectedDiam] = useState("");
     const [rangevalConf, setRangevalConf] = useState(50);
+    const [cpt, setCpt] = useState(0);
+    const [nameFileImp, setNameFileImp] = useState("");
 
     //Gestion des POPUPS
     const [isOpen, setIsOpen] = useState(false);
@@ -52,7 +53,44 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
 
     //Import/Export fichier .csv
     const csvFileCreator = require('csv-file-creator');
-
+    // Import fichier
+    function importFile() {
+        setCpt(0);
+        setSelectedAction("");
+        setSelectedPlaque("");
+        setSelectedDiam("");
+        setRangevalConf(50);
+        setNameFileImp("");
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        for (var checkbox of checkboxes) {
+            checkbox.checked = false;
+        }
+        openFileSelector();
+    }
+    function getImportedFileContent() {
+        const tmp = filesContent[0].content;
+        const tmp_split = tmp.split("\n");
+        const ctnt = tmp_split[1].split(",");
+        const ctnt_action = ctnt[0];
+        const ctnt_plaque = ctnt[1];
+        const ctnt_diam = ctnt[2];
+        const ctnt_conf = ctnt[3];
+        setSelectedAction(ctnt_action);
+        setSelectedPlaque(ctnt_plaque);
+        setCheckedDiam(ctnt_diam);
+        setRangevalConf(ctnt_conf);
+        //DOES NOT WORK WHY HELP
+        var elt = document.getElementById("myRange");
+        elt.setAttribute("defaultValue", ctnt_conf); // WORKS
+        elt.setAttribute("value", ctnt_conf); //DOES NOT WORK WHY WHY WON'T YOU HEEEEEEEEEEEELP
+        console.log(document.getElementById("myRange").defaultValue); // WORKS
+        console.log(document.getElementById("myRange").value); //DOES NOT WORK WHY WHY WON'T YOU HEEEEEEEEEEEELP
+        // file name
+        setNameFileImp(plainFiles[0].name);
+        setCpt(1);
+        clear();
+    }
+    
 
     function saveConfig() {
         if (selectedAction === "Localiser la plaque") {
@@ -92,22 +130,35 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
                 checkbox.checked = false;
             }
         }
-        setCheckedDiam();
+        setCheckedDiam("");
     }
 
-    function setCheckedDiam() {
+    function setCheckedDiam(ctnt) {
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        var str = "";
-        for (var checkbox of checkboxes) {
-            if (checkbox.checked === true) {
-                if (str === "") {
-                    str += checkbox.value;
-                } else {
-                    str += ", " + checkbox.value;
+        try {
+            if (ctnt != "") {
+                const diff_diam = ctnt.split("-");
+                for (var diam of diff_diam) {
+                    for (var checkbox of checkboxes) {
+                        if (diam === checkbox.value) {
+                            checkbox.checked = true;
+                        }
+                    }
                 }
             }
+        } catch {
+            var str = "";
+            for (var checkbox of checkboxes) {
+                if (checkbox.checked === true) {
+                    if (str === "") {
+                        str += checkbox.value;
+                    } else {
+                        str += "-" + checkbox.value;
+                    }
+                }
+            }
+            setSelectedDiam(str);
         }
-        setSelectedDiam(str);
     }
 
     function configValid() {
@@ -191,8 +242,9 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
     return (
         <div className="config">
             <h3> CONFIGURATION</h3>
-            <span className="champImport"><button type="button" className="bouton-import" onClick={() => openFileSelector()} disabled={disableGeneral()}>Importer une configuration</button></span>
-            {plainFiles.length > 0 ? <span className="import-ok">{plainFiles[0].name} importé</span> : <div className="import-ok"><br/></div>}
+            <span className="champImport"><button type="button" className="bouton-import" onClick={importFile} disabled={disableGeneral()}>Importer une configuration</button></span>
+            {nameFileImp!="" ? <span className="import-ok">{nameFileImp} importé</span> : <div className="import-ok"><br /></div>}
+            {plainFiles.length > 0 && cpt == 0 ? getImportedFileContent(): console.log("")}
             <div className='champ'><label className='labels'>Action :</label>
                 <select value={selectedAction} onChange={handleSelectAction} disabled={disableGeneral()}>
                     <option selected disabled hidden value="">-----</option>
@@ -215,19 +267,19 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
                 <input type="button" className="bouton-select" onClick={selectAll} id="boutonSelect" value="Tout sélectionner/déselectionner" disabled={disableDiam()}></input>
                 <div className='champCheck'>
                     <label className={getClassNameDisDiam()}>
-                        <input type="checkbox" disabled={disableDiam()} value="5 mm" onChange={setCheckedDiam} />
+                        <input type="checkbox" disabled={disableDiam()} value="5" onChange={setCheckedDiam} />
                         5 mm
                     </label>
                     <label className={getClassNameDisDiam()}>
-                        <input type="checkbox" disabled={disableDiam()} value="7 mm" onChange={setCheckedDiam}/>
+                        <input type="checkbox" disabled={disableDiam()} value="7" onChange={setCheckedDiam}/>
                         7 mm
                     </label>
                     <label className={getClassNameDisDiam()}>
-                        <input type="checkbox" disabled={disableDiam()} value="12 mm" onChange={setCheckedDiam}/>
+                        <input type="checkbox" disabled={disableDiam()} value="12" onChange={setCheckedDiam}/>
                         12 mm
                     </label>
                     <label className={getClassNameDisDiam()}>
-                        <input type="checkbox" disabled={disableDiam()} value="18 mm" onChange={setCheckedDiam}/>
+                        <input type="checkbox" disabled={disableDiam()} value="18" onChange={setCheckedDiam}/>
                         18 mm
                     </label>
                 </div>
@@ -236,8 +288,7 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
                 <div className='slider'><label className='labels'><span className={getClassNameDisConf()}>Taux de confiance minimum :</span></label>
                     <span className={getClassNameDisConf()}>{rangevalConf} %</span>
                     <br /><br />
-                    <input type="range" defaultValue="50" min="0" max="100" class="slider" id="myRange" step="1" onChange={(event) => setRangevalConf(event.target.value)} disabled={disableConf()}></input>
-                    
+                    <input type="range" min="0" max="100" class="slider" value={rangevalConf} id="myRange" step="1" onChange={(event) => setRangevalConf(event.target.value)} disabled={disableConf()}></input>
                 </div>
             </div>
             <button type="button" className="bouton-normal" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
