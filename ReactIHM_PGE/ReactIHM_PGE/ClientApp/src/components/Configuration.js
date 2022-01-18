@@ -7,6 +7,8 @@ import Popup from './PopUp'
 import PopUpConfirm from './PopUpConfirm'
 import confirm from '../assets/confirm.png'
 import cancel from '../assets/cancel.png'
+import defaultFile from '../assets/default.csv'
+import { readString } from 'react-papaparse';
 import 'eventemitter2';
 import * as ROSLIB from 'roslib';
 
@@ -30,7 +32,7 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
     const [selectedAction, setSelectedAction] = useState("");
     const [selectedPlaque, setSelectedPlaque] = useState("");
     const [selectedDiam, setSelectedDiam] = useState("");
-    const [rangevalConf, setRangevalConf] = useState(50);
+    const [rangevalConf, setRangevalConf] = useState(0);
     const [cpt, setCpt] = useState(0);
     const [nameFileImp, setNameFileImp] = useState("");
 
@@ -51,20 +53,46 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
         setIsOpenAnnuler(!isOpenAnnuler);
     }
 
+    //Default configuration file
+    const [defaultAction, setDefaultAction] = useState("");
+    const [defaultPlate, setDefaultPlate] = useState("");
+    const [defaultDiam, setDefaultDiam] = useState("");
+    const [defaultConf, setDefaultConf] = useState("");
+    const [readOnce, setReadOnce] = useState(false);
+    function readDefaultFile() {
+        if (readOnce === false) {
+            const papaConfig = {
+                complete: (results, file) => {
+                    setDefaultAction(results.data[1][0]);
+                    setSelectedAction(defaultAction);
+                    setDefaultPlate(results.data[1][1]);
+                    setSelectedPlaque(defaultPlate);
+                    setDefaultDiam(results.data[1][2]);
+                    setCheckedDiam(defaultDiam);
+                    setDefaultConf(results.data[1][3]);
+                    setRangevalConf(defaultConf);
+                    setReadOnce(true);
+                },
+                download: true,
+                error: (error, file) => {
+                    //console.log('Error while parsing:', error, file);
+                },
+            };
+            readString(defaultFile, papaConfig);
+
+        }
+        
+    }
     //Import/Export fichier .csv
     const csvFileCreator = require('csv-file-creator');
     // Import fichier
     function importFile() {
         setCpt(0);
-        setSelectedAction("");
-        setSelectedPlaque("");
-        setSelectedDiam("");
-        setRangevalConf(50);
+        setSelectedAction(defaultAction);
+        setSelectedPlaque(defaultPlate);
+        setCheckedDiam(defaultDiam);
+        setRangevalConf(defaultConf);
         setNameFileImp("");
-        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        for (var checkbox of checkboxes) {
-            checkbox.checked = false;
-        }
         openFileSelector();
     }
     function getImportedFileContent() {
@@ -74,17 +102,11 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
         const ctnt_action = ctnt[0];
         const ctnt_plaque = ctnt[1];
         const ctnt_diam = ctnt[2];
-        const ctnt_conf = ctnt[3];
+        const ctnt_conf = ctnt[3].split("\r")[0];
         setSelectedAction(ctnt_action);
         setSelectedPlaque(ctnt_plaque);
         setCheckedDiam(ctnt_diam);
         setRangevalConf(ctnt_conf);
-        //DOES NOT WORK WHY HELP
-        var elt = document.getElementById("myRange");
-        elt.setAttribute("defaultValue", ctnt_conf); // WORKS
-        elt.setAttribute("value", ctnt_conf); //DOES NOT WORK WHY WHY WON'T YOU HEEEEEEEEEEEELP
-        console.log(document.getElementById("myRange").defaultValue); // WORKS
-        console.log(document.getElementById("myRange").value); //DOES NOT WORK WHY WHY WON'T YOU HEEEEEEEEEEEELP
         // file name
         setNameFileImp(plainFiles[0].name);
         setCpt(1);
@@ -138,14 +160,30 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
         try {
             if (ctnt != "") {
                 const diff_diam = ctnt.split("-");
-                for (var diam of diff_diam) {
-                    for (var checkbox of checkboxes) {
+                for (var checkbox of checkboxes) {
+                    var bool = false;
+                    for (var diam of diff_diam) {
                         if (diam === checkbox.value) {
                             checkbox.checked = true;
+                            bool = true;
                         }
+                    }
+                    if (bool === false) {
+                        checkbox.checked = false;
                     }
                 }
             }
+            var str = "";
+            for (var checkbox of checkboxes) {
+                if (checkbox.checked === true) {
+                    if (str === "") {
+                        str += checkbox.value;
+                    } else {
+                        str += "-" + checkbox.value;
+                    }
+                }
+            }
+            setSelectedDiam(str);
         } catch {
             var str = "";
             for (var checkbox of checkboxes) {
@@ -188,7 +226,7 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
         return selectedAction === "Localiser la plaque" || isOpen || actionRunning;
     }
     function disableConf() {
-        return selectedAction === "Localiser la plaque" || selectedAction === "Deplacer le robot" || isOpen || actionRunning;
+        return selectedAction === "Localiser la plaque" || selectedAction === "Deplacer le robot" || isOpen || actionRunning;// || nameFileImp!="";
     }
 
     function getClassNameDisConf() {
@@ -242,6 +280,7 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
     return (
         <div className="config">
             <h3> CONFIGURATION</h3>
+            {readOnce ? console.log() : readDefaultFile()}
             <span className="champImport"><button type="button" className="bouton-import" onClick={importFile} disabled={disableGeneral()}>Importer une configuration</button></span>
             {nameFileImp!="" ? <span className="import-ok">{nameFileImp} importé</span> : <div className="import-ok"><br /></div>}
             {plainFiles.length > 0 && cpt == 0 ? getImportedFileContent(): console.log("")}
@@ -288,7 +327,7 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
                 <div className='slider'><label className='labels'><span className={getClassNameDisConf()}>Taux de confiance minimum :</span></label>
                     <span className={getClassNameDisConf()}>{rangevalConf} %</span>
                     <br /><br />
-                    <input type="range" min="0" max="100" class="slider" value={rangevalConf} id="myRange" step="1" onChange={(event) => setRangevalConf(event.target.value)} disabled={disableConf()}></input>
+                    <input value={rangevalConf} type="range" min="0" max="100" className="slider" id="myRange" step="1" onChange={(event) => setRangevalConf(event.target.value)} disabled={disableConf()}></input>
                 </div>
             </div>
             <button type="button" className="bouton-normal" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
