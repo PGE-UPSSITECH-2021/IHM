@@ -216,3 +216,25 @@ h3 {
     padding-left:10%;
     padding-bottom:3%;
 }
+
+.bouton-group {
+    width: 100%;
+}
+
+.bouton-normal-mid {
+    background-color: #273339;
+    color: white;
+    opacity: 0.7;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
+    border-radius: 6px;
+    padding-bottom: 0.5px;
+    width:50%
+}
+    /* Mouse-over effects */
+    .bouton-normal-mid:hover {
+        opacity: 1; /* Fully shown on mouse-over */
+    }
+
+    .bouton-normal-mid:disabled {
+        opacity: 0.2;
+    }

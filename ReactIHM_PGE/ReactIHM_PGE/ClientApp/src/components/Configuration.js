@@ -11,10 +11,12 @@ import defaultFile from '../assets/default.csv'
 import { readString } from 'react-papaparse';
 import 'eventemitter2';
 import * as ROSLIB from 'roslib';
+import { CSVLink, CSVDownload } from "react-csv";
+// import { moveFile } from 'move-file';
 
-
-function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning}) {
+function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo}) {
     const [msg_act_courante, setMsgActCourante] = useState("");
+    var RNFS = require("react-native-fs");
     //ROS
     var ros = new ROSLIB.Ros({
         url: 'ws://192.168.101.172:9090'
@@ -133,6 +135,36 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
         }
         
         csvFileCreator('config.csv', csv_data);
+       
+    }
+
+    function saveConfigDefault() {
+
+        if (selectedAction === "Localiser la plaque") {
+            var csv_data = [
+                ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
+                [selectedAction, selectedPlaque, "", ""]
+            ];
+        } else if (selectedAction === "Déplacer le robot") {
+            var csv_data = [
+                ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
+                [selectedAction, selectedPlaque, selectedDiam, ""]
+            ];
+        } else {
+            var csv_data = [
+                ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
+                [selectedAction, selectedPlaque, selectedDiam, rangevalConf]
+            ];
+        }
+        return csv_data;
+    }
+
+    function moveToRightFolder() {
+        // TODO
+        var oldPath = 'C:/Users/Utilisateur/Downloads/default.csv';
+        var newPath = '../assets/default.csv';
+        //moveFile(oldPath, newPath);
+        console.log('The file has been moved');
     }
 
     function selectAll() {
@@ -330,7 +362,15 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
                     <input value={rangevalConf} type="range" min="0" max="100" className="slider" id="myRange" step="1" onChange={(event) => setRangevalConf(event.target.value)} disabled={disableConf()}></input>
                 </div>
             </div>
-            <button type="button" className="bouton-normal" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
+            {modeCo === 1 ?
+                <div className="bouton-group">
+                    <button type="button" className="bouton-normal-mid" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
+                    <CSVLink data={saveConfigDefault()} filename={"default.csv"} onClick={moveToRightFolder()}>
+                        <button type="button" className="bouton-normal-mid" onClick={saveConfigDefault} disabled={!configValid()}>Sauvegarder comme Config Défaut</button>
+                    </CSVLink>
+                </div>
+               : <button type="button" className="bouton-normal" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
+            }
             <button type="button" className="bouton-normal" disabled={disableGeneral()}>Configuration par défaut</button>
             <button type="submit" className="bouton-run" onClick={togglePopup} disabled={!configValid()}>Run</button>
             {isOpen && <Popup

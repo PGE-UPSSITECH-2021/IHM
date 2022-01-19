@@ -6,7 +6,7 @@ import { AppContextWrongID } from "../lib/contextLibWrongID";
 import React, { useState } from "react";
 
 
-function AppLogin() { // login screen
+function AppLogin({modeCo, setModeCo}) { // login screen
     document.body.id = 'bodyLogin';
     const [wrongIdentification, userHasFailed] = useState(false);
 
@@ -16,12 +16,12 @@ function AppLogin() { // login screen
                 <div>
                     <TopBanner />
                     <StateBanner />
-                    <ConnexionScreen failed={wrongIdentification} />
+                    <ConnexionScreen failed={wrongIdentification} modeCo={modeCo} setModeCo={setModeCo} />
                 </div>:
                 <div>
                     <TopBanner />
                     <StateBanner />
-                    <ConnexionScreen failed={wrongIdentification} />
+                    <ConnexionScreen failed={wrongIdentification} modeCo={modeCo} setModeCo={setModeCo} />
                 </div> }
         </AppContextWrongID.Provider>
         
