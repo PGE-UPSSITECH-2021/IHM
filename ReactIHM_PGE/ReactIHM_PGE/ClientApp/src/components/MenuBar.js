@@ -12,7 +12,8 @@ import { FaList } from "react-icons/fa";
 import { FiHome } from "react-icons/fi";
 import { FaPowerOff } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
-import { MdOutlineHelpOutline} from "react-icons/md"
+import { MdOutlineHelpOutline } from "react-icons/md"
+import { FiSettings } from "react-icons/fi"
 //import sidebar css from react-pro-sidebar module and our custom css 
 import "react-pro-sidebar/dist/css/styles.css";
 import "../styles/MenuBar.css";
@@ -58,6 +59,11 @@ function Header({ isDecoDisabled, currentPage, setCurrentPage, modeCo }) {
             setCurrentPage(3);
         }
     }
+    function changePageToParam() {
+        if (!isDecoDisabled) {
+            setCurrentPage(4);
+        }
+    }
 
     function isMainActive() {
         return currentPage === 0;
@@ -71,7 +77,9 @@ function Header({ isDecoDisabled, currentPage, setCurrentPage, modeCo }) {
     function isHelpActive() {
         return currentPage === 3;
     }
-
+    function isParamActive() {
+        return currentPage === 4;
+    }
 
     return (
         <div id="header">
@@ -91,8 +99,14 @@ function Header({ isDecoDisabled, currentPage, setCurrentPage, modeCo }) {
                             <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem" onClick={changePageToUser}><span className='textItem'>Administrateur</span></MenuItem>
                             : <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem" onClick={changePageToUser}><span className='textItem'>Utilisateur</span></MenuItem>
                         }
+                        {modeCo === 1 ?
+                            <MenuItem active={isParamActive()} icon={<FiSettings />} className="menuItem" onClick={changePageToParam}><span className='textItem'>Paramètres</span></MenuItem>
+                            : <span></span>}
                         <MenuItem active={isHelpActive()} icon={<MdOutlineHelpOutline />} className="menuItem" onClick={changePageToHelp}><span className='textItem'>Aide</span></MenuItem>
-                        <div className='space'><Button type="solid" startIcon={<FaPowerOff />} className="boutonDeconnexion" onClick={handleLogout} disabled={isDecoDisabled}>Déconnexion</Button></div>
+                        {modeCo === 1 ?
+                            <div className='space-admin'><Button type="solid" startIcon={<FaPowerOff />} className="boutonDeconnexion" onClick={handleLogout} disabled={isDecoDisabled}>Déconnexion</Button></div>
+                            : <div className='space'><Button type="solid" startIcon={<FaPowerOff />} className="boutonDeconnexion" onClick={handleLogout} disabled={isDecoDisabled}>Déconnexion</Button></div>
+                        }
                     </Menu>
                 </SidebarContent>
             </ProSidebar>

@@ -27,7 +27,7 @@ function AppMainScreen({ modeCo }) { // main screen
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
                     <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={0} /></div>
-                    <div className='main'><ResultScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={1} setCurrentPage={setCurrentPage} /></div>
+                    <div className='main'><ResultScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={1} setCurrentPage={setCurrentPage} modeCo={0}/></div>
                 </div>
             )
         } else if (currentPage === 2) {
@@ -43,7 +43,7 @@ function AppMainScreen({ modeCo }) { // main screen
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
                     <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={0}/></div>
-                    <div className='main'><HelpScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={3} setCurrentPage={setCurrentPage} /></div>
+                    <div className='main'><HelpScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={3} setCurrentPage={setCurrentPage} modeCo={0}/></div>
                 </div>
             )
         }
@@ -61,7 +61,7 @@ function AppMainScreen({ modeCo }) { // main screen
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
                     <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={1} /></div>
-                    <div className='main'><ResultScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={1} setCurrentPage={setCurrentPage} /></div>
+                    <div className='main'><ResultScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={1} setCurrentPage={setCurrentPage} modeCo={1} /></div>
                 </div>
             )
         } else if (currentPage === 2) {
@@ -77,7 +77,7 @@ function AppMainScreen({ modeCo }) { // main screen
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
                     <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={1} /></div>
-                    <div className='main'><HelpScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={3} setCurrentPage={setCurrentPage} /></div>
+                    <div className='main'><HelpScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={3} setCurrentPage={setCurrentPage} modeCo={1} /></div>
                 </div>
             )
         } else if (currentPage === 4) { // TODO MODIF PARAM SPACE PAGE
@@ -85,7 +85,7 @@ function AppMainScreen({ modeCo }) { // main screen
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
                     <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={1} /></div>
-                    <div className='main'><HelpScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={4} setCurrentPage={setCurrentPage} /></div>
+                    <div className='main'><HelpScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={4} setCurrentPage={setCurrentPage} modeCo={1} /></div>
                 </div>
             )
         }
