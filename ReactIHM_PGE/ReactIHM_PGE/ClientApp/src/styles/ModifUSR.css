@@ -1,4 +1,4 @@
-﻿.middle-usr-screen-modif{
+﻿.middle-usr-screen-modif {
     position: absolute;
     background: #E7E6E6;
     color: black;
@@ -36,10 +36,14 @@
     border-radius: 3px;
 }
 
-.sauvegarder-button:hover {
-    opacity: 1;
-}
+    .sauvegarder-button:hover {
+        opacity: 1;
+    }
 
-.sauvegarder-button:disabled {
-    opacity: 0.2;
+    .sauvegarder-button:disabled {
+        opacity: 0.2;
+    }
+
+.mdp-mail-area{
+    width:40%;
 }
