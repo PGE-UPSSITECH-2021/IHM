@@ -14,6 +14,7 @@ import Popup from './PopUp'
 
 function MiddleResultScreen() {
 
+
     const inputRef = useRef();
     const [numTrou, setnumTrou] = useState("Title");
     //PopUp details result
@@ -25,6 +26,8 @@ function MiddleResultScreen() {
 
 
     return (
+
+
         <div className='middleResult'>
 
 
@@ -157,8 +160,9 @@ function MiddleResultScreen() {
                 <label id="numPage"> 1/3 </label>
                 <button className="buttonNextBack"> Suivant <GrNext
                     className="icone-res" /></button>
-
-
+                <div>
+                    <button className="button-save-results"> Sauvegarder les résultats </button>
+                </div>
             </div>
             {isOpen && <PopUpResult
                 content={<>

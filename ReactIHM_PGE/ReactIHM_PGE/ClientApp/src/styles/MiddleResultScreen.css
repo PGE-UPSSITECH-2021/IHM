@@ -1,4 +1,4 @@
-﻿.middleResult {
+﻿﻿.middleResult {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -39,6 +39,8 @@
 
 .cardResult {
     text-align: center;
+    border: 1px solid;
+    border-radius: 3px;
 }
 
 .test {
@@ -50,7 +52,7 @@
 }
 
 .BackNextButtons {
-    padding-top: 2%; /*3%*/
+    margin-top: 1%;
     display: flex;
     flex-direction: row;
 }
@@ -82,7 +84,9 @@
 }
 
 .icone-res {
-    height: 60%;
+    height: 40%;
+    align-items: center;
+    justify-content: center;
 }
 
 .headerTrou {
@@ -103,9 +107,28 @@
 .buttonNextBack {
     border-radius: 10px;
     width: 8vw;
-    display: flex;
-    flex-direction: row;
+    height: 2vw;
     align-items: center;
     justify-content: center;
     background-color: white !important;
 }
+
+.button-save-results {
+    border-radius: 5px;
+    height: 2vw;
+    width: 15vw;
+    margin-left: 300px;
+    background-color: #273339;
+    color: white;
+    box-shadow: 1px 1px 1px 1px rgb(128, 128, 128);
+    justify-content: center;
+    opacity: 0.8;
+}
+
+    .button-save-results:hover {
+        opacity: 1;
+    }
+
+    .button-save-results:disabled {
+        opacity: 0.2;
+    }

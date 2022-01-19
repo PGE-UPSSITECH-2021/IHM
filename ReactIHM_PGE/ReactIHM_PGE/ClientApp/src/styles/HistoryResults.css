@@ -1,0 +1,75 @@
+.middle-results-history {
+    position: absolute;
+    width: 70%;
+    margin-left: 22%;
+    margin-top: 1%;
+    border: 1px solid;
+    border-radius: 3px;
+    background-color: #273339;
+}
+
+.body-results-history {
+    background-color: #E7E6E6;
+}
+
+.header-results-history {
+    display: flex;
+    flex-direction: row;
+}
+
+.button-remove {
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding-left: 95%;
+    height: 25px;
+    opacity: 1;
+}
+
+    .button-remove:disabled {
+        opacity: 0.4;
+    }
+
+.button-details {
+    height: 25px;
+}
+
+.details-history {
+    height: 30px;
+}
+
+.table-cell {
+    font-style: italic;
+    background-color: #E7E6E6;
+}
+
+.table-rows {
+    background-color: #E7E6E6;
+}
+
+.table-head {
+    font-size: larger;
+    position: absolute;
+    padding-left: 15px;
+    color: white;
+}
+
+.first-row {
+    background-color: #8CD1F5;
+}
+
+.MuiTableRow-root.Mui-selected, .MuiTableRow-root.Mui-selected:hover {
+    background-color: #8CD1F5;
+    opacity: 0.7;
+}
+
+.MuiCheckbox-colorSecondary.Mui-checked {
+    color: #8CD1F5;
+}
+
+.nb-select {
+    font-size: small;
+    color: white;
+    position: absolute;
+    padding-left: 65%;
+    padding-top: 15px;
+}
