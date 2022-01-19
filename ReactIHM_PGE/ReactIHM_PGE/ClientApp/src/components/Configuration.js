@@ -16,7 +16,7 @@ import { CSVLink, CSVDownload } from "react-csv";
 
 function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo}) {
     const [msg_act_courante, setMsgActCourante] = useState("");
-    var RNFS = require("react-native-fs");
+    // var RNFS = require("react-native-fs");
     //ROS
     var ros = new ROSLIB.Ros({
         url: 'ws://192.168.101.172:9090'
