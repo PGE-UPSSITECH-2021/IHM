@@ -13,6 +13,11 @@ function ModifUSR() {
         return email.length > 0 && email.includes("@") && email.includes(".");
     }
 
+    function saveNewMail() {
+        alert("Adresse email modifiée à " + email);
+        setEmail("");
+    }
+
     return (
         <div className='middle-usr-screen-modif'>
             <div className='middle-usr-modif'>
@@ -24,7 +29,7 @@ function ModifUSR() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    <Button block size="lg" type="submit" disabled={!validateMailParam()} className='sauvegarder-button'>
+                    <Button block size="lg" type="submit" disabled={!validateMailParam()} className='sauvegarder-button' onClick={saveNewMail}>
                         Enregistrer
                     </Button>
 
