@@ -3,11 +3,11 @@ import MenuBar from './MenuBar'
 import MiddleUserScreen from './MiddleUserScreen'
 
 
-function UserScreen({ currentPage, setCurrentPage }) {
+function UserScreen({ currentPage, setCurrentPage, modeCo }) {
     return (
         <div className='main-usr-param'>
-            <span className='menu-bar'><MenuBar currentPage={currentPage} setCurrentPage={setCurrentPage} /></span>
-            <span className="mainUsrParam" > <MiddleUserScreen /></span>
+            <span className='menu-bar'><MenuBar currentPage={currentPage} setCurrentPage={setCurrentPage} modeCo={modeCo} /></span>
+            <span className="mainUsrParam" > <MiddleUserScreen modeCo={modeCo} /></span>
         </div>
     )
 }

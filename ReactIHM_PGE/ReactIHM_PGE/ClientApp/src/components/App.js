@@ -7,12 +7,13 @@ import { AppContextAuth } from "../lib/contextLibAuth";
 
 function App() {
     const [isAuthenticated, userHasAuthenticated] = useState(false);
+    const [modeCo, setModeCo] = useState(0);
     
     return (
         <AppContextAuth.Provider value={{ isAuthenticated, userHasAuthenticated}}>
             {isAuthenticated ?
-                <AppMainScreen /> :
-                <AppLogin /> }
+                <AppMainScreen modeCo={modeCo} setModeCo={setModeCo}/> :
+                <AppLogin modeCo={modeCo} setModeCo={setModeCo} />}
         </AppContextAuth.Provider>
 
     )

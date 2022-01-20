@@ -5,16 +5,16 @@ import MiddleScreen from './MiddleScreen'
 import React, { useState } from "react";
 
 
-function MainScreenUSR({actionEnCours, setActionEnCours, currentPage, setCurrentPage}) {
+function MainScreenUSR({actionEnCours, setActionEnCours, currentPage, setCurrentPage, modeCo}) {
         
     const [isDecoDisabled, setDecoDisabled] = useState(false);
     const [actionRunning, setActionRunning] = useState(false);
 
     return (
         <div className='main-usr'>
-            <span className='menu-bar'><MenuBar isDecoDisabled={isDecoDisabled} currentPage={currentPage} setCurrentPage={setCurrentPage} /></span>
+            <span className='menu-bar'><MenuBar isDecoDisabled={isDecoDisabled} currentPage={currentPage} setCurrentPage={setCurrentPage} modeCo={modeCo} /></span>
             <span className='middle-screen'><MiddleScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} actionRunning={actionRunning} setActionRunning={setActionRunning} setDecoDisabled={setDecoDisabled}/></span>
-            <span className='configuration'><Configuration isDecoDisabled={isDecoDisabled} setDecoDisabled={setDecoDisabled} actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} actionRunning={actionRunning} setActionRunning={setActionRunning} /></span >
+            <span className='configuration'><Configuration isDecoDisabled={isDecoDisabled} setDecoDisabled={setDecoDisabled} actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} actionRunning={actionRunning} setActionRunning={setActionRunning} modeCo={modeCo}/></span >
         </div>
     )
 }

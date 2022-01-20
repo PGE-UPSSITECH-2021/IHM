@@ -2,10 +2,10 @@
 import MenuBar from './MenuBar'
 
 
-function HelpScreen({ currentPage, setCurrentPage }) {
+function HelpScreen({ currentPage, setCurrentPage, modeCo }) {
     return (
         <div>
-            <span className='menu-bar'><MenuBar currentPage={currentPage} setCurrentPage={setCurrentPage} /></span>
+            <span className='menu-bar'><MenuBar currentPage={currentPage} setCurrentPage={setCurrentPage} modeCo={modeCo} /></span>
         </div>
     )
 

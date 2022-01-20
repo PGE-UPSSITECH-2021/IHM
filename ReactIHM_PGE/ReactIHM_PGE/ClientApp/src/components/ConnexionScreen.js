@@ -9,7 +9,7 @@ import { Text } from 'react-native'
 import Popup from './PopUpMDP'
 
 
-function ConnexionScreen(props) {
+function ConnexionScreen({ failed, modeCo, setModeCo }) {
 
     //Gestion de la pop-up MDP oublié
     const [isOpen, setIsOpen] = useState(false);
@@ -36,6 +36,13 @@ function ConnexionScreen(props) {
         event.preventDefault();
         if (userID === "user" && password === "eXcent") { //TODO à changer
             userHasAuthenticated(true);
+            setModeCo(0);
+        } else if (userID === "admin" && password === "eXcent") { //TODO à changer
+            userHasAuthenticated(true);
+            setModeCo(1);
+        } else if (userID === "maintenance" && password === "eXcent") { //TODO à changer
+            userHasAuthenticated(true);
+            setModeCo(2);
         } else {
             userHasFailed(true);
         }
@@ -63,7 +70,7 @@ function ConnexionScreen(props) {
                         type="userID"
                         value={userID}
                         onChange={(e) => setUserID(e.target.value)}
-                        className={props.failed ? "input-box-fail" : "input-box"}
+                        className={failed ? "input-box-fail" : "input-box"}
                     />
                 </Form.Group>
                 <Form.Group size="lg" controlId="password">
@@ -72,7 +79,7 @@ function ConnexionScreen(props) {
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className={props.failed ? "input-box-fail" : "input-box"}
+                        className={failed ? "input-box-fail" : "input-box"}
                     />
                 </Form.Group>
                 <div className="lineCo">
@@ -102,7 +109,7 @@ function ConnexionScreen(props) {
                         Se connecter
                     </Button>
                 </div>
-                {props.failed ? 
+                {failed ? 
                     <div className='info-erreur'>Identifiant(s) erroné(s).</div> : <div></div>}
                     
             </Form>
