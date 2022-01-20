@@ -27,7 +27,6 @@ function MiddleResultScreen() {
     return (
         <div className='middleResult'>
 
-
             <div className='cardResult'>
                 <Card style={{ width: '18rem' }} >
                     <Card.Body>
