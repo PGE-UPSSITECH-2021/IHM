@@ -20,7 +20,7 @@ var ros = new ROSLIB.Ros({
 
 function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo }) {
     const [msg_act_courante, setMsgActCourante] = useState("");
-    const [etatRobotActuel, setEtatRobotActuel] = useState("DECONNECTE"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE
+    const [etatRobotActuel, setEtatRobotActuel] = useState("DECONNECTE"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE/ INITIALISATION
     const [isConnectedROS, setIsConnectedROS] = useState(false);
     const [subscribed, setSubscribed] = useState(false);
     // var RNFS = require("react-native-fs");
@@ -156,6 +156,13 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         setNameFileImp(plainFiles[0].name);
         setCpt(1);
         clear();
+    }
+
+    function backToConfigDefault() {
+        setSelectedAction(defaultAction);
+        setSelectedPlaque(defaultPlate);
+        setCheckedDiam(defaultDiam);
+        setRangevalConf(defaultConf);
     }
     
 
@@ -425,7 +432,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                 </div>
                : <button type="button" className="bouton-normal" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
             }
-            <button type="button" className="bouton-normal" disabled={disableGeneral()}>Configuration par défaut</button>
+            <button type="button" className="bouton-normal" disabled={disableGeneral()} onClick={backToConfigDefault}>Configuration par défaut</button>
             <button type="submit" className="bouton-run" onClick={togglePopup} disabled={!configValid()}>Run</button>
             {isOpen && <Popup
                 content={<>
@@ -461,7 +468,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                         <GiRobotGrab className="icone" />
                         Etat du robot :
 
-                        {etatRobotActuel === "EN PRODUCTION" ? <span className='rep-occ'>EN PRODUCTION </span> : (etatRobotActuel === "STOPPE" || etatRobotActuel === "DECONNECTE") ? <span className='rep-stop'>{etatRobotActuel}</span>
+                        {(etatRobotActuel === "EN PRODUCTION" || etatRobotActuel === "INITIALISATION") ? <span className='rep-occ'>{etatRobotActuel} </span> : (etatRobotActuel === "STOPPE" || etatRobotActuel === "DECONNECTE") ? <span className='rep-stop'>{etatRobotActuel}</span>
                             : etatRobotActuel === "LIBRE NON INIT" ? <span className='rep-non-init'>{etatRobotActuel}</span> : <span className='rep'>{etatRobotActuel}</span> }
                     </div>
                     <div className='wrap-bouton-parking'>
