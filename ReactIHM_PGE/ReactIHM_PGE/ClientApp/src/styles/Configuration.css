@@ -177,6 +177,20 @@ h3 {
     color: #EC6427;
 }
 
+.rep-stop {
+    padding-left: 15px;
+    font-weight: bold;
+    font-size: large;
+    color: #E30613;
+}
+
+.rep-non-init {
+    padding-left: 15px;
+    font-weight: bold;
+    font-size: large;
+    color: #FAB62B;
+}
+
 .champCheck {
     display: flex;
     flex-direction: column;

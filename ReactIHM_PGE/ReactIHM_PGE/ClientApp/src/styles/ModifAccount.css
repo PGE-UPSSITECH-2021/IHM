@@ -1,0 +1,79 @@
+﻿.middle-screen-modif-account {
+    position: absolute;
+    background: #E7E6E6;
+    color: black;
+    width: 55%;
+    border-style: solid;
+    font-size: medium;
+    display: flex;
+    flex-direction: column;
+}
+
+.add-account-title {
+    padding-bottom: 1px;
+    color: #273339;
+    font-size: large;
+}
+
+.middle-modif-account {
+    padding-top: 2.3%;
+    padding-left: 5%;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.sauvegarder-button-acc {
+    background-color: #273339;
+    color: white;
+    opacity: 0.7;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
+    border-radius: 3px;
+    margin-bottom: 15%;
+}
+
+    .sauvegarder-button-acc:hover {
+        opacity: 1;
+    }
+
+    .sauvegarder-button-acc:disabled {
+        opacity: 0.2;
+    }
+
+.mdp-mail-area-add {
+    width: 41%;
+    display: flex;
+    flex-direction: column;
+    padding-right:5%;
+}
+
+.mdp-mail-area-supp {
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+    border-left: double;
+    padding-left:5%;
+}
+
+.mdp-mail-area-supp-two {   
+    display: flex;
+    flex-direction: column;
+}
+
+.supprimer-button {
+    background-color: #E30613;
+    color: white;
+    opacity: 0.7;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
+    border-radius: 3px;
+    margin-top: 5%;
+    margin-bottom: 15%;
+}
+
+    .supprimer-button:hover {
+        opacity: 1;
+    }
+
+    .supprimer-button:disabled {
+        opacity: 0.2;
+    }

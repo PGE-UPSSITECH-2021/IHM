@@ -100,7 +100,7 @@ function Header({ isDecoDisabled, currentPage, setCurrentPage, modeCo }) {
                             : <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem" onClick={changePageToUser}><span className='textItem'>Utilisateur</span></MenuItem>
                         }
                         {modeCo === 1 ?
-                            <MenuItem active={isParamActive()} icon={<FiSettings />} className="menuItem" onClick={changePageToParam}><span className='textItem'>Paramètres</span></MenuItem>
+                            <MenuItem active={isParamActive()} icon={<FiSettings />} className="menuItem" onClick={changePageToParam}><span className='textItem'>+/- Comptes</span></MenuItem>
                             : <span></span>}
                         <MenuItem active={isHelpActive()} icon={<MdOutlineHelpOutline />} className="menuItem" onClick={changePageToHelp}><span className='textItem'>Aide</span></MenuItem>
                         {modeCo === 1 ?

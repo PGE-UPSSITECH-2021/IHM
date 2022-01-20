@@ -14,19 +14,62 @@ import * as ROSLIB from 'roslib';
 import { CSVLink, CSVDownload } from "react-csv";
 // import { moveFile } from 'move-file';
 
-function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo}) {
+var ros = new ROSLIB.Ros({
+    url: 'ws://192.168.137.42:9090'
+})
+
+function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo }) {
     const [msg_act_courante, setMsgActCourante] = useState("");
+    const [etatRobotActuel, setEtatRobotActuel] = useState("DECONNECTE"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE
+    const [isConnectedROS, setIsConnectedROS] = useState(false);
+    const [subscribed, setSubscribed] = useState(false);
     // var RNFS = require("react-native-fs");
-    //ROS
-    var ros = new ROSLIB.Ros({
-        url: 'ws://192.168.101.172:9090'
-    })
-    // Récupération du topic sur lequel on veut publier
-    var message_ihm_run = new ROSLIB.Topic({
-        ros: ros,
-        name: '/message_ihm_run',
-        messageType: 'test_com/test_msg'
-    });
+    if (isConnectedROS === false) {
+        //ROS
+        
+        // Récupération du topic sur lequel on veut publier
+        var message_ihm_run = new ROSLIB.Topic({
+            ros: ros,
+            name: '/message_ihm_run',
+            messageType: 'test_com/test_msg'
+        });
+
+        // Fonction appelée une fois la connexion établie
+        ros.on('connection', function () {
+            console.log('Connected to websocket server.');
+            setIsConnectedROS(true);
+        });
+        // Fonction appelée en cas d'erreur de connexion
+        ros.on('error', function (error) {
+            console.log('Error connecting to websocket server: ', error);
+        });
+        // Fonction appelée une fois la connexion fermé
+        ros.on('close', function () {
+            console.log('Connection to websocket server closed.');
+            setIsConnectedROS(false);
+        });
+
+        function callbackEtatRobot(message) {
+            // Log console
+            //console.log('Received message on ' + robot_state_listener.name);
+            // Récupération de la valeur de l'état du robot
+            //console.log(message.data);
+            setEtatRobotActuel(message.data);
+
+        }
+
+        // Création du listener ROS
+        var robot_state_listener = new ROSLIB.Topic({
+            ros: ros,
+            name: '/robot_state', // Choix du topic
+            messageType: 'std_msgs/String' // Type du message transmis
+        });
+        if (subscribed === false) {
+            robot_state_listener.subscribe(callbackEtatRobot);
+            setSubscribed(true);
+        }
+        // Affectation de la fonction de callback
+    }
 
     const [openFileSelector, { filesContent, loading, errors, plainFiles, clear }] = useFilePicker({ multiple: false, accept: ['.csv'] })
 
@@ -305,17 +348,28 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
         setDecoDisabled(true);
     }
 
-    function disableBoutonParking() {
-        //TODO
+    function goToInitPos() {
+        var goToInit = new ROSLIB.Service({
+            ros: ros,
+            name: '/move_robot_init',
+            serviceType: 'motoman_hc10_moveit_config/Robot_move_predef'
+        });
+        var request = null;
+        goToInit.callService(request, function (result) { });
+    }
+
+
+    function nothing() {
+
     }
 
     return (
         <div className="config">
             <h3> CONFIGURATION</h3>
-            {readOnce ? console.log() : readDefaultFile()}
+            {readOnce ? nothing() : readDefaultFile()}
             <span className="champImport"><button type="button" className="bouton-import" onClick={importFile} disabled={disableGeneral()}>Importer une configuration</button></span>
             {nameFileImp!="" ? <span className="import-ok">{nameFileImp} importé</span> : <div className="import-ok"><br /></div>}
-            {plainFiles.length > 0 && cpt == 0 ? getImportedFileContent(): console.log("")}
+            {plainFiles.length > 0 && cpt == 0 ? getImportedFileContent(): nothing()}
             <div className='champ'><label className='labels'>Action :</label>
                 <select value={selectedAction} onChange={handleSelectAction} disabled={disableGeneral()}>
                     <option selected disabled hidden value="">-----</option>
@@ -406,10 +460,12 @@ function Configuration({isDecoDisabled, setDecoDisabled, actionEnCours, setActio
                     <div className='etat-import'>
                         <GiRobotGrab className="icone" />
                         Etat du robot :
-                        {actionRunning ? <span className='rep-occ'>EN PRODUCTION </span> : <span className='rep'>LIBRE INIT</span>}
+
+                        {etatRobotActuel === "EN PRODUCTION" ? <span className='rep-occ'>EN PRODUCTION </span> : (etatRobotActuel === "STOPPE" || etatRobotActuel === "DECONNECTE") ? <span className='rep-stop'>{etatRobotActuel}</span>
+                            : etatRobotActuel === "LIBRE NON INIT" ? <span className='rep-non-init'>{etatRobotActuel}</span> : <span className='rep'>{etatRobotActuel}</span> }
                     </div>
                     <div className='wrap-bouton-parking'>
-                        <button type="button" className="bouton-normal" disabled={true}>Déplacer en position initiale</button>
+                        <button type="button" className="bouton-normal" disabled={etatRobotActuel !== "LIBRE NON INIT"} onClick={goToInitPos}>Déplacer en position initiale</button>
                     </div>
                 </div>
                 <div className='etat-col-2'>

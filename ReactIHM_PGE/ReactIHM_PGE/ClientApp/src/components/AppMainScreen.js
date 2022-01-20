@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import ResultScreen from './ResultScreen';
 import UserScreen from './UserScreen';
 import HelpScreen from './HelpScreen';
-
+import ParamADMScreen from './ParamADMScreen';
 
 function AppMainScreen({ modeCo }) { // main screen
     document.body.id = 'bodyMain';
@@ -85,8 +85,7 @@ function AppMainScreen({ modeCo }) { // main screen
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
                     <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={1} /></div>
-                    <div className='main'><HelpScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={4} setCurrentPage={setCurrentPage} modeCo={1} /></div>
-                </div>
+                    <div className='main'><ParamADMScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={4} setCurrentPage={setCurrentPage} modeCo={1} /></div>                </div>
             )
         }
 

@@ -21,12 +21,13 @@ function ParamUSR({modeCo}) {
                         <label className="label-compte-usr"> Adresse e-mail : </label>
                     </div>
                     <div className='data-usr'>
-                        <span className="data-compte-usr"> user </span>
+                        {modeCo === 1 ? <span className="data-compte-usr"> admin </span> : <span className="data-compte-usr"> user </span>}
+                       
 
                         {modeCo === 1 ? <span className="data-compte-usr"> Admin </span> : <span className="data-compte-usr"> Standard </span>}
                         
 
-                        <span className="data-compte-usr"> user@excent.fr </span>
+                        {modeCo === 1 ? <span className="data-compte-usr"> admin@excent.fr </span> : <span className="data-compte-usr"> user@excent.fr </span>}
                     </div>
                 </div>
             </div>
