@@ -188,7 +188,7 @@ function ModifAccount() {
                     }
                 </div>
 
-                    <Button block size="lg" type="submit" disabled={!validateDataAccount()} className='sauvegarder-button' onClick={saveNewAccount}>
+                    <Button block size="lg" type="submit" disabled={!validateDataAccount()} className='sauvegarder-button-acc' onClick={saveNewAccount}>
                     Enregistrer
                 </Button>
                 </div>

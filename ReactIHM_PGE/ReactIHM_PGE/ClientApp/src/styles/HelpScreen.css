@@ -1,0 +1,18 @@
+.mainHelp {
+    display: flex;
+    flex-direction: row;
+}
+
+.menu-bar {
+    width: 14%;
+}
+
+.middle-help-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    margin-left:15%;
+    padding-top: 10%;
+    padding-left: 5%;
+}
