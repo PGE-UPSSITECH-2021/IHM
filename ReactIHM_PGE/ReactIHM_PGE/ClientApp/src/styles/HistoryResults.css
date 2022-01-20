@@ -25,9 +25,9 @@
     opacity: 1;
 }
 
-    .button-remove:disabled {
-        opacity: 0.4;
-    }
+.button-remove:disabled{
+    opacity: 0.4;
+}
 
 .button-details {
     height: 25px;
@@ -46,6 +46,10 @@
     background-color: #E7E6E6;
 }
 
+.table-rows {
+    background-color: #E7E6E6;
+}
+
 .table-head {
     font-size: larger;
     position: absolute;
@@ -53,17 +57,14 @@
     color: white;
 }
 
-.first-row {
-    background-color: #8CD1F5;
+.MuiTableRow-root.Mui-selected, .MuiTableRow-root.Mui-selected:hover {
+    background-color: rgba(140,209,245,0.5) !important;
 }
 
-.MuiTableRow-root.Mui-selected, .MuiTableRow-root.Mui-selected:hover {
-    background-color: #8CD1F5;
-    opacity: 0.7;
-}
+
 
 .MuiCheckbox-colorSecondary.Mui-checked {
-    color: #8CD1F5;
+    color: #878787 !important;
 }
 
 .nb-select {

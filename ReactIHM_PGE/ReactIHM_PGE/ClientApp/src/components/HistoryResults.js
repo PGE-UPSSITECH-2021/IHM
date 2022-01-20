@@ -14,20 +14,24 @@ import suppress from '../assets/delete_histo.png'
 import loupe from '../assets/loupe.png'
 import MiddleResultScreen from './MiddleResultScreen';
 
+
 function HistoryResults() {
+
+    /* Cr√©ation des data du tableau */
 
     function createData(files, date, plaque, action) {
         return { files, date, plaque, action };
-    }// add data
+    }
+
     const rows = [
-        createData('config_01', '20-01-2022', 'Èpaisse', 'localisation'),
-        createData('config_02', '19-01-2022', 'cintrÈe', 'identification'),
+        createData('config_01', '20-01-2022', '√©paisse', 'localisation'),
+        createData('config_02', '19-01-2022', 'cintr√©e', 'identification'),
         createData('config_03', '18-01-2022', 'plate', 'localisation'),
-        createData('config_04', '17-01-2022', 'Èpaisse', 'identification'),
-        createData('config_05', '16-01-2022', 'Èpaisse', 'identification'),
-        createData('config_06', '16-01-2022', 'Èpaisse', 'identification'),
-        createData('config_07', '16-01-2022', 'Èpaisse', 'identification'),
-        createData('config_08', '16-01-2022', 'Èpaisse', 'identification'),
+        createData('config_04', '17-01-2022', '√©paisse', 'identification'),
+        createData('config_05', '16-01-2022', '√©paisse', 'identification'),
+        createData('config_06', '16-01-2022', '√©paisse', 'identification'),
+        createData('config_07', '16-01-2022', '√©paisse', 'identification'),
+        createData('config_08', '16-01-2022', '√©paisse', 'identification'),
         createData('config_09', '16-01-2022', 'plate', 'localisation')
     ]
 
@@ -41,23 +45,7 @@ function HistoryResults() {
     const [dense, setDense] = React.useState(false);
     const [open, setOpen] = React.useState(false);
 
-    // Add/Remove checked item from list
-    const handleCheck = (event) => {
-        var updatedList = [...checked];
-        if (event.target.checked) {
-            updatedList = [...checked, event.target.value];
-        } else {
-            updatedList.splice(checked.indexOf(event.target.value), 1);
-        }
-        setChecked(updatedList);
-    };
-
-    const checkedItems = checked.length
-        ? checked.reduce((total, item) => {
-            return total + ", " + item;
-        })
-        : "";
-
+    /* Gestion des checkboxes */
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
@@ -76,7 +64,7 @@ function HistoryResults() {
             newSelected = newSelected.concat(selected, files);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length - 1) {
+        } else if (selectedIndex === selected.length -1 ) {
             newSelected = newSelected.concat(selected.slice(0, -1));
         } else if (selectedIndex > 0) {
             newSelected = newSelected.concat(
@@ -104,57 +92,42 @@ function HistoryResults() {
         setPage(0);
     };
 
-    const handleChangeDense = (event) => {
-        setDense(event.target.checked);
-    };
-
-    const changeHistoryToResults = () => {
-        <MiddleResultScreen />
-    }
-
-
-    function boxChecked() {
-        if (isSelected) {
-            return true;
-        }
-    }
-
     function deleteRows() {
-
+        
     }
 
 
     return (
         <div className='middle-results-history'>
             <div className='header-results-history'>
-                <h1 className='table-head'> Historique des resultats </h1>
-                <span className="nb-select"> Nombre de fichiers sÈlectionnÈs :  {selected.length} </span>
-                <img src={suppress} alt='Suppression des Èlements' className="button-remove" onClick={deleteRows} />
-
+                <h1 className='table-head'> Historique des r√©sultats </h1>
+                <span className="nb-select"> Nombre de fichiers s√©lectionn√©s :  {selected.length} </span>
+                <img src={suppress} alt='Suppression des √©lements' className="button-remove" onClick={deleteRows} />
+                
             </div>
             <TableContainer className='table-rows'>
                 <Table>
                     <TableHead>
-
+                        
                         <TableRow>
-
+                            
                             <TableCell className='table-cell' padding="checkbox">
                                 <Checkbox
-
+                                    
                                     numSelected={selected.length}
                                     rowCount={rows.length}
                                     onChange={handleSelectAllClick}
                                     inputProps={{
-                                        'aria-label': 'Tout sÈlectionner',
+                                        'aria-label': 'Tout s√©lectionner',
                                     }}
                                 />
                             </TableCell>
-                            <TableCell className='table-cell' align="center">RÈsultats</TableCell>
+                            <TableCell className='table-cell' align="center">R√©sultats</TableCell>
                             <TableCell className='table-cell' align="center">Date</TableCell>
                             <TableCell className='table-cell' align="center">Type de plaque</TableCell>
                             <TableCell className='table-cell' align="center">Action</TableCell>
-                            <TableCell className='table-cell' align="center">Voir les rÈsultats</TableCell>
-
+                            <TableCell className='table-cell' align="center">Voir les r√©sultats</TableCell>
+                            
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -176,8 +149,8 @@ function HistoryResults() {
                                     <TableCell padding="checkbox">
                                         <Checkbox
                                             checked={isItemSelected}
-
-
+                                           
+                                            
                                         />
                                     </TableCell>
 
@@ -185,11 +158,11 @@ function HistoryResults() {
                                     <TableCell align="center">{row.date}</TableCell>
                                     <TableCell align="center">{row.plaque}</TableCell>
                                     <TableCell align="center">{row.action}</TableCell>
-                                    <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" /></IconButton>
+                                    <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details"/></IconButton>
                                     </TableCell>
-
+                                    
                                 </TableRow>
-
+                                
 
                             );
                         })}
@@ -205,7 +178,7 @@ function HistoryResults() {
                     </TableBody>
                     <TableFooter>
                         <TableRow>
-
+                           
                             <TablePagination
                                 rowsPerPageOptions={[7]}
                                 colSpan={5}
@@ -215,9 +188,9 @@ function HistoryResults() {
                                 onPageChange={handleChangePage}
                                 onRowsPerPageChange={handleChangeRowsPerPage}
                             />
-
+                           
                         </TableRow>
-
+                        
                     </TableFooter>
                 </Table>
             </TableContainer>
