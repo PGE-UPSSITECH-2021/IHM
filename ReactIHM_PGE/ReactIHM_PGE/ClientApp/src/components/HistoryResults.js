@@ -10,12 +10,11 @@ import IconButton from '@material-ui/core/IconButton'
 import Checkbox from "@material-ui/core/Checkbox"
 import '../styles/HistoryResults.css'
 import { TablePagination } from '@material-ui/core'
-import suppress from '../assets/delete_histo.png'
 import loupe from '../assets/loupe.png'
-import MiddleResultScreen from './MiddleResultScreen';
+import { MdDeleteForever } from "react-icons/md";
 
 
-function HistoryResults() {
+function HistoryResults({ setPageRes, nameFileRes, setNameFileRes }) {
 
     /* Création des data du tableau */
 
@@ -93,7 +92,11 @@ function HistoryResults() {
     };
 
     function deleteRows() {
-        
+        alert("DELETE TO DO");
+    }
+
+    function changeToResDetails() {
+        setPageRes(1);
     }
 
 
@@ -102,7 +105,7 @@ function HistoryResults() {
             <div className='header-results-history'>
                 <h1 className='table-head'> Historique des résultats </h1>
                 <span className="nb-select"> Nombre de fichiers sélectionnés :  {selected.length} </span>
-                <img src={suppress} alt='Suppression des élements' className="button-remove" onClick={deleteRows} />
+                <MdDeleteForever alt='Suppression des élements' className="button-remove" onClick={deleteRows} />
                 
             </div>
             <TableContainer className='table-rows'>
@@ -143,11 +146,11 @@ function HistoryResults() {
                                     key={row.files}
                                     aria-checked={isItemSelected}
                                     tabIndex={-1}
-                                    onClick={(event) => handleClick(event, row.files)}
                                     selected={isItemSelected}
                                 >
                                     <TableCell padding="checkbox">
                                         <Checkbox
+                                            onClick={(event) => handleClick(event, row.files)}
                                             checked={isItemSelected}
                                            
                                             
@@ -158,7 +161,7 @@ function HistoryResults() {
                                     <TableCell align="center">{row.date}</TableCell>
                                     <TableCell align="center">{row.plaque}</TableCell>
                                     <TableCell align="center">{row.action}</TableCell>
-                                    <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details"/></IconButton>
+                                    <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={changeToResDetails}/></IconButton>
                                     </TableCell>
                                     
                                 </TableRow>

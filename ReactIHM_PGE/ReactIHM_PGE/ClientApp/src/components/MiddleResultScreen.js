@@ -6,13 +6,15 @@ import { GrLinkNext, GrLinkPrevious, GrNext, GrPrevious } from 'react-icons/gr'
 import { BsCheck2Circle } from 'react-icons/bs'
 import { BiErrorCircle } from 'react-icons/bi'
 import { HiOutlineDocumentSearch } from 'react-icons/hi'
+import { BsArrowReturnLeft} from "react-icons/bs"
 import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 import '../styles/bootstrapStyle.scss'
 import PopUpResult from './PopUpResult'
 import Popup from './PopUp'
+import returnArrow from "../assets/returnArrow.png"
 
 
-function MiddleResultScreen() {
+function MiddleResultScreen({ setPageRes, nameFileRes, setNameFileRes }) {
 
 
     const inputRef = useRef();
@@ -23,35 +25,38 @@ function MiddleResultScreen() {
         setIsOpen(!isOpen);
     }
 
+    function changePageToHist() {
+        setPageRes(0);
+    }
 
 
     return (
 
 
         <div className='middleResult'>
+            <div className="enveloppe-box-card">
+                <div className="box-return"><img src={returnArrow} alt="return button" className="return-icon" onClick={changePageToHist} /></div>
+                <div className='cardResult'>
+                    <Card style={{ width: '18rem' }} >
+                        <Card.Body>
+                            <Card.Title className="titleDiametre">Diamètre : 5mm</Card.Title>
+                            <Card.Text>
+                                <BsCheck2Circle
+                                    className="iconValidate" />
+                                <span className="validateSection">
+                                    3/4 trous identifiés </span>
+                                <div>
+                                    <BiErrorCircle
+                                        className="iconUnconform" />
+                                    <span className="unconformSection">
+                                        1 non conforme</span>
+                                </div>
 
-
-            <div className='cardResult'>
-                <Card style={{ width: '18rem' }} >
-                    <Card.Body>
-                        <Card.Title className="titleDiametre">Diamètre : 5mm</Card.Title>
-                        <Card.Text>
-                            <BsCheck2Circle
-                                className="iconValidate" />
-                            <span className="validateSection">
-                                3/4 trous identifiés </span>
-                            <div>
-                                <BiErrorCircle
-                                    className="iconUnconform" />
-                                <span className="unconformSection">
-                                    1 non conforme</span>
-                            </div>
-
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+                </div>
             </div>
-
             <div className="test">
 
                 <Card className="cardImage" ref={inputRef}>

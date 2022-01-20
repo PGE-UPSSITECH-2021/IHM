@@ -18,11 +18,16 @@
 }
 
 .button-remove {
+    width:50%;
     margin-bottom: 10px;
     margin-top: 10px;
     padding-left: 95%;
-    height: 25px;
-    opacity: 1;
+    height: 30px;
+    opacity: 0.75;
+    color: #FAB62B;
+}
+.button-remove:hover{
+    opacity:1;
 }
 
 .button-remove:disabled{

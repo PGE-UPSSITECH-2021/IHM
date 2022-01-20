@@ -10,6 +10,24 @@
     font-size: 30px;
 }
 
+.return-icon {
+    background-color: #E7E6E6;
+    border-style:solid;
+    border-width:1px;
+    width:15%;
+    opacity:0.5;
+}
+.return-icon:hover{
+    opacity:1;
+}
+.box-return{
+    width:35%;
+}
+.enveloppe-box-card{
+    display:flex;
+    flex-direction:row;
+}
+
 .cardDescript {
     height: 52vh;
     width: 30vw;
