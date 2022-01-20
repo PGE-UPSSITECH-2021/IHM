@@ -26,6 +26,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     // var RNFS = require("react-native-fs");
     if (isConnectedROS === false) {
         //ROS
+        
         // Récupération du topic sur lequel on veut publier
         var message_ihm_run = new ROSLIB.Topic({
             ros: ros,
