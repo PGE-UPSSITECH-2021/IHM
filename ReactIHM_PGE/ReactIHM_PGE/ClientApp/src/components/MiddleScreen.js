@@ -55,7 +55,7 @@ import React, { useState } from 'react';
 //// Affectation de la fonction de callback
 
 
-function MiddleScreen({ actionEnCours, setActionEnCours, actionRunning, setActionRunning, setDecoDisabled }) {
+function MiddleScreen({ actionEnCours, setActionEnCours, actionRunning, setActionRunning, setDecoDisabled, modeCo }) {
 
     const [isPaused, setIsPaused] = useState(false);
 
@@ -94,30 +94,36 @@ function MiddleScreen({ actionEnCours, setActionEnCours, actionRunning, setActio
         }
     }
 
-    return (
-       /* <div className='middle'>
-            <canvas id="img_ROS" width="800" height="500" className="img-noCamera"></canvas>
-        </div> */
-        <div className='middle'>
-            {actionRunning === true ?
-                <div className='middle-run'>
-                    <div className='run-buttons'>
-                        <span className='space-button-runmode'>
-                            <img src={start} alt='bouton start' className={getClassNameStartButton()} onClick={startAction} />
-                        </span>
-                        <span className='space-button-runmode'>
-                            <img src={pause} alt='bouton pause' className={getClassNamePauseButton()} onClick={pauseAction} />
-                        </span>
-                        <img src={stop} alt='bouton stop' className='bouton-runmode-stop' onClick={stopAction} />
+    if (modeCo !== 2) {
+        return (
+            /* <div className='middle'>
+                 <canvas id="img_ROS" width="800" height="500" className="img-noCamera"></canvas>
+             </div> */
+            <div className='middle'>
+                {actionRunning === true ?
+                    <div className='middle-run'>
+                        <div className='run-buttons'>
+                            <span className='space-button-runmode'>
+                                <img src={start} alt='bouton start' className={getClassNameStartButton()} onClick={startAction} />
+                            </span>
+                            <span className='space-button-runmode'>
+                                <img src={pause} alt='bouton pause' className={getClassNamePauseButton()} onClick={pauseAction} />
+                            </span>
+                            <img src={stop} alt='bouton stop' className='bouton-runmode-stop' onClick={stopAction} />
+                        </div>
+                        <div className='run-console'>
+                            <div className='run-console-text'>• Caméra calibrée...   OK</div>
+                            <br />
+                            <div className='run-console-text'>• Action en cours...</div>
+                        </div>
                     </div>
-                    <div className='run-console'>
-                        <div className='run-console-text'>• Caméra calibrée...   OK</div>
-                        <br />
-                        <div className='run-console-text'>• Action en cours...</div>
-                    </div>
-                </div>
-                : <img src={noCam} alt="No available image" className="img-demonstrateur" />}
-        </div>
-    )
+                    : <img src={noCam} alt="No available image" className="img-demonstrateur" />}
+            </div>
+        )
+    } else {
+        return (
+            <div></div>
+        )
+    }
 }
 export default MiddleScreen

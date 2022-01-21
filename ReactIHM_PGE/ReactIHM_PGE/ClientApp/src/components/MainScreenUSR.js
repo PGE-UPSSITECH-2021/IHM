@@ -13,7 +13,7 @@ function MainScreenUSR({actionEnCours, setActionEnCours, currentPage, setCurrent
     return (
         <div className='main-usr'>
             <span className='menu-bar'><MenuBar isDecoDisabled={isDecoDisabled} currentPage={currentPage} setCurrentPage={setCurrentPage} modeCo={modeCo} /></span>
-            <span className='middle-screen'><MiddleScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} actionRunning={actionRunning} setActionRunning={setActionRunning} setDecoDisabled={setDecoDisabled}/></span>
+            <span className='middle-screen'><MiddleScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} actionRunning={actionRunning} setActionRunning={setActionRunning} setDecoDisabled={setDecoDisabled} modeCo={modeCo}/></span>
             <span className='configuration'><Configuration isDecoDisabled={isDecoDisabled} setDecoDisabled={setDecoDisabled} actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} actionRunning={actionRunning} setActionRunning={setActionRunning} modeCo={modeCo}/></span >
         </div>
     )

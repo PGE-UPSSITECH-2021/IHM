@@ -94,10 +94,13 @@ function Header({ isDecoDisabled, currentPage, setCurrentPage, modeCo }) {
                 <SidebarContent>
                     <Menu iconShape="square">
                         <MenuItem active={isMainActive()} icon={<FiHome />} onClick={changePageToMain} className="menuItem"><span className='textItem'>Accueil</span></MenuItem>
-                        <MenuItem active={isResultsActive()} icon={<FaList />} onClick={changePageToResult} className="menuItem"><span className='textItem'>Résultats</span></MenuItem>
+                        {modeCo === 2 ? <span /> :
+                            <MenuItem active={isResultsActive()} icon={<FaList />} onClick={changePageToResult} className="menuItem"><span className='textItem'>Résultats</span></MenuItem>
+                        }
                         {modeCo === 1 ?
                             <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem" onClick={changePageToUser}><span className='textItem'>Administrateur</span></MenuItem>
-                            : <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem" onClick={changePageToUser}><span className='textItem'>Utilisateur</span></MenuItem>
+                            : modeCo === 0? <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem" onClick={changePageToUser}><span className='textItem'>Utilisateur</span></MenuItem>
+                                : <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem" onClick={changePageToUser}><span className='textItem'>Maintenance</span></MenuItem>
                         }
                         {modeCo === 1 ?
                             <MenuItem active={isParamActive()} icon={<FiSettings />} className="menuItem" onClick={changePageToParam}><span className='textItem'>+/- Comptes</span></MenuItem>
@@ -105,7 +108,8 @@ function Header({ isDecoDisabled, currentPage, setCurrentPage, modeCo }) {
                         <MenuItem active={isHelpActive()} icon={<MdOutlineHelpOutline />} className="menuItem" onClick={changePageToHelp}><span className='textItem'>Aide</span></MenuItem>
                         {modeCo === 1 ?
                             <div className='space-admin'><Button type="solid" startIcon={<FaPowerOff />} className="boutonDeconnexion" onClick={handleLogout} disabled={isDecoDisabled}>Déconnexion</Button></div>
-                            : <div className='space'><Button type="solid" startIcon={<FaPowerOff />} className="boutonDeconnexion" onClick={handleLogout} disabled={isDecoDisabled}>Déconnexion</Button></div>
+                            : modeCo === 0 ? <div className='space'><Button type="solid" startIcon={<FaPowerOff />} className="boutonDeconnexion" onClick={handleLogout} disabled={isDecoDisabled}>Déconnexion</Button></div>
+                                : <div className='space-maintenance'><Button type="solid" startIcon={<FaPowerOff />} className="boutonDeconnexion" onClick={handleLogout} disabled={isDecoDisabled}>Déconnexion</Button></div>
                         }
                     </Menu>
                 </SidebarContent>

@@ -12,10 +12,13 @@ import { readString } from 'react-papaparse';
 import 'eventemitter2';
 import * as ROSLIB from 'roslib';
 import { CSVLink, CSVDownload } from "react-csv";
+import start from '../assets/start.png';
+import pause from '../assets/pause.png';
+import stop from '../assets/stop.png';
 // import { moveFile } from 'move-file';
 
 var ros = new ROSLIB.Ros({
-    url: 'ws://192.168.137.42:9090'
+    url: 'ws://192.168.137.230:9090'
 })
 
 function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo }) {
@@ -79,7 +82,11 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     const [selectedDiam, setSelectedDiam] = useState("");
     const [rangevalConf, setRangevalConf] = useState(0);
     const [cpt, setCpt] = useState(0);
-    const [nameFileImp, setNameFileImp] = useState("");
+    const [nameFileImp, setNameFileImp] = useState("default");
+    // Gestion sélection test (maintenance)
+    const [selectedTest, setSelectedTest] = useState("");
+    const [testRunning, setTestRunning] = useState(false);
+
 
     //Gestion des POPUPS
     const [isOpen, setIsOpen] = useState(false);
@@ -137,7 +144,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         setSelectedPlaque(defaultPlate);
         setCheckedDiam(defaultDiam);
         setRangevalConf(defaultConf);
-        setNameFileImp("");
+        setNameFileImp("default");
         openFileSelector();
     }
     function getImportedFileContent() {
@@ -159,10 +166,12 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     }
 
     function backToConfigDefault() {
+        setCpt(0);
         setSelectedAction(defaultAction);
         setSelectedPlaque(defaultPlate);
         setCheckedDiam(defaultDiam);
         setRangevalConf(defaultConf);
+        setNameFileImp("default");
     }
     
 
@@ -278,6 +287,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                 }
             }
             setSelectedDiam(str);
+            setNameFileImp("new config");
         }
     }
 
@@ -294,11 +304,18 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     function handleSelectAction(event) {
         event.preventDefault();
         setSelectedAction(event.target.value);
+        setNameFileImp("new config");
     }
 
     function handleSelectPlaque(event) {
         event.preventDefault();
         setSelectedPlaque(event.target.value);
+        setNameFileImp("new config");
+    }
+
+    function handleSelectTest(event) {
+        event.preventDefault();
+        setSelectedTest(event.target.value);
     }
 
     function disableGeneral() {
@@ -309,6 +326,9 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     }
     function disableConf() {
         return selectedAction === "Localiser la plaque" || selectedAction === "Deplacer le robot" || isOpen || actionRunning;// || nameFileImp!="";
+    }
+    function disableTest() {
+        return testRunning;
     }
 
     function getClassNameDisConf() {
@@ -366,130 +386,209 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     }
 
 
-    function nothing() {
+    function nothing() { }
+
+    function setConf(event) {
+        setRangevalConf(event.target.value);
+        setNameFileImp("new config");
+    }
+
+    function startTest() {
 
     }
 
-    return (
-        <div className="config">
-            <h3> CONFIGURATION</h3>
-            {readOnce ? nothing() : readDefaultFile()}
-            <span className="champImport"><button type="button" className="bouton-import" onClick={importFile} disabled={disableGeneral()}>Importer une configuration</button></span>
-            {nameFileImp!="" ? <span className="import-ok">{nameFileImp} importé</span> : <div className="import-ok"><br /></div>}
-            {plainFiles.length > 0 && cpt == 0 ? getImportedFileContent(): nothing()}
-            <div className='champ'><label className='labels'>Action :</label>
-                <select value={selectedAction} onChange={handleSelectAction} disabled={disableGeneral()}>
-                    <option selected disabled hidden value="">-----</option>
-                    <option value="Localiser la plaque">Localiser la plaque</option>
-                    <option value="Identifier">Identifier</option>
-                    <option value="Verifier conformite">Vérifier conformité</option>
-                    <option value="Deplacer le robot">Déplacer le robot</option>
-                </select>
-            </div>
-            <div className='champ'><label className='labels'>Type de plaque :</label>
-                <select value={selectedPlaque} onChange={handleSelectPlaque} disabled={disableGeneral()}>
-                    <option selected disabled hidden value="">-----</option>
-                    <option value="Tole plate">Tôle plate</option>
-                    <option value="Tole cintree">Tôle cintrée</option>
-                    <option value="Tole epaisse">Tôle épaisse</option>
-                </select>
-            </div>
-            <div className='champ'>
-                <label className='labels'><span className={getClassNameDisDiam()}>Diamètre des trous :</span></label>
-                <input type="button" className="bouton-select" onClick={selectAll} id="boutonSelect" value="Tout sélectionner/déselectionner" disabled={disableDiam()}></input>
-                <div className='champCheck'>
-                    <label className={getClassNameDisDiam()}>
-                        <input type="checkbox" disabled={disableDiam()} value="5" onChange={setCheckedDiam} />
-                        5 mm
-                    </label>
-                    <label className={getClassNameDisDiam()}>
-                        <input type="checkbox" disabled={disableDiam()} value="7" onChange={setCheckedDiam}/>
-                        7 mm
-                    </label>
-                    <label className={getClassNameDisDiam()}>
-                        <input type="checkbox" disabled={disableDiam()} value="12" onChange={setCheckedDiam}/>
-                        12 mm
-                    </label>
-                    <label className={getClassNameDisDiam()}>
-                        <input type="checkbox" disabled={disableDiam()} value="18" onChange={setCheckedDiam}/>
-                        18 mm
-                    </label>
-                </div>
-            </div>
-            <div className='champ-slider'>
-                <div className='slider'><label className='labels'><span className={getClassNameDisConf()}>Taux de confiance minimum :</span></label>
-                    <span className={getClassNameDisConf()}>{rangevalConf} %</span>
-                    <br /><br />
-                    <input value={rangevalConf} type="range" min="0" max="100" className="slider" id="myRange" step="1" onChange={(event) => setRangevalConf(event.target.value)} disabled={disableConf()}></input>
-                </div>
-            </div>
-            {modeCo === 1 ?
-                <div className="bouton-group">
-                    <button type="button" className="bouton-normal-mid" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
-                    <CSVLink data={saveConfigDefault()} filename={"default.csv"} onClick={moveToRightFolder()}>
-                        <button type="button" className="bouton-normal-mid" onClick={saveConfigDefault} disabled={!configValid()}>Sauvegarder comme Config Défaut</button>
-                    </CSVLink>
-                </div>
-               : <button type="button" className="bouton-normal" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
-            }
-            <button type="button" className="bouton-normal" disabled={disableGeneral()} onClick={backToConfigDefault}>Configuration par défaut</button>
-            <button type="submit" className="bouton-run" onClick={togglePopup} disabled={!configValid()}>Run</button>
-            {isOpen && <Popup
-                content={<>
-                    <h3 className="popup-title">Lancement de l'action</h3>
-                    <p className="popup-recap-title"> Récapitulatif de la configuration </p>
-                    <p className="popup-element"> Action choisie : {selectedAction}</p>
-                    <p className="popup-element"> Type de la plaque : {selectedPlaque} </p>
-                    {(selectedAction === "Localiser la plaque") ? <span></span> : <p className="popup-element"> Diamètre(s) des trous : {selectedDiam} </p>}
-                    {(selectedAction === "Localiser la plaque" || selectedAction === "Deplacer le robot" ) ? <span></span> : <p className="popup-element"> Taux de confiance minimum : {rangevalConf} %</p>}
-                    <div className='img-pause-stop'>
-                        <img src={cancel} alt='bouton annuler' className='bouton-cancel' onClick={togglePopupAnnuler} />
-                        {isOpenAnnuler && <PopUpConfirm
-                            content={<>
-                                <h3 className="popup-title">Voulez-vous annuler l'action choisie ?</h3>
-                                <button className="bouton-popupConfirm-oui" onClick={togglePopupAnnuler, togglePopup}>Oui</button>
-                                <button className="bouton-popupConfirm-non" onClick={togglePopupAnnuler}>Non</button>
-                            </>}
-                        />}
-                        <span className='espace-boutons' />
-                        <img src={confirm} alt='bouton confirmer l action' className='bouton-confirm' onClick={runAction} />
-                    </div>                  
-                </>}
-            />}
-            
-            <div className='etat-courant'>
-                <div className='etat-col-1'>
-                    <div className='etat-import'>
-                        <AiFillSafetyCertificate className="icone" />
-                        Sécurité :
-                        <span className='rep'> OK </span>
-                    </div>
-                    <div className='etat-import'>
-                        <GiRobotGrab className="icone" />
-                        Etat du robot :
+    function pauseTest() {
 
-                        {(etatRobotActuel === "EN PRODUCTION" || etatRobotActuel === "INITIALISATION") ? <span className='rep-occ'>{etatRobotActuel} </span> : (etatRobotActuel === "STOPPE" || etatRobotActuel === "DECONNECTE") ? <span className='rep-stop'>{etatRobotActuel}</span>
-                            : etatRobotActuel === "LIBRE NON INIT" ? <span className='rep-non-init'>{etatRobotActuel}</span> : <span className='rep'>{etatRobotActuel}</span> }
-                    </div>
-                    <div className='wrap-bouton-parking'>
-                        <button type="button" className="bouton-normal" disabled={etatRobotActuel !== "LIBRE NON INIT"} onClick={goToInitPos}>Déplacer en position initiale</button>
-                    </div>
-                </div>
-                <div className='etat-col-2'>
-                    <div className='etat-import'>
-                    <   AiFillVideoCamera className="icone" />
-                        Etat caméra : <span className='rep'>EN MARCHE</span>
-                    </div>
-                    <div className='etat-import'>
-                        <GiMetalPlate className="icone" />
-                        Plaque détectée : <span className='rep'>OK</span>
-                    </div>
-                </div>
-            </div>
+    }
 
-           
-        </div>
-    )
+    function stopTest() {
+
+    }
+
+    if (modeCo !== 2) {
+
+        return (
+            <div className="config">
+                <h3> CONFIGURATION</h3>
+                {readOnce ? nothing() : readDefaultFile()}
+                <span className="champImport"><button type="button" className="bouton-import" onClick={importFile} disabled={disableGeneral()}>Importer une configuration</button></span>
+                {nameFileImp != "" ? <span className="import-ok">{nameFileImp}</span> : <div className="import-ok"><br /></div>}
+                {plainFiles.length > 0 && cpt == 0 ? getImportedFileContent() : nothing()}
+                <div className='champ'><label className='labels'>Action :</label>
+                    <select value={selectedAction} onChange={handleSelectAction} disabled={disableGeneral()}>
+                        <option selected disabled hidden value="">-----</option>
+                        <option value="Localiser la plaque">Localiser la plaque</option>
+                        <option value="Identifier">Identifier</option>
+                        <option value="Verifier conformite">Vérifier conformité</option>
+                        <option value="Deplacer le robot">Déplacer le robot</option>
+                    </select>
+                </div>
+                <div className='champ'><label className='labels'>Type de plaque :</label>
+                    <select value={selectedPlaque} onChange={handleSelectPlaque} disabled={disableGeneral()}>
+                        <option selected disabled hidden value="">-----</option>
+                        <option value="Tole plate">Tôle plate</option>
+                        <option value="Tole cintree">Tôle cintrée</option>
+                        <option value="Tole epaisse">Tôle épaisse</option>
+                    </select>
+                </div>
+                <div className='champ'>
+                    <label className='labels'><span className={getClassNameDisDiam()}>Diamètre des trous :</span></label>
+                    <input type="button" className="bouton-select" onClick={selectAll} id="boutonSelect" value="Tout sélectionner/déselectionner" disabled={disableDiam()}></input>
+                    <div className='champCheck'>
+                        <label className={getClassNameDisDiam()}>
+                            <input type="checkbox" disabled={disableDiam()} value="5" onChange={setCheckedDiam} />
+                            5 mm
+                        </label>
+                        <label className={getClassNameDisDiam()}>
+                            <input type="checkbox" disabled={disableDiam()} value="7" onChange={setCheckedDiam} />
+                            7 mm
+                        </label>
+                        <label className={getClassNameDisDiam()}>
+                            <input type="checkbox" disabled={disableDiam()} value="12" onChange={setCheckedDiam} />
+                            12 mm
+                        </label>
+                        <label className={getClassNameDisDiam()}>
+                            <input type="checkbox" disabled={disableDiam()} value="18" onChange={setCheckedDiam} />
+                            18 mm
+                        </label>
+                    </div>
+                </div>
+                <div className='champ-slider'>
+                    <div className='slider'><label className='labels'><span className={getClassNameDisConf()}>Taux de confiance minimum :</span></label>
+                        <span className={getClassNameDisConf()}>{rangevalConf} %</span>
+                        <br /><br />
+                        <input value={rangevalConf} type="range" min="0" max="100" className="slider" id="myRange" step="1" onChange={(event) => setConf(event)} disabled={disableConf()}></input>
+                    </div>
+                </div>
+                {modeCo === 1 ?
+                    <div className="bouton-group">
+                        <button type="button" className="bouton-normal-mid" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
+                        <CSVLink data={saveConfigDefault()} filename={"default.csv"} onClick={moveToRightFolder()}>
+                            <button type="button" className="bouton-normal-mid" onClick={saveConfigDefault} disabled={!configValid()}>Sauvegarder comme Config Défaut</button>
+                        </CSVLink>
+                    </div>
+                    : <button type="button" className="bouton-normal" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
+                }
+                <button type="button" className="bouton-normal" disabled={disableGeneral()} onClick={backToConfigDefault}>Configuration par défaut</button>
+                <button type="submit" className="bouton-run" onClick={togglePopup} disabled={!configValid()}>Run</button>
+                {isOpen && <Popup
+                    content={<>
+                        <h3 className="popup-title">Lancement de l'action</h3>
+                        <p className="popup-recap-title"> Récapitulatif de la configuration </p>
+                        <p className="popup-element"> Action choisie : {selectedAction}</p>
+                        <p className="popup-element"> Type de la plaque : {selectedPlaque} </p>
+                        {(selectedAction === "Localiser la plaque") ? <span></span> : <p className="popup-element"> Diamètre(s) des trous : {selectedDiam} </p>}
+                        {(selectedAction === "Localiser la plaque" || selectedAction === "Deplacer le robot") ? <span></span> : <p className="popup-element"> Taux de confiance minimum : {rangevalConf} %</p>}
+                        <div className='img-pause-stop'>
+                            <img src={cancel} alt='bouton annuler' className='bouton-cancel' onClick={togglePopupAnnuler} />
+                            {isOpenAnnuler && <PopUpConfirm
+                                content={<>
+                                    <h3 className="popup-title">Voulez-vous annuler l'action choisie ?</h3>
+                                    <button className="bouton-popupConfirm-oui" onClick={togglePopupAnnuler, togglePopup}>Oui</button>
+                                    <button className="bouton-popupConfirm-non" onClick={togglePopupAnnuler}>Non</button>
+                                </>}
+                            />}
+                            <span className='espace-boutons' />
+                            <img src={confirm} alt='bouton confirmer l action' className='bouton-confirm' onClick={runAction} />
+                        </div>
+                    </>}
+                />}
+
+                <div className='etat-courant'>
+                    <div className='etat-col-1'>
+                        <div className='etat-import'>
+                            <AiFillSafetyCertificate className="icone" />
+                            Sécurité :
+                            <span className='rep'> OK </span>
+                        </div>
+                        <div className='etat-import'>
+                            <GiRobotGrab className="icone" />
+                            Etat du robot :
+
+                            {(etatRobotActuel === "EN PRODUCTION" || etatRobotActuel === "INITIALISATION") ? <span className='rep-occ'>{etatRobotActuel} </span> : (etatRobotActuel === "STOPPE" || etatRobotActuel === "DECONNECTE") ? <span className='rep-stop'>{etatRobotActuel}</span>
+                                : etatRobotActuel === "LIBRE NON INIT" ? <span className='rep-non-init'>{etatRobotActuel}</span> : <span className='rep'>{etatRobotActuel}</span>}
+                        </div>
+                        <div className='wrap-bouton-parking'>
+                            <button type="button" className="bouton-normal" disabled={etatRobotActuel !== "LIBRE NON INIT"} onClick={goToInitPos}>Déplacer en position initiale</button>
+                        </div>
+                    </div>
+                    <div className='etat-col-2'>
+                        <div className='etat-import'>
+                            <   AiFillVideoCamera className="icone" />
+                            Etat caméra : <span className='rep'>EN MARCHE</span>
+                        </div>
+                        <div className='etat-import'>
+                            <GiMetalPlate className="icone" />
+                            Plaque détectée : <span className='rep'>OK</span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        )
+    } else {
+        // MAINTENANCE MODE ---------------------------------------------------------------------------------------------------
+
+        return (
+            <div className="config">
+                <h3> TESTS DES FONCTIONNALITES </h3>
+               
+                <div className='champ-mtnc'><label className='labels'>Choix du pôle à évaluer :</label>
+                    <select value={selectedTest} onChange={handleSelectTest} disabled={disableTest()}>
+                        <option selected disabled hidden value="">-----</option>
+                        <option value="Localisation">Pôle localisation de la plaque</option>
+                        <option value="Identification">Pôle identification des trous</option>
+                        <option value="Controle Qualite">Pôle contrôle conformité</option>
+                        <option value="Deplacement Robot">Pôle déplacement du robot</option>
+                    </select>
+                </div>
+
+
+                <div className='run-buttons-mtnc'>
+                    <span className='space-button-mtnc'>
+                        <img src={start} alt='bouton start' className="bouton-start-mtnc" onClick={startTest} />
+                    </span>
+                    <span className='space-button-mtnc'>
+                        <img src={pause} alt='bouton pause' className="bouton-pause-mtnc" onClick={pauseTest} />
+                    </span>
+                    <img src={stop} alt='bouton stop' className='bouton-stop-mtnc' onClick={stopTest} />
+                </div>
+
+                <div className='etat-courant-maintenance'>
+                    <div className='etat-col-1'>
+                        <div className='etat-import'>
+                            <AiFillSafetyCertificate className="icone" />
+                            Sécurité :
+                            <span className='rep'> OK </span>
+                        </div>
+                        <div className='etat-import'>
+                            <GiRobotGrab className="icone" />
+                            Etat du robot :
+
+                            {(etatRobotActuel === "EN PRODUCTION" || etatRobotActuel === "INITIALISATION") ? <span className='rep-occ'>{etatRobotActuel} </span> : (etatRobotActuel === "STOPPE" || etatRobotActuel === "DECONNECTE") ? <span className='rep-stop'>{etatRobotActuel}</span>
+                                : etatRobotActuel === "LIBRE NON INIT" ? <span className='rep-non-init'>{etatRobotActuel}</span> : <span className='rep'>{etatRobotActuel}</span>}
+                        </div>
+                        <div className='wrap-bouton-parking'>
+                            <button type="button" className="bouton-normal" disabled={etatRobotActuel !== "LIBRE NON INIT"} onClick={goToInitPos}>Déplacer en position initiale</button>
+                        </div>
+                    </div>
+                    <div className='etat-col-2'>
+                        <div className='etat-import'>
+                            <   AiFillVideoCamera className="icone" />
+                            Etat caméra : <span className='rep'>EN MARCHE</span>
+                        </div>
+                        <div className='etat-import'>
+                            <GiMetalPlate className="icone" />
+                            Plaque détectée : <span className='rep'>OK</span>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        )
+    }
 }
 
 export default Configuration;

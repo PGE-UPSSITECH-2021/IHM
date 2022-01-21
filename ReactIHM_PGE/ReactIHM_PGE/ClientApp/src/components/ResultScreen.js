@@ -14,7 +14,7 @@ function ResultScreen({ currentPage, setCurrentPage, modeCo }) {
         <div className='mainResult'>
             <span className='menu-bar'><MenuBar currentPage={currentPage} setCurrentPage={setCurrentPage} modeCo={modeCo} /></span>
             {pageRes === 0 ?
-                <HistoryResults setPageRes={setPageRes} nameFileRes={nameFileRes} setNameFileRes={setNameFileRes} />
+                <HistoryResults setPageRes={setPageRes} nameFileRes={nameFileRes} setNameFileRes={setNameFileRes} modeCo={modeCo}/>
                 : <MiddleResultScreen setPageRes={setPageRes} nameFileRes={nameFileRes} setNameFileRes={setNameFileRes} />
             }
 

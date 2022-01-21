@@ -90,12 +90,31 @@ function AppMainScreen({ modeCo }) { // main screen
         }
 
     } else if (modeCo === 2) { // MAINTENANCE TODO
-        return (
-            <div className='bodyMain'>
-                <div className='topBanner'><TopBanner /></div>
-                <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={2} /></div>
-            </div>
-        )
+        if (currentPage === 0) {
+            return (
+                <div className='bodyMain'>
+                    <div className='topBanner'><TopBanner /></div>
+                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={2} /></div>
+                    <div className='main'><MainScreenUSR actionEnCrous={actionEnCours} setActionEnCours={setActionEnCours} currentPage={0} setCurrentPage={setCurrentPage} modeCo={2} /></div>
+                </div>
+            )
+        } else if (currentPage === 2) {
+            return (
+                <div className='bodyMain'>
+                    <div className='topBanner'><TopBanner /></div>
+                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={2} /></div>
+                    <div className='main'><UserScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={2} setCurrentPage={setCurrentPage} modeCo={2} /></div>
+                </div>
+            )
+        } else if (currentPage === 3) {
+            return (
+                <div className='bodyMain'>
+                    <div className='topBanner'><TopBanner /></div>
+                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={2} /></div>
+                    <div className='main'><HelpScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={3} setCurrentPage={setCurrentPage} modeCo={2} /></div>
+                </div>
+            )
+        }
     }
 }
 export default AppMainScreen;
