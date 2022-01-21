@@ -14,7 +14,7 @@ import loupe from '../assets/loupe.png'
 import { MdDeleteForever } from "react-icons/md";
 
 
-function HistoryResults({ setPageRes, nameFileRes, setNameFileRes }) {
+function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo }) {
 
     /* Création des data du tableau */
 
@@ -105,7 +105,7 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes }) {
             <div className='header-results-history'>
                 <h1 className='table-head'> Historique des résultats </h1>
                 <span className="nb-select"> Nombre de fichiers sélectionnés :  {selected.length} </span>
-                <MdDeleteForever alt='Suppression des élements' className="button-remove" onClick={deleteRows} />
+                {modeCo === 1 ? <MdDeleteForever alt='Suppression des élements' className="button-remove" onClick={deleteRows} /> : <span className="button-remove" />}
                 
             </div>
             <TableContainer className='table-rows'>

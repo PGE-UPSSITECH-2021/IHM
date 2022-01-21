@@ -135,6 +135,11 @@ h3 {
     padding-top:20px;
 }
 
+.champ-mtnc {
+    align-self:center;
+    padding-top: 20%;
+}
+
 .champ-slider {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -145,6 +150,12 @@ h3 {
     padding-top:5%;
     display: flex;
     flex-direction:row;
+}
+
+.etat-courant-maintenance {
+    padding-top: 30.5%;
+    display: flex;
+    flex-direction: row;
 }
 
 .etat-col-1{
@@ -252,3 +263,37 @@ h3 {
     .bouton-normal-mid:disabled {
         opacity: 0.2;
     }
+
+.run-buttons-mtnc {
+    padding-left: 27%;
+    padding-top: 14%;
+}
+
+.space-button-mtnc {
+    padding-right: 10%;
+}
+
+.bouton-start-mtnc {
+    width: 15%;
+    opacity: 0.6;
+}
+.bouton-start-mtnc:hover {
+    opacity: 1;
+}
+
+.bouton-pause-mtnc {
+    width: 15%;
+    opacity: 0.6;
+}
+.bouton-pause-mtnc:hover {
+    opacity: 1;
+}
+
+
+.bouton-stop-mtnc {
+    width: 15.8%;
+    opacity: 0.6;
+}
+.bouton-stop-mtnc:hover {
+    opacity: 1;
+}
