@@ -86,7 +86,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     // Gestion sélection test (maintenance)
     const [selectedTest, setSelectedTest] = useState("");
     const [testRunning, setTestRunning] = useState(false);
-
+    const [testPaused, setTestPaused] = useState(false);
 
     //Gestion des POPUPS
     const [isOpen, setIsOpen] = useState(false);
@@ -394,15 +394,52 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     }
 
     function startTest() {
-
+        if (selectedTest !== "") {
+            setTestRunning(true);
+            if (testPaused) {
+                setTestPaused(!testPaused);
+            }
+            setDecoDisabled(true);
+        }
     }
 
     function pauseTest() {
-
+        if (selectedTest !== "") {
+            if (!testPaused) {
+                setTestPaused(!testPaused);
+            }
+        }
     }
 
     function stopTest() {
+        if (selectedTest !== "") {
+            setTestRunning(false);
+            setDecoDisabled(false);
+        }
+    }
 
+    function getClassNameStart() {
+        if ((testRunning && !testPaused)||selectedTest==="") {
+            return 'bouton-start-mtnc-disabled';
+        } else {
+            return 'bouton-start-mtnc';
+        }
+    }
+
+    function getClassNamePause() {
+        if ((testRunning && testPaused) || selectedTest === "" || !testRunning) {
+            return 'bouton-pause-mtnc-disabled';
+        } else {
+            return 'bouton-pause-mtnc';
+        }
+    }
+
+    function getClassNameStop() {
+        if (selectedTest === "" || !testRunning) {
+            return 'bouton-stop-mtnc-disabled';
+        } else {
+            return 'bouton-stop-mtnc';
+        }
     }
 
     if (modeCo !== 2) {
@@ -547,12 +584,12 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
 
                 <div className='run-buttons-mtnc'>
                     <span className='space-button-mtnc'>
-                        <img src={start} alt='bouton start' className="bouton-start-mtnc" onClick={startTest} />
+                        <img src={start} alt='bouton start' className={getClassNameStart()} onClick={startTest} />
                     </span>
                     <span className='space-button-mtnc'>
-                        <img src={pause} alt='bouton pause' className="bouton-pause-mtnc" onClick={pauseTest} />
+                        <img src={pause} alt='bouton pause' className={getClassNamePause()} onClick={pauseTest} />
                     </span>
-                    <img src={stop} alt='bouton stop' className='bouton-stop-mtnc' onClick={stopTest} />
+                    <img src={stop} alt='bouton stop' className={getClassNameStop()} onClick={stopTest} />
                 </div>
 
                 <div className='etat-courant-maintenance'>
