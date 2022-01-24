@@ -67,6 +67,54 @@
     border-radius:4px;
 }
 
+.run-console-mtnc {
+    background: black;
+    color: #E7E6E6;
+    width: 78.75%;
+    margin-left:10%;
+    padding-bottom: 31.5%;
+    border-style: solid;
+    border-width: 5px;
+    border-color: black;
+    border-radius: 2px;
+}
+
 .run-console-text{
     padding-left:10%;
+}
+
+.run-console-text-mtnc {
+    padding-left: 3%;
+}
+
+.flux-video {
+    padding-top: 1%;
+    padding-left:10%;
+    width: 80%;
+}
+
+.console-wrap-mtnc{
+    display: flex;
+    flex-direction: row;
+}
+
+.save-icon-mtnc {
+    width:65%;
+    opacity:0.8;
+}
+
+.save-icon-mtnc:hover {
+    opacity: 1;
+}
+
+.save-icon-mtnc-disabled {
+    width: 65%;
+    opacity: 0.2;
+}
+
+
+.wrap-save-icon-mtnc {
+    padding-top:30%;
+    margin-left:3%;
+    width:7%;
 }

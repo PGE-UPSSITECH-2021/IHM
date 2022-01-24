@@ -2,6 +2,7 @@
     background-color: black;
 	color: white;
 	padding: 10px;
+    /*padding:0.7%;*/
 }
 
 .pge-topbanner::after{
@@ -9,9 +10,11 @@
     position: absolute;
     content: '';
     height: 4px;
+    /*height:0.6%;*/
     right: 0;
     left: 0;
     top: 82px;
+    /*top:11.1%;*/
 }
 
 .pge-title {
@@ -22,11 +25,15 @@
 .pge-logo-eXcent {
     float : right;
 	width: 125px;
+    /*width:8.2%;*/
     margin-top: -70px;
+    /*margin-top:-4.6%;*/
 }
 
 .pge-logo-upssi {
     float : left;
 	width: 90px;
+    /*width:5.9%;*/
     margin-top: -70px;
+    /*margin-top:-4.6%;*/
 }

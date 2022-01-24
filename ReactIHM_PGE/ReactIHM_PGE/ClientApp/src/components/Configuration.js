@@ -21,7 +21,7 @@ var ros = new ROSLIB.Ros({
     url: 'ws://192.168.137.230:9090'
 })
 
-function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo }) {
+function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo, selectedTest, setSelectedTest, testRunning, setTestRunning }) {
     const [msg_act_courante, setMsgActCourante] = useState("");
     const [etatRobotActuel, setEtatRobotActuel] = useState("DECONNECTE"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE/ INITIALISATION
     const [isConnectedROS, setIsConnectedROS] = useState(false);
@@ -84,9 +84,8 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     const [cpt, setCpt] = useState(0);
     const [nameFileImp, setNameFileImp] = useState("default");
     // Gestion sélection test (maintenance)
-    const [selectedTest, setSelectedTest] = useState("");
-    const [testRunning, setTestRunning] = useState(false);
-
+    const [selectedTestList, setSelectedTestList] = useState("");
+    const [testPaused, setTestPaused] = useState(false);
 
     //Gestion des POPUPS
     const [isOpen, setIsOpen] = useState(false);
@@ -315,7 +314,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
 
     function handleSelectTest(event) {
         event.preventDefault();
-        setSelectedTest(event.target.value);
+        setSelectedTestList(event.target.value);
     }
 
     function disableGeneral() {
@@ -394,15 +393,55 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     }
 
     function startTest() {
-
+        if (selectedTestList !== "") {
+            setTestRunning(true);
+            if (testPaused) {
+                setTestPaused(!testPaused);
+            }
+            setDecoDisabled(true);
+            setSelectedTest(selectedTestList);
+        }
     }
 
     function pauseTest() {
-
+        if (selectedTestList !== "") {
+            if (!testPaused) {
+                setTestPaused(!testPaused);
+            }
+        }
     }
 
     function stopTest() {
+        if (selectedTestList !== "") {
+            setTestRunning(false);
+            setDecoDisabled(false);
+            setSelectedTestList("");
+            setSelectedTest("");
+        }
+    }
 
+    function getClassNameStart() {
+        if ((testRunning && !testPaused)||selectedTestList==="") {
+            return 'bouton-start-mtnc-disabled';
+        } else {
+            return 'bouton-start-mtnc';
+        }
+    }
+
+    function getClassNamePause() {
+        if ((testRunning && testPaused) || selectedTestList === "" || !testRunning) {
+            return 'bouton-pause-mtnc-disabled';
+        } else {
+            return 'bouton-pause-mtnc';
+        }
+    }
+
+    function getClassNameStop() {
+        if (selectedTestList === "" || !testRunning) {
+            return 'bouton-stop-mtnc-disabled';
+        } else {
+            return 'bouton-stop-mtnc';
+        }
     }
 
     if (modeCo !== 2) {
@@ -535,7 +574,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                 <h3> TESTS DES FONCTIONNALITES </h3>
                
                 <div className='champ-mtnc'><label className='labels'>Choix du pôle à évaluer :</label>
-                    <select value={selectedTest} onChange={handleSelectTest} disabled={disableTest()}>
+                    <select value={selectedTestList} onChange={handleSelectTest} disabled={disableTest()}>
                         <option selected disabled hidden value="">-----</option>
                         <option value="Localisation">Pôle localisation de la plaque</option>
                         <option value="Identification">Pôle identification des trous</option>
@@ -547,12 +586,12 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
 
                 <div className='run-buttons-mtnc'>
                     <span className='space-button-mtnc'>
-                        <img src={start} alt='bouton start' className="bouton-start-mtnc" onClick={startTest} />
+                        <img src={start} alt='bouton start' className={getClassNameStart()} onClick={startTest} />
                     </span>
                     <span className='space-button-mtnc'>
-                        <img src={pause} alt='bouton pause' className="bouton-pause-mtnc" onClick={pauseTest} />
+                        <img src={pause} alt='bouton pause' className={getClassNamePause()} onClick={pauseTest} />
                     </span>
-                    <img src={stop} alt='bouton stop' className='bouton-stop-mtnc' onClick={stopTest} />
+                    <img src={stop} alt='bouton stop' className={getClassNameStop()} onClick={stopTest} />
                 </div>
 
                 <div className='etat-courant-maintenance'>
