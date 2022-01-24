@@ -73,6 +73,6 @@
 }
 
 #menu-bar-settings .pro-sidebar-inner .pro-sidebar-layout .space {
-    padding-top: 180px;
-    padding-left: 30px;
+    padding-top: 86%; /*180px*/
+    padding-left: 14.5%; /*30px*/
 }
