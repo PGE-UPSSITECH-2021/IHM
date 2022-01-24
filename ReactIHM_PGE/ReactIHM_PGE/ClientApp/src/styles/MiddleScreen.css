@@ -67,6 +67,28 @@
     border-radius:4px;
 }
 
+.run-console-mtnc {
+    background: black;
+    color: #E7E6E6;
+    width: 78.75%;
+    margin-left:10%;
+    padding-bottom: 31.5%;
+    border-style: solid;
+    border-width: 5px;
+    border-color: black;
+    border-radius: 2px;
+}
+
 .run-console-text{
     padding-left:10%;
+}
+
+.run-console-text-mtnc {
+    padding-left: 3%;
+}
+
+.flux-video {
+    padding-top: 1%;
+    padding-left:10%;
+    width: 80%;
 }

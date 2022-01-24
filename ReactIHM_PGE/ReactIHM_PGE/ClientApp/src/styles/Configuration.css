@@ -275,25 +275,37 @@ h3 {
 
 .bouton-start-mtnc {
     width: 15%;
-    opacity: 0.6;
+    opacity: 0.8;
 }
 .bouton-start-mtnc:hover {
     opacity: 1;
 }
+.bouton-start-mtnc-disabled {
+    width: 15%;
+    opacity: 0.2;
+}
 
 .bouton-pause-mtnc {
     width: 15%;
-    opacity: 0.6;
+    opacity: 0.8;
 }
 .bouton-pause-mtnc:hover {
     opacity: 1;
+}
+.bouton-pause-mtnc-disabled {
+    width: 15%;
+    opacity: 0.2;
 }
 
 
 .bouton-stop-mtnc {
     width: 15.8%;
-    opacity: 0.6;
+    opacity: 0.8;
 }
 .bouton-stop-mtnc:hover {
     opacity: 1;
+}
+.bouton-stop-mtnc-disabled {
+    width: 15.8%;
+    opacity: 0.2;
 }

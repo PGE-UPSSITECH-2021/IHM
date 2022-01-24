@@ -122,7 +122,12 @@ function MiddleScreen({ actionEnCours, setActionEnCours, actionRunning, setActio
         )
     } else {
         return (
-            <div></div>
+            <div>
+                <img src={noCam} alt="No available image" className="flux-video" />
+                <div className='run-console-mtnc'>
+                    <div className='run-console-text-mtnc'>Aucun test en cours...</div>
+                </div>
+            </div>
         )
     }
 }
