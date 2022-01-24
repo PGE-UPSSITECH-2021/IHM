@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.12.3",
+    "axios": "^0.25.0",
+    "babel-jest": "^26.6.0",
+    "babel-loader": "^8.1.0",
     "bootstrap": "^5.1.0",
     "browserify-fs": "^1.0.0",
     "csv-file-creator": "^1.0.9",
