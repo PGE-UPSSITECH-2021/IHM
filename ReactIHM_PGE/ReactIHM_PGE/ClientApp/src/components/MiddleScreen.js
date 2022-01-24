@@ -103,6 +103,10 @@ function MiddleScreen({ actionEnCours, setActionEnCours, actionRunning, setActio
         }
     }
 
+    function saveTestReport() {
+        alert("Sauvegarde Rapport de test TODO");
+    }
+
     if (modeCo !== 2) {
         return (
             /* <div className='middle'>
@@ -139,7 +143,7 @@ function MiddleScreen({ actionEnCours, setActionEnCours, actionRunning, setActio
                             <div className='run-console-text-mtnc'>Evaluation du pôle {selectedTest} en cours...</div> }
                     </div>
                     <div className='wrap-save-icon-mtnc'>
-                        <img src={save} className={getClassNameSaveButton()}/>
+                        <img src={save} className={getClassNameSaveButton()} onClick={saveTestReport}/>
                     </div>
                 </div>
             </div>
