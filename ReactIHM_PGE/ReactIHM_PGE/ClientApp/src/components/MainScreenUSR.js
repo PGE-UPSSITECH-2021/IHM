@@ -5,12 +5,10 @@ import MiddleScreen from './MiddleScreen'
 import React, { useState } from "react";
 
 
-function MainScreenUSR({actionEnCours, setActionEnCours, currentPage, setCurrentPage, modeCo}) {
+function MainScreenUSR({ actionEnCours, setActionEnCours, currentPage, setCurrentPage, modeCo, testRunning, setTestRunning, selectedTest, setSelectedTest }) {
         
     const [isDecoDisabled, setDecoDisabled] = useState(false);
     const [actionRunning, setActionRunning] = useState(false);
-    const [selectedTest, setSelectedTest] = useState("");
-    const [testRunning, setTestRunning] = useState(false);
 
     return (
         <div className='main-usr'>

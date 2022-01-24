@@ -13,20 +13,24 @@ function AppMainScreen({ modeCo }) { // main screen
 
     const [currentPage, setCurrentPage] = useState(0); //POUR MODE USR: MAIN:0, RESULTS:1, PARAM:2, UTILISATEUR:3, AIDE:4
     const [actionEnCours, setActionEnCours] = useState("Aucune action en cours");
+    const [testRunning, setTestRunning] = useState(false);
+    const [selectedTest, setSelectedTest] = useState("");
+
     if (modeCo === 0) { // USER
         if (currentPage === 0) {
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
-                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={0} /></div>
-                    <div className='main'><MainScreenUSR actionEnCrous={actionEnCours} setActionEnCours={setActionEnCours} currentPage={0} setCurrentPage={setCurrentPage} modeCo={0}/></div>
+                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={0} selectedTest={selectedTest}/></div>
+                    <div className='main'><MainScreenUSR actionEnCrous={actionEnCours} setActionEnCours={setActionEnCours} currentPage={0} setCurrentPage={setCurrentPage} modeCo={0}
+                        testRunning={testRunning} setTestRunning={setTestRunning} selectedTest={selectedTest} setSelectedTest={setSelectedTest} /></div>
                 </div>
             )
         } else if (currentPage === 1) {
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
-                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={0} /></div>
+                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={0} selectedTest={selectedTest}/></div>
                     <div className='main'><ResultScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={1} setCurrentPage={setCurrentPage} modeCo={0}/></div>
                 </div>
             )
@@ -34,7 +38,7 @@ function AppMainScreen({ modeCo }) { // main screen
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
-                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={0}/></div>
+                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={0} selectedTest={selectedTest}/></div>
                     <div className='main'><UserScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={2} setCurrentPage={setCurrentPage} modeCo={0}/></div>
                 </div>
             )
@@ -42,7 +46,7 @@ function AppMainScreen({ modeCo }) { // main screen
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
-                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={0}/></div>
+                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={0} selectedTest={selectedTest}/></div>
                     <div className='main'><HelpScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={3} setCurrentPage={setCurrentPage} modeCo={0}/></div>
                 </div>
             )
@@ -52,15 +56,16 @@ function AppMainScreen({ modeCo }) { // main screen
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
-                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={1} /></div>
-                    <div className='main'><MainScreenUSR actionEnCrous={actionEnCours} setActionEnCours={setActionEnCours} currentPage={0} setCurrentPage={setCurrentPage} modeCo={1}/></div>
+                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={1} selectedTest={selectedTest}/></div>
+                    <div className='main'><MainScreenUSR actionEnCrous={actionEnCours} setActionEnCours={setActionEnCours} currentPage={0} setCurrentPage={setCurrentPage} modeCo={1}
+                        testRunning={testRunning} setTestRunning={setTestRunning} selectedTest={selectedTest} setSelectedTest={setSelectedTest}/></div>
                 </div>
             )
         } else if (currentPage === 1) {
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
-                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={1} /></div>
+                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={1} selectedTest={selectedTest}/></div>
                     <div className='main'><ResultScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={1} setCurrentPage={setCurrentPage} modeCo={1} /></div>
                 </div>
             )
@@ -68,7 +73,7 @@ function AppMainScreen({ modeCo }) { // main screen
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
-                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={1} /></div>
+                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={1} selectedTest={selectedTest}/></div>
                     <div className='main'><UserScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={2} setCurrentPage={setCurrentPage} modeCo={1}/></div>
                 </div>
             )
@@ -76,7 +81,7 @@ function AppMainScreen({ modeCo }) { // main screen
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
-                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={1} /></div>
+                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={1} selectedTest={selectedTest}/></div>
                     <div className='main'><HelpScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={3} setCurrentPage={setCurrentPage} modeCo={1} /></div>
                 </div>
             )
@@ -84,7 +89,7 @@ function AppMainScreen({ modeCo }) { // main screen
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
-                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={1} /></div>
+                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={1} selectedTest={selectedTest}/></div>
                     <div className='main'><ParamADMScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={4} setCurrentPage={setCurrentPage} modeCo={1} /></div>                </div>
             )
         }
@@ -94,15 +99,16 @@ function AppMainScreen({ modeCo }) { // main screen
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
-                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={2} /></div>
-                    <div className='main'><MainScreenUSR actionEnCrous={actionEnCours} setActionEnCours={setActionEnCours} currentPage={0} setCurrentPage={setCurrentPage} modeCo={2} /></div>
+                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={2} selectedTest={selectedTest}/></div>
+                    <div className='main'><MainScreenUSR actionEnCrous={actionEnCours} setActionEnCours={setActionEnCours} currentPage={0} setCurrentPage={setCurrentPage} modeCo={2}
+                    testRunning={testRunning} setTestRunning={setTestRunning} selectedTest={selectedTest} setSelectedTest={setSelectedTest}/></div>
                 </div>
             )
         } else if (currentPage === 2) {
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
-                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={2} /></div>
+                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={2} selectedTest={selectedTest}/></div>
                     <div className='main'><UserScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={2} setCurrentPage={setCurrentPage} modeCo={2} /></div>
                 </div>
             )
@@ -110,7 +116,7 @@ function AppMainScreen({ modeCo }) { // main screen
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
-                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={2} /></div>
+                    <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={2} selectedTest={selectedTest}/></div>
                     <div className='main'><HelpScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={3} setCurrentPage={setCurrentPage} modeCo={2} /></div>
                 </div>
             )
