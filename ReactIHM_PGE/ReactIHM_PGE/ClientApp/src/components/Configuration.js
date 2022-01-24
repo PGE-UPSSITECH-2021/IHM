@@ -21,7 +21,7 @@ var ros = new ROSLIB.Ros({
     url: 'ws://192.168.137.230:9090'
 })
 
-function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo }) {
+function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo, selectedTest, setSelectedTest, testRunning, setTestRunning }) {
     const [msg_act_courante, setMsgActCourante] = useState("");
     const [etatRobotActuel, setEtatRobotActuel] = useState("DECONNECTE"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE/ INITIALISATION
     const [isConnectedROS, setIsConnectedROS] = useState(false);
@@ -84,8 +84,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     const [cpt, setCpt] = useState(0);
     const [nameFileImp, setNameFileImp] = useState("default");
     // Gestion sélection test (maintenance)
-    const [selectedTest, setSelectedTest] = useState("");
-    const [testRunning, setTestRunning] = useState(false);
+    const [selectedTestList, setSelectedTestList] = useState("");
     const [testPaused, setTestPaused] = useState(false);
 
     //Gestion des POPUPS
@@ -315,7 +314,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
 
     function handleSelectTest(event) {
         event.preventDefault();
-        setSelectedTest(event.target.value);
+        setSelectedTestList(event.target.value);
     }
 
     function disableGeneral() {
@@ -394,17 +393,18 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     }
 
     function startTest() {
-        if (selectedTest !== "") {
+        if (selectedTestList !== "") {
             setTestRunning(true);
             if (testPaused) {
                 setTestPaused(!testPaused);
             }
             setDecoDisabled(true);
+            setSelectedTest(selectedTestList);
         }
     }
 
     function pauseTest() {
-        if (selectedTest !== "") {
+        if (selectedTestList !== "") {
             if (!testPaused) {
                 setTestPaused(!testPaused);
             }
@@ -412,14 +412,16 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     }
 
     function stopTest() {
-        if (selectedTest !== "") {
+        if (selectedTestList !== "") {
             setTestRunning(false);
             setDecoDisabled(false);
+            setSelectedTestList("");
+            setSelectedTest("");
         }
     }
 
     function getClassNameStart() {
-        if ((testRunning && !testPaused)||selectedTest==="") {
+        if ((testRunning && !testPaused)||selectedTestList==="") {
             return 'bouton-start-mtnc-disabled';
         } else {
             return 'bouton-start-mtnc';
@@ -427,7 +429,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     }
 
     function getClassNamePause() {
-        if ((testRunning && testPaused) || selectedTest === "" || !testRunning) {
+        if ((testRunning && testPaused) || selectedTestList === "" || !testRunning) {
             return 'bouton-pause-mtnc-disabled';
         } else {
             return 'bouton-pause-mtnc';
@@ -435,7 +437,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     }
 
     function getClassNameStop() {
-        if (selectedTest === "" || !testRunning) {
+        if (selectedTestList === "" || !testRunning) {
             return 'bouton-stop-mtnc-disabled';
         } else {
             return 'bouton-stop-mtnc';
@@ -572,7 +574,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                 <h3> TESTS DES FONCTIONNALITES </h3>
                
                 <div className='champ-mtnc'><label className='labels'>Choix du pôle à évaluer :</label>
-                    <select value={selectedTest} onChange={handleSelectTest} disabled={disableTest()}>
+                    <select value={selectedTestList} onChange={handleSelectTest} disabled={disableTest()}>
                         <option selected disabled hidden value="">-----</option>
                         <option value="Localisation">Pôle localisation de la plaque</option>
                         <option value="Identification">Pôle identification des trous</option>

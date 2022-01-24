@@ -1,11 +1,12 @@
-﻿import '../styles/MiddleScreen.css'
-import 'eventemitter2'
+﻿import '../styles/MiddleScreen.css';
+import 'eventemitter2';
 import * as ROSLIB from 'roslib';
-import noCam from '../assets/NoCamera.png'
-import start from '../assets/start.png'
-import pause from '../assets/pause.png'
-import stop from '../assets/stop.png'
+import noCam from '../assets/NoCamera.png';
+import start from '../assets/start.png';
+import pause from '../assets/pause.png';
+import stop from '../assets/stop.png';
 import React, { useState } from 'react';
+import save from '../assets/save.png';
 
 
 //// Fonction appelée une fois la connexion établie
@@ -55,7 +56,7 @@ import React, { useState } from 'react';
 //// Affectation de la fonction de callback
 
 
-function MiddleScreen({ actionEnCours, setActionEnCours, actionRunning, setActionRunning, setDecoDisabled, modeCo }) {
+function MiddleScreen({ actionEnCours, setActionEnCours, actionRunning, setActionRunning, setDecoDisabled, modeCo, testRunning, setTestRunning, selectedTest }) {
 
     const [isPaused, setIsPaused] = useState(false);
 
@@ -94,6 +95,14 @@ function MiddleScreen({ actionEnCours, setActionEnCours, actionRunning, setActio
         }
     }
 
+    function getClassNameSaveButton() {
+        if (selectedTest==="") {
+            return 'save-icon-mtnc-disabled';
+        } else {
+            return 'save-icon-mtnc';
+        }
+    }
+
     if (modeCo !== 2) {
         return (
             /* <div className='middle'>
@@ -124,8 +133,14 @@ function MiddleScreen({ actionEnCours, setActionEnCours, actionRunning, setActio
         return (
             <div>
                 <img src={noCam} alt="No available image" className="flux-video" />
-                <div className='run-console-mtnc'>
-                    <div className='run-console-text-mtnc'>Aucun test en cours...</div>
+                <div className='console-wrap-mtnc'>
+                    <div className='run-console-mtnc'>
+                        {(selectedTest === "") ? <div className='run-console-text-mtnc'>Aucun test en cours...</div> :
+                            <div className='run-console-text-mtnc'>Evaluation du pôle {selectedTest} en cours...</div> }
+                    </div>
+                    <div className='wrap-save-icon-mtnc'>
+                        <img src={save} className={getClassNameSaveButton()}/>
+                    </div>
                 </div>
             </div>
         )

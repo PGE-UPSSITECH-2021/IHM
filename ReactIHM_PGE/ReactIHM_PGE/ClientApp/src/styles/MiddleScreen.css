@@ -92,3 +92,29 @@
     padding-left:10%;
     width: 80%;
 }
+
+.console-wrap-mtnc{
+    display: flex;
+    flex-direction: row;
+}
+
+.save-icon-mtnc {
+    width:65%;
+    opacity:0.8;
+}
+
+.save-icon-mtnc:hover {
+    opacity: 1;
+}
+
+.save-icon-mtnc-disabled {
+    width: 65%;
+    opacity: 0.2;
+}
+
+
+.wrap-save-icon-mtnc {
+    padding-top:30%;
+    margin-left:3%;
+    width:7%;
+}
