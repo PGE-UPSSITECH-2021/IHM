@@ -573,7 +573,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
             <div className="config">
                 <h3> TESTS DES FONCTIONNALITES </h3>
                
-                <div className='champ-mtnc'><label className='labels'>Choix du pôle à évaluer :</label>
+                <div className='champ-mtnc'><label className='labels-mtnc'>Choix du pôle à évaluer :</label>
                     <select value={selectedTestList} onChange={handleSelectTest} disabled={disableTest()}>
                         <option selected disabled hidden value="">-----</option>
                         <option value="Localisation">Pôle localisation de la plaque</option>
