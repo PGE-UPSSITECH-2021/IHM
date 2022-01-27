@@ -2,38 +2,32 @@
     background-color: black;
 	color: white;
 	padding: 10px;
-    /*padding:0.7%;*/
+    height:8.3vh;
 }
 
 .pge-topbanner::after{
     background: linear-gradient(to right, #8CD1F5 0%, 20%, #E30613 20%, 40%, #7ABD6A 40%, 60%, #EC6427 60%, 80%, #FAB62B 80%);
     position: absolute;
     content: '';
-    height: 4px;
-    /*height:0.6%;*/
+    height: 0.6vh;
     right: 0;
     left: 0;
-    top: 82px;
-    /*top:11.1%;*/
+    top: 10.4vh;
 }
 
 .pge-title {
     text-align: center;
-    font-size: x-large;
+    font-size: 3vh;
 }
 
 .pge-logo-eXcent {
     float : right;
-	width: 125px;
-    /*width:8.2%;*/
-    margin-top: -70px;
-    /*margin-top:-4.6%;*/
+	width: 8.2vw;
+    margin-top: -8.7vh;
 }
 
 .pge-logo-upssi {
     float : left;
-	width: 90px;
-    /*width:5.9%;*/
-    margin-top: -70px;
-    /*margin-top:-4.6%;*/
+	width: 5.9vw;
+    margin-top: -8.7vh;
 }

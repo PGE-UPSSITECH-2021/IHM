@@ -63,6 +63,8 @@ h3 {
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
     border-radius:6px;
     padding-bottom:2px;
+    margin-bottom:0.8vh;
+    font-size:15px;
 }
 /* Mouse-over effects */
 .bouton-normal:hover {
@@ -79,6 +81,7 @@ h3 {
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
     border-radius: 6px;
     width: 50%;
+    font-size:15px;
 }
 /* Mouse-over effects */
 .bouton-import:hover {
@@ -99,9 +102,9 @@ h3 {
     color: black;
     box-shadow: 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.8);
     border-radius: 6px;
-    width:38%;
+    width:40%;
     text-align:center;
-    font-size:small;
+    font-size:14px;
     opacity:0.8;
 }
 .bouton-select:hover {
@@ -114,6 +117,7 @@ h3 {
 .labels {
     padding-left:0.9%; /*5px*/
     padding-right: 1.8%; /*10px*/
+    font-size:16.5px;
 }
 
 .labels-mtnc {
@@ -126,6 +130,7 @@ h3 {
     opacity: 0.7;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
     border-radius: 6px;
+    font-size:15px;
 }
 /* Mouse-over effects */
 .bouton-run:hover {
