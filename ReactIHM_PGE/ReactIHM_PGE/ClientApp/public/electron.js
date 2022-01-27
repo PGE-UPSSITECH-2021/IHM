@@ -18,16 +18,10 @@ app.on('activate', function () {
     }
 });
 
-// ---- TEST ----
-var screenElectron = electron.screen;
-var mainScreen = screenElectron.getPrimaryDisplay();
-var dimensions = mainScreen.size;
-// --------------
-
 function createWindow() {
     mainWindow = new BrowserWindow({
-        width: dimensions.width,
-        height: dimensions.height,
+        width: 1920,
+        height: 1080,
         title: "PGE"
     });
     mainWindow.loadURL(url.format({
