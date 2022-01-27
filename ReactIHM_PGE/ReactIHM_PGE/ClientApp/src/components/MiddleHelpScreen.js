@@ -13,7 +13,7 @@ function MiddleHelpScreen() {
     //PopUp details result
     const [isOpen, setIsOpen] = useState(false);
     const togglePopupHelp = () => {
-        setIsOpen(!isOpen);
+        setIsOpen(!isOpen) ;
     }
 
 
