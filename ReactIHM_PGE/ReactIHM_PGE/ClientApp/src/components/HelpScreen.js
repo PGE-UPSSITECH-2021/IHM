@@ -4,7 +4,7 @@ import MiddleHelpScreen from './MiddleHelpScreen'
 
 function HelpScreen({ currentPage, setCurrentPage, modeCo }) {
     return (
-        <div>
+        <div className="mainHelp">
             <span className='menu-bar'><MenuBar currentPage={currentPage} setCurrentPage={setCurrentPage} modeCo={modeCo} /></span>
             <span className="middle-help-screen" ><MiddleHelpScreen /></span>
         </div>

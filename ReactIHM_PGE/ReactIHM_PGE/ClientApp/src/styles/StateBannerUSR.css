@@ -6,7 +6,6 @@
     flex-direction: row;
     height: 2.2vh;
     font-size: 1.45vh;
-    padding-top: 0.3vh;
 }
 
 .date {
@@ -15,17 +14,20 @@
     border-right: solid;
     border-right-color: white;
     border-right-width: 2px;
+    padding-top: 0.3vh;
 }
 
 .recette {
     width: 27%;
-    text-align: center; 
-    border-right:solid;
+    text-align: center;
+    border-right: solid;
     border-right-color: white;
-    border-right-width: 2px
+    border-right-width: 2px;
+    padding-top: 0.3vh;
 }
 
-.mode{
-    width:13%;
-    text-align:center
+.mode {
+    width: 13%;
+    text-align: center;
+    padding-top: 0.3vh;
 }

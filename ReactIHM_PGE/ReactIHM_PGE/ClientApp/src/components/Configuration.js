@@ -132,7 +132,6 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
             readString(defaultFile, papaConfig);
 
         }
-        
     }
     //Import/Export fichier .csv
     const csvFileCreator = require('csv-file-creator');

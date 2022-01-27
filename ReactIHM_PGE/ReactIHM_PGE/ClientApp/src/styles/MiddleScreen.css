@@ -1,6 +1,6 @@
 ﻿.img-demonstrateur{
-    padding-top:15%;
-    width:85%;
+    padding-top:13.5vh;
+    width:39vw;
     align-self:center;
 }
 
@@ -15,31 +15,31 @@
     flex-direction: column;
     align-content: center;
     justify-content:center;
-    padding-left:16%;
+    padding-left:7.35vw;
 }
 
 .run-buttons {
-    padding-left:16%;
-    padding-top:14%;
-    padding-bottom:7%;
+    padding-left:6.2vw;
+    padding-top:10.6vh;
+    padding-bottom:5.3vh;
 }
 
 .bouton-runmode{
-    width: 12%;    
+    width: 3.9vw;    
     opacity:0.6;
 }
 
 .bouton-runmode-disabled {
-    width: 12%;
+    width: 3.9vw;
     opacity: 0.2;
 }
 
 .space-button-runmode {
-    padding-right: 10%;
+    padding-right: 3.25vw;
 }
 
 .bouton-runmode-stop {
-    width: 12.8%;
+    width: 4.15vw;
     opacity: 0.6;
 }
 
@@ -58,9 +58,9 @@
 .run-console {
     background: black;
     color: #E7E6E6;
-    width: 79%;
-    padding-top: 5%;
-    padding-bottom: 45%;
+    width: 30.45vw;
+    padding-top: 3.7vh;
+    padding-bottom: 34.1vh;
     border-style:solid;
     border-width:5px;
     border-color:black;
@@ -80,7 +80,7 @@
 }
 
 .run-console-text{
-    padding-left:10%;
+    padding-left:3vw;
 }
 
 .run-console-text-mtnc {

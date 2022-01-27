@@ -4,16 +4,16 @@
 }
 
 .menu-bar{
-   width:14%;
+   width:14vw;
 }
 
 .middle-screen {
-    width: 46%;
+    width: 46vw;
     border-right-style: solid;
     border-right-color: #273339;
     border-right-width: 2px;
 }
 
 .configuration{
-    width:40%;
+    width:40vw;
 }

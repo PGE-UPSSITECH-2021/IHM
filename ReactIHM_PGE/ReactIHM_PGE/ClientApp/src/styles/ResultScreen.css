@@ -3,10 +3,6 @@
     flex-direction: row;
 }
 
-.menu-bar {
-    width: 14%;
-}
-
 .middle-result-screen {
     width: 86%;
     border-right-style: solid;
