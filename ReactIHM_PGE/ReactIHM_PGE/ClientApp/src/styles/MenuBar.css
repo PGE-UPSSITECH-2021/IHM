@@ -1,7 +1,7 @@
 ﻿#header {
     position: absolute;
-    width: 14%;
-    height:84.5%;
+    width: 14vw;
+    height:85.395vh;
 }
 
 #header .pro-sidebar {
@@ -55,7 +55,7 @@
 
 
 #header .pro-sidebar .pro-menu .pro-menu-item {
-    font-size:2.25vh;
+    font-size:2.2vh;
 }
 
 
@@ -113,11 +113,11 @@
 }
 
 #header .pro-sidebar-inner .pro-sidebar-layout .space-admin {
-    padding-top: 86%; /*180px*/
+    padding-top: 28vh; /*180px*/
     padding-left:2vw;
 }
 
 #header .pro-sidebar-inner .pro-sidebar-layout .space-maintenance {
-    padding-top: 143.5%; /*300px*/
+    padding-top: 43.5vh; /*300px*/
     padding-left:2vw;
 }

@@ -20,8 +20,8 @@ app.on('activate', function () {
 
 function createWindow() {
     mainWindow = new BrowserWindow({
-        width: 1920,
-        height: 1080,
+        width: 1024,
+        height: 1024,
         title: "PGE"
     });
     mainWindow.loadURL(url.format({
