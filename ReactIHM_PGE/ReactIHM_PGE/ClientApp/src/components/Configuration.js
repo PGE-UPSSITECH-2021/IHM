@@ -8,7 +8,7 @@ import PopUpConfirm from './PopUpConfirm'
 import confirm from '../assets/confirm.png'
 import cancel from '../assets/cancel.png'
 import defaultFile from '../assets/default.csv'
-import { readString } from 'react-papaparse';
+// import { readString } from 'react-papaparse';
 import 'eventemitter2';
 import * as ROSLIB from 'roslib';
 import { CSVLink, CSVDownload } from "react-csv";
@@ -129,7 +129,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                     //console.log('Error while parsing:', error, file);
                 },
             };
-            readString(defaultFile, papaConfig);
+            // readString(defaultFile, papaConfig);
 
         }
         
