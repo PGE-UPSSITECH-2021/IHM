@@ -1,7 +1,7 @@
 ﻿#menu-bar-settings {
     position: absolute;
-    width: 13.3%;
-    height: 59%;
+    width: 13.3vw;
+    height: 59vh;
 }
 
 #menu-bar-settings .pro-sidebar {
@@ -28,7 +28,7 @@
 }
 
 #menu-bar-settings .pro-sidebar-inner .pro-sidebar-layout .logotext p {
-    font-size: 20px;
+    font-size: 2.8vh;
     padding: 0 20px;
     color: white;
     font-weight: bold;
@@ -42,6 +42,10 @@
     color: white;
     margin: 10px 0px;
     font-weight: bold;
+}
+
+#menu-bar-settings .pro-sidebar .pro-menu .pro-menu-item {
+    font-size: 2.2vh;
 }
 
 #menu-bar-settings .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item .pro-icon-wrapper {

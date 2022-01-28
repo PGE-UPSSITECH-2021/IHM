@@ -1,15 +1,15 @@
-﻿.param-menu-bar{
+﻿/*.param-menu-bar{
     width:15%;
-}
+}*/
 
 .param-middle {
     width: 85%;
 }
 
 .whole-middle-user {
-    width: 55%;
-    padding-left:50%;
-    padding-top:12%;
+    width: 16.5vw;
+    padding-left:15vw;
+    padding-top:7vh;
 }
 
 .menu-usr-screen {
