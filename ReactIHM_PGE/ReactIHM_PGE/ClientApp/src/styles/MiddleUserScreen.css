@@ -2,9 +2,6 @@
     width:15%;
 }*/
 
-.param-middle {
-    width: 85%;
-}
 
 .whole-middle-user {
     width: 16.5vw;
@@ -24,5 +21,5 @@
 
 .label-identifiant {
     color: #273339;
-    padding-bottom: 2%;
+    padding-bottom: 0.7vh;
 }

@@ -6,7 +6,7 @@ function HelpScreen({ currentPage, setCurrentPage, modeCo }) {
     return (
         <div className="mainHelp">
             <span className='menu-bar'><MenuBar currentPage={currentPage} setCurrentPage={setCurrentPage} modeCo={modeCo} /></span>
-            <span className="middle-help-screen" ><MiddleHelpScreen /></span>
+            <span className="middle-help-screen" ><MiddleHelpScreen modeCo={modeCo}/></span>
         </div>
     )
 
