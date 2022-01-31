@@ -22,7 +22,7 @@
 
 .table-results-identification {
     position: absolute;
-    width: 50vh;
+    width: 70vh;
     margin-left: 62vh;
     border: 1px solid;
     border-radius: 3px;
@@ -42,8 +42,8 @@
 }
 
 .table-cell-results-identification {
-    font-style: italic;
-    background-color: #E7E6E6;
+    background-color: #273339;
+    color: white;
 }
 
 .table-rows-results-identification {
@@ -84,8 +84,8 @@
 }
 
 .table-cell-results-localisation {
-    font-style: italic;
-    background-color: #E7E6E6;
+    background-color: #273339;
+    color: white;
 }
 
 .table-rows-results-localisation {
@@ -107,7 +107,7 @@
 
 .table-results-qualite {
     position: absolute;
-    width: 55vh;
+    width: 70vh;
     margin-left: 62vh;
     border: 1px solid;
     border-radius: 3px;
@@ -128,8 +128,9 @@
 }
 
 .table-cell-results-qualite {
-    font-style: italic;
-    background-color: #E7E6E6;
+
+    background-color: #273339;
+    color: white;
 }
 
 .table-rows-results-qualite {
@@ -137,10 +138,10 @@
 }
 
 .non-conform {
-    background-color:rgba(227,6,19,0.4) !important;
+    background-color:rgba(227,6,19,0.3) !important;
 }
 .non-conform-reason {
-    background-color: rgba(227,6,19,0.4) !important;
+    background-color: rgba(227,6,19,0.3) !important;
     font-weight:bold;
 }
 
@@ -210,8 +211,8 @@
     border-radius: 5px;
     height: 4vh;
     width: 25vh;
-    margin-left: 87vh;
-    margin-top: 10vh;
+    margin-left: 95vh;
+    margin-top: 15vh;
     background-color: #273339;
     color: white;
     box-shadow: 1px 1px 1px 1px rgb(128, 128, 128);
