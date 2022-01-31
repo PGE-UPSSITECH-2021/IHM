@@ -30,6 +30,8 @@ function MiddleResultScreen({ setPageRes, nameFileRes, setNameFileRes }) {
     }
 
 
+
+
     return (
 
 
@@ -44,7 +46,7 @@ function MiddleResultScreen({ setPageRes, nameFileRes, setNameFileRes }) {
                                 <BsCheck2Circle
                                     className="iconValidate" />
                                 <span className="validateSection">
-                                    3/4 trous identifiés </span>
+                                    3 trous identifiés </span>
                                 <div>
                                     <BiErrorCircle
                                         className="iconUnconform" />

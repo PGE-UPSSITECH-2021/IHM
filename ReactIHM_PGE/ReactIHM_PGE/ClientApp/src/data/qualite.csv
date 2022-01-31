@@ -1,0 +1,8 @@
+FileName,date,plaque,action
+qualite,22/01/2022, tole plate,qualite
+x,y,diam,conform,reason
+1,2.2,5,yes,none
+1.5,2.3,5,no,misshapen
+2,1,7,yes,none
+5.6,5.6,7,no,crack
+3,4,7,yes,none

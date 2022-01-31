@@ -1,0 +1,20 @@
+﻿[
+  {
+    "FileName": "identification",
+    "date": "28/01/2022",
+    "plaque": "tole plate",
+    "action": "identification"
+  },
+  {
+    "FileName": "localisation",
+    "date": "25/01/2022",
+    "plaque": " tole epaisse",
+    "action": "localisation"
+  },
+  {
+    "FileName": "qualite",
+    "date": "22/01/2022",
+    "plaque": " tole plate",
+    "action": "qualite"
+  }
+]

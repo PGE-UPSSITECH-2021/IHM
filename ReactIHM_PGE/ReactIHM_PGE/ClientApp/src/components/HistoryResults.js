@@ -12,27 +12,16 @@ import '../styles/HistoryResults.css'
 import { TablePagination } from '@material-ui/core'
 import loupe from '../assets/loupe.png'
 import { MdDeleteForever } from "react-icons/md";
+import JsonData from '../files_results_history.json'
 
 
-function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo }) {
+function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcsvArray, setCsvArray, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate }) {
 
-    /* Création des data du tableau */
-
-    function createData(files, date, plaque, action) {
-        return { files, date, plaque, action };
-    }
-
-    const rows = [
-        createData('config_01', '20-01-2022', 'épaisse', 'localisation'),
-        createData('config_02', '19-01-2022', 'cintrée', 'identification'),
-        createData('config_03', '18-01-2022', 'plate', 'localisation'),
-        createData('config_04', '17-01-2022', 'épaisse', 'identification'),
-        createData('config_05', '16-01-2022', 'épaisse', 'identification'),
-        createData('config_06', '16-01-2022', 'épaisse', 'identification'),
-        createData('config_07', '16-01-2022', 'épaisse', 'identification'),
-        createData('config_08', '16-01-2022', 'épaisse', 'identification'),
-        createData('config_09', '16-01-2022', 'plate', 'localisation')
-    ]
+    // TO DO
+    /* 1) Récupérer les données du fichier sauvegardé et les intégrer au tableau OK
+     * 2) Charger les données du fichier csv sélectionné dans le tableau et faire apparaitre les résultats
+     * 
+     * */
 
     const [checked, setChecked] = useState({});
     const handleChange = (event, row) => {
@@ -48,14 +37,14 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo }) {
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.files);
+            const newSelecteds = JsonData.map((n) => n.FileName);
             setSelected(newSelecteds);
             return;
         }
         setSelected([]);
     };
 
-    const handleClick = (event, files) => {
+    const handleClick = (event, files, action) => {
         const selectedIndex = selected.indexOf(files);
         let newSelected = [];
 
@@ -63,7 +52,7 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo }) {
             newSelected = newSelected.concat(selected, files);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
-        } else if (selectedIndex === selected.length -1 ) {
+        } else if (selectedIndex === selected.length - 1) {
             newSelected = newSelected.concat(selected.slice(0, -1));
         } else if (selectedIndex > 0) {
             newSelected = newSelected.concat(
@@ -71,8 +60,9 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo }) {
                 selected.slice(selectedIndex + 1),
             );
         }
-
+        setNameFileRes(files);
         setSelected(newSelected);
+        setResultAction(action);
     };
 
     const isSelected = (files) => selected.indexOf(files) !== -1
@@ -80,7 +70,7 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo }) {
     /* Gestion de la pagination */
 
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - JsonData.length) : 0;
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -95,8 +85,10 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo }) {
         alert("DELETE TO DO");
     }
 
-    function changeToResDetails() {
+
+    const handleClickDetails = (event) => {
         setPageRes(1);
+        console.log(nameFileRes);
     }
 
 
@@ -104,96 +96,143 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo }) {
         <div className='middle-results-history'>
             <div className='header-results-history'>
                 <h1 className='table-head'> Historique des résultats </h1>
-                <span className="nb-select"> Nombre de fichiers sélectionnés :  {selected.length} </span>
+                {modeCo === 1 ? <span className="nb-select"> Nombre de fichiers sélectionnés :  {selected.length} </span> : <span></span>}
                 {modeCo === 1 ? <MdDeleteForever alt='Suppression des élements' className="button-remove" onClick={deleteRows} /> : <span className="button-remove" />}
-                
+
             </div>
             <TableContainer className='table-rows'>
                 <Table>
                     <TableHead>
-                        
-                        <TableRow>
-                            
-                            <TableCell className='table-cell' padding="checkbox">
-                                <Checkbox
-                                    
-                                    numSelected={selected.length}
-                                    rowCount={rows.length}
-                                    onChange={handleSelectAllClick}
-                                    inputProps={{
-                                        'aria-label': 'Tout sélectionner',
-                                    }}
-                                />
-                            </TableCell>
-                            <TableCell className='table-cell' align="center">Résultats</TableCell>
-                            <TableCell className='table-cell' align="center">Date</TableCell>
-                            <TableCell className='table-cell' align="center">Type de plaque</TableCell>
-                            <TableCell className='table-cell' align="center">Action</TableCell>
-                            <TableCell className='table-cell' align="center">Voir les résultats</TableCell>
-                            
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {(rowsPerPage > 0
-                            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            : rows
-                        ).map((row) => {
-                            const isItemSelected = isSelected(row.files);
-                            return (
-                                <TableRow
-                                    role="checkbox"
-                                    background-color="blue"
-                                    key={row.files}
-                                    aria-checked={isItemSelected}
-                                    tabIndex={-1}
-                                    selected={isItemSelected}
-                                >
-                                    <TableCell padding="checkbox">
-                                        <Checkbox
-                                            onClick={(event) => handleClick(event, row.files)}
-                                            checked={isItemSelected}
-                                           
-                                            
-                                        />
-                                    </TableCell>
+                        {modeCo === 1 ?
+                            <TableRow>
 
-                                    <TableCell align="center">{row.files}</TableCell>
-                                    <TableCell align="center">{row.date}</TableCell>
-                                    <TableCell align="center">{row.plaque}</TableCell>
-                                    <TableCell align="center">{row.action}</TableCell>
-                                    <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={changeToResDetails}/></IconButton>
-                                    </TableCell>
-                                    
-                                </TableRow>
-                                
+                                <TableCell className='table-cell' padding="checkbox">
+                                    <Checkbox
 
-                            );
-                        })}
-                        {emptyRows > 0 && (
-                            <TableRow
-                                style={{
-                                    height: (dense ? 33 : 53) * emptyRows,
-                                }}
-                            >
+                                        numSelected={selected.length}
+                                        rowCount={JsonData.length}
+                                        onChange={handleSelectAllClick}
+                                        inputProps={{
+                                            'aria-label': 'Tout sélectionner',
+                                        }}
+                                    />
+                                </TableCell>
+                                <TableCell className='table-cell' align="center">Résultats</TableCell>
+                                <TableCell className='table-cell' align="center">Date</TableCell>
+                                <TableCell className='table-cell' align="center">Type de plaque</TableCell>
+                                <TableCell className='table-cell' align="center">Action</TableCell>
+                                <TableCell className='table-cell' align="center">Voir les résultats</TableCell>
 
                             </TableRow>
-                        )}
-                    </TableBody>
+                            :
+                            <TableRow>
+                                <TableCell className='table-cell' padding="checkbox"> </TableCell>
+                                <TableCell className='table-cell' align="center">Résultats</TableCell>
+                                <TableCell className='table-cell' align="center">Date</TableCell>
+                                <TableCell className='table-cell' align="center">Type de plaque</TableCell>
+                                <TableCell className='table-cell' align="center">Action</TableCell>
+                                <TableCell className='table-cell' align="center">Voir les résultats</TableCell>
+
+                            </TableRow>
+                        }
+                    </TableHead>
+                    {modeCo === 1 ?
+                        <TableBody>
+
+                            {(rowsPerPage > 0
+                                ? JsonData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                : JsonData).map(
+                                    (row) => {
+
+                                        const isItemSelected = isSelected(row.FileName);
+
+                                        return (
+                                            <TableRow
+                                                role="checkbox"
+                                                background-color="blue"
+                                                key={row.FileName}
+                                                aria-checked={isItemSelected}
+                                                tabIndex={-1}
+                                                selected={isItemSelected}
+                                            >
+                                                <TableCell padding="checkbox">
+                                                    <Checkbox
+                                                        onClick={(event) => handleClick(event, row.FileName, row.action)}
+                                                        checked={isItemSelected}
+
+
+                                                    />
+                                                </TableCell>
+
+                                                <TableCell align="center">{row.FileName}</TableCell>
+                                                <TableCell align="center">{row.date}</TableCell>
+                                                <TableCell align="center">{row.plaque}</TableCell>
+                                                <TableCell align="center">{row.action}</TableCell>
+                                                <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={handleClickDetails} /></IconButton>
+                                                </TableCell>
+
+                                            </TableRow>
+
+
+                                        );
+                                    })}
+                            {emptyRows > 0 && (
+                                <TableRow
+                                    style={{
+                                        height: (dense ? 33 : 53) * emptyRows,
+                                    }}
+                                >
+
+                                </TableRow>
+                            )}
+                        </TableBody> :
+                        <TableBody>
+
+                            {(rowsPerPage > 0
+                                ? JsonData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                : JsonData).map(
+                                    (row) => {
+
+                                        return (
+                                            <TableRow>
+                                                <TableCell padding="checkbox"></TableCell>
+                                                <TableCell align="center">{row.FileName}</TableCell>
+                                                <TableCell align="center">{row.date}</TableCell>
+                                                <TableCell align="center">{row.plaque}</TableCell>
+                                                <TableCell align="center">{row.action}</TableCell>
+                                                <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={(event) => handleClickDetails(event, row.FileName)} /></IconButton>
+                                                </TableCell>
+                                            </TableRow>
+
+
+                                        );
+                                    })}
+                            {emptyRows > 0 && (
+                                <TableRow
+                                    style={{
+                                        height: (dense ? 33 : 53) * emptyRows,
+                                    }}
+                                >
+
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    }
                     <TableFooter>
                         <TableRow>
-                           
+
                             <TablePagination
                                 rowsPerPageOptions={[7]}
                                 colSpan={5}
-                                count={rows.length}
+                                count={JsonData.length}
                                 rowsPerPage={rowsPerPage}
                                 page={page}
                                 onPageChange={handleChangePage}
                                 onRowsPerPageChange={handleChangeRowsPerPage}
                             />
-                           
+
                         </TableRow>
-                        
+
                     </TableFooter>
                 </Table>
             </TableContainer>
