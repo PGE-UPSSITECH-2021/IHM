@@ -124,7 +124,8 @@ select{
 }
 
 .labels-mtnc {
-    margin-right:5px;
+    margin-right: 5px;
+    font-size: 2vh;
 }
 
 .bouton-run {
@@ -149,7 +150,7 @@ select{
 
 .champ-mtnc {
     align-self:center;
-    padding-top: 20%;
+    padding-top: 14.1vh;
 }
 
 .champ-slider {
@@ -173,7 +174,7 @@ select{
 }
 
 .etat-courant-maintenance {
-    padding-top: 30.5%;
+    padding-top: 25.6vh;
     display: flex;
     flex-direction: row;
 }
@@ -288,47 +289,47 @@ select{
     }
 
 .run-buttons-mtnc {
-    padding-left: 27%;
-    padding-top: 13.8%;
+    padding-left: 9.7vw;
+    padding-top: 9.75vh;
 }
 
 .space-button-mtnc {
-    padding-right: 10%;
+    padding-right: 2.65vw;
 }
 
 .bouton-start-mtnc {
-    width: 15%;
+    width: 3.95vw;
     opacity: 0.8;
 }
 .bouton-start-mtnc:hover {
     opacity: 1;
 }
 .bouton-start-mtnc-disabled {
-    width: 15%;
+    width: 3.95vw;
     opacity: 0.2;
 }
 
 .bouton-pause-mtnc {
-    width: 15%;
+    width: 3.95vw;
     opacity: 0.8;
 }
 .bouton-pause-mtnc:hover {
     opacity: 1;
 }
 .bouton-pause-mtnc-disabled {
-    width: 15%;
+    width: 3.95vw;
     opacity: 0.2;
 }
 
 
 .bouton-stop-mtnc {
-    width: 15.8%;
+    width: 4.15vw;
     opacity: 0.8;
 }
 .bouton-stop-mtnc:hover {
     opacity: 1;
 }
 .bouton-stop-mtnc-disabled {
-    width: 15.8%;
+    width: 4.15vw;
     opacity: 0.2;
 }
