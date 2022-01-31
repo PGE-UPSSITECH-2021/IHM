@@ -18,6 +18,7 @@ import returnArrow from "../assets/returnArrow.png"
 import noCam from '../assets/NoCamera.png'
 import fs from "fs";
 import JsonContent from '../file_results.json'
+import PopUpResult from './PopUpResult'
 
 
 function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArray, setCsvArray, selectedAction, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate }) {
@@ -57,6 +58,12 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
         setResultAction(ctnt_action);
         setResultPlaque(ctnt_plaque);
         setResultDate(ctnt_date);
+    }
+
+    //PopUp details result
+    const [isOpen, setIsOpen] = useState(false);
+    const togglePopupResult = () => {
+        setIsOpen(!isOpen);
     }
 
 
@@ -237,12 +244,17 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                         {item.conform === "no" ? <TableCell className="non-conform" align="center">{item.y}</TableCell> : <TableCell align="center">{item.y}</TableCell>}
                                                         {item.conform === "no" ? <TableCell className="non-conform" align="center">{item.conform}</TableCell> : <TableCell align="center">{item.conform}</TableCell>}
                                                         {item.conform === "no" ? <TableCell className="non-conform-reason" align="center">{item.reason}</TableCell> : <TableCell align="center">{item.reason}</TableCell>}
-                                                        {item.conform === "no" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" /></IconButton> </TableCell> : <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" /></IconButton></TableCell>}
+                                                        {item.conform === "no" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> }
                                                         
 
                                                     </TableRow>
 
-                                                ))}
+                                                ))}{isOpen && <PopUpResult
+                                                    content={<>
+                                                        <h3 className="popup-title">id trou</h3>
+                                                    </>}
+                                                    handleClose={togglePopupResult}
+                                                />}
 
                                             </TableBody> :
                                             <TableBody>
@@ -263,7 +275,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                    
                             </div>
                         </div>
-                        <button className="button-save-result-qualite" onClick={saveResult}> Sauvegarder les résultats </button>
+                        <button className="button-save-result-qualite" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
                     </div>}
 
 
