@@ -8,6 +8,7 @@ import TableFooter from '@material-ui/core/TableFooter'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
+import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton'
 import '../styles/HistoryResults.css'
 import { TablePagination } from '@material-ui/core'
@@ -59,6 +60,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     }
 
 
+
     return (
         <div className='middleResult-v2'>
             <div className="box-return"><img src={returnArrow} alt="return button" className="return-icon-results" onClick={changePageToHist} /></div>
@@ -85,7 +87,8 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                     </TableHead>
                                     {JsonContent[nameFileRes].length > 0 ?
-                                        <TableBody>
+                                       
+                                        <TableBody >
 
                                             {JsonContent[nameFileRes].map((item, i) => (
 
@@ -151,13 +154,14 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                         </TableHead>
                                         {JsonContent[nameFileRes].length > 0 ?
-                                            <TableBody>
+                                            <TableBody >
 
                                                 {JsonContent[nameFileRes].map((item, i) => (
 
 
                                                     <TableRow
                                                         key={i}
+                                                        
                                                     >
 
                                                         <TableCell align="center">{item.x}</TableCell>
@@ -205,8 +209,8 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                 <div className='header-results-diam-qualite'>
 
                                 </div>
-                                <TableContainer className='table-rows-results-qualite'>
-                                    <Table>
+                                    <TableContainer  className='table-rows-results-qualite'>
+                                        <Table>
                                         <TableHead>
 
                                             <TableRow>
@@ -219,25 +223,24 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                         </TableHead>
                                         {JsonContent[nameFileRes].length > 0 ?
-                                            <TableBody>
+                                            <TableBody >
 
                                                 {JsonContent[nameFileRes].map((item, i) => (
 
 
                                                     <TableRow
                                                         key={i}
+                                                        sort={item.conform}
                                                     >
 
-                                                        <TableCell align="center">{item.x}</TableCell>
-                                                        <TableCell align="center">{item.y}</TableCell>
-                                                        <TableCell align="center">{item.conform}</TableCell>
-                                                        <TableCell align="center">{item.reason}</TableCell>
-                                                        <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" /></IconButton>
-                                                        </TableCell>
+                                                        {item.conform === "no" ? <TableCell className="non-conform" align="center">{item.x}</TableCell> : <TableCell align="center">{item.x}</TableCell>}
+                                                        {item.conform === "no" ? <TableCell className="non-conform" align="center">{item.y}</TableCell> : <TableCell align="center">{item.y}</TableCell>}
+                                                        {item.conform === "no" ? <TableCell className="non-conform" align="center">{item.conform}</TableCell> : <TableCell align="center">{item.conform}</TableCell>}
+                                                        {item.conform === "no" ? <TableCell className="non-conform-reason" align="center">{item.reason}</TableCell> : <TableCell align="center">{item.reason}</TableCell>}
+                                                        {item.conform === "no" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" /></IconButton> </TableCell> : <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" /></IconButton></TableCell>}
+                                                        
 
                                                     </TableRow>
-
-
 
                                                 ))}
 
@@ -256,7 +259,8 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                             </TableBody>}
                                     </Table>
-                                </TableContainer>
+                                    </TableContainer>
+                                   
                             </div>
                         </div>
                         <button className="button-save-result-qualite" onClick={saveResult}> Sauvegarder les résultats </button>

@@ -63,6 +63,7 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
         setNameFileRes(files);
         setSelected(newSelected);
         setResultAction(action);
+
     };
 
     const isSelected = (files) => selected.indexOf(files) !== -1
@@ -89,6 +90,7 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
     const handleClickDetails = (event) => {
         setPageRes(1);
         console.log(nameFileRes);
+        console.log(resultAction);
     }
 
 
