@@ -14,7 +14,7 @@ function ModifUSR() {
     }
 
     function saveNewMail() {
-        alert("Adresse email modifiée à " + email);
+        //alert("Adresse email modifiée à " + email);
         setEmail("");
     }
 
