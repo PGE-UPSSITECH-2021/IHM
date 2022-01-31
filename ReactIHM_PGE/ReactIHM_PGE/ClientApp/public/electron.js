@@ -22,7 +22,7 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1024,
         height: 1024,
-        title: "PGE"
+        title: "SAURON"
     });
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'index.html'),
