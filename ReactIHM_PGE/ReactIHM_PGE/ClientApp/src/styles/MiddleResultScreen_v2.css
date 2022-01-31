@@ -147,12 +147,9 @@
 
 
 .return-icon-results {
-    background-color: #E7E6E6;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 5px;
-    width: 5vh;
-    opacity: 0.5;
+
+    width: 6vh;
+
 }
 
     .return-icon-results:hover {

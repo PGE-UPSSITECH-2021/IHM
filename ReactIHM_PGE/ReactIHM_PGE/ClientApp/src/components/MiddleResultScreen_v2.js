@@ -14,7 +14,7 @@ import '../styles/HistoryResults.css'
 import { TablePagination } from '@material-ui/core'
 import loupe from '../assets/loupe.png'
 import '../styles/bootstrapStyle.scss'
-import returnArrow from "../assets/returnArrow.png"
+import returnArrow from "../assets/arrow_back.png"
 import noCam from '../assets/NoCamera.png'
 import fs from "fs";
 import JsonContent from '../file_results.json'
@@ -70,7 +70,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
     return (
         <div className='middleResult-v2'>
-            <div className="box-return"><img src={returnArrow} alt="return button" className="return-icon-results" onClick={changePageToHist} /></div>
+            <div className="box-return"><IconButton><img src={returnArrow} alt="return button" className="return-icon-results" onClick={changePageToHist} /></IconButton></div>
             {resultAction === "identification" ?
                 <div>
                     <div className="display-results-identification">
@@ -94,7 +94,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                     </TableHead>
                                     {JsonContent[nameFileRes].length > 0 ?
-                                       
+
                                         <TableBody >
 
                                             {JsonContent[nameFileRes].map((item, i) => (
@@ -102,6 +102,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                                 <TableRow
                                                     key={i}
+                                                    
                                                 >
 
                                                     <TableCell align="center">{item.x}</TableCell>
@@ -124,7 +125,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                 <TableCell align="center">aucun résultat</TableCell>
                                                 <TableCell align="center">aucun résultat</TableCell>
                                                 <TableCell align="center">aucun résultat</TableCell>
-                                                <TableCell align="center">aucun résultat </TableCell>
+                                                <TableCell align="center">aucun résultat</TableCell>
 
                                             </TableRow>
 
@@ -133,7 +134,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                             </TableContainer>
                         </div>
                     </div>
-                    <button className="button-save-result-identification" onClick={saveResult}> Sauvegarder les résultats </button>
+                    <button className="button-save-result-identification" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
                 </div>
                 : resultAction === "localisation" ?
                     <div>
@@ -168,7 +169,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                                     <TableRow
                                                         key={i}
-                                                        
+
                                                     >
 
                                                         <TableCell align="center">{item.x}</TableCell>
@@ -206,7 +207,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                 </TableContainer>
                             </div>
                         </div>
-                        <button className="button-save-result-localisation" onClick={saveResult}> Sauvegarder les résultats </button>
+                        <button className="button-save-result-localisation" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
                     </div> :
                     <div>
                         <div className="display-results-qualite">
@@ -216,8 +217,8 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                 <div className='header-results-diam-qualite'>
 
                                 </div>
-                                    <TableContainer  className='table-rows-results-qualite'>
-                                        <Table>
+                                <TableContainer className='table-rows-results-qualite'>
+                                    <Table>
                                         <TableHead>
 
                                             <TableRow>
@@ -237,15 +238,14 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                                     <TableRow
                                                         key={i}
-                                                        sort={item.conform}
                                                     >
 
                                                         {item.conform === "no" ? <TableCell className="non-conform" align="center">{item.x}</TableCell> : <TableCell align="center">{item.x}</TableCell>}
                                                         {item.conform === "no" ? <TableCell className="non-conform" align="center">{item.y}</TableCell> : <TableCell align="center">{item.y}</TableCell>}
                                                         {item.conform === "no" ? <TableCell className="non-conform" align="center">{item.conform}</TableCell> : <TableCell align="center">{item.conform}</TableCell>}
                                                         {item.conform === "no" ? <TableCell className="non-conform-reason" align="center">{item.reason}</TableCell> : <TableCell align="center">{item.reason}</TableCell>}
-                                                        {item.conform === "no" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> }
-                                                        
+                                                        {item.conform === "no" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell>}
+
 
                                                     </TableRow>
 
@@ -271,8 +271,8 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                             </TableBody>}
                                     </Table>
-                                    </TableContainer>
-                                   
+                                </TableContainer>
+
                             </div>
                         </div>
                         <button className="button-save-result-qualite" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
