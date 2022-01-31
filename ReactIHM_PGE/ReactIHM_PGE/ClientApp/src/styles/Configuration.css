@@ -165,6 +165,13 @@ select{
     font-size: 2vh;
 }
 
+.etat-courant-admin {
+    padding-top: 5.2vh;
+    display: flex;
+    flex-direction: row;
+    font-size: 2vh;
+}
+
 .etat-courant-maintenance {
     padding-top: 30.5%;
     display: flex;
@@ -258,7 +265,7 @@ select{
 }
 
 .bouton-group {
-    width: 100%;
+    width: 36vw;
 }
 
 .bouton-normal-mid {
@@ -267,8 +274,9 @@ select{
     opacity: 0.7;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
     border-radius: 6px;
-    padding-bottom: 0.5px;
-    width:50%
+    width:18vw;
+    font-size:1.85vh;
+    margin-bottom:0.8vh;
 }
     /* Mouse-over effects */
     .bouton-normal-mid:hover {

@@ -157,34 +157,34 @@ function ModifAccount() {
                         <option value="Maintenance">Maintenance</option>
                         <option value="Qualite">Qualité</option>
                     </select>
-                <div className="mdp-area">
+                <div className="mdp-area-modifAcc">
                     <span className='label-identifiant'> Mot de passe : </span>
-                    <div className="mdp-area-2">
+                    <div className="mdp-area-2-modifAcc">
                         <input
-                            className='pwd-new-confirm'
+                            className='pwd-new-confirm-modifAcc'
                             type={passwordIsVisible ? 'text' : 'password'}
                             value={newPasswordAccount}
                             onChange={e => passwordModif(e)}
                             onKeyUp={validatePassword}
                         />
-                        <button onClick={() => setPasswordIsVisible(!passwordIsVisible)}> {passwordIsVisible ? <BiShowAlt /> : <BiHide />} </button>
+                            <button className="icon-set-mdp-visible-acc" onClick={() => setPasswordIsVisible(!passwordIsVisible)}> {passwordIsVisible ? <BiShowAlt className="icon-eye-acc" /> : <BiHide className="icon-eye-acc"/>} </button>
                     </div>
                     <span className='label-identifiant'> Confirmation mot de passe : </span>
-                    <div className="mdp-area-2">
+                    <div className="mdp-area-2-modifAcc">
                         <input
-                            className='pwd-new-confirm'
+                            className='pwd-new-confirm-modifAcc'
                             type={passwordConfirmIsVisible ? 'text' : 'password'}
                             value={passwordConfirmAccount}
                             onChange={e => confirmPasswordModif(e)}
                             onKeyUp={validatePassword}
                         />
-                        <button onClick={() => setPasswordConfirmIsVisible(!passwordConfirmIsVisible)}> {passwordConfirmIsVisible ? <BiShowAlt /> : <BiHide />} </button>
+                            <button className="icon-set-mdp-visible-acc" onClick={() => setPasswordConfirmIsVisible(!passwordConfirmIsVisible)}> {passwordConfirmIsVisible ? <BiShowAlt className="icon-eye-acc" /> : <BiHide className="icon-eye-acc"/>} </button>
                     </div>
                     <br></br>
                     {showMust ?
-                        <div className="must-container">
+                        <div className="must-container-modifAcc">
                             {checkListData.map(data => <CheckListPwd data={data} />)}
-                        </div> : <div className="must-container-invisible"> </div>
+                        </div> : <div className="must-container-invisible-modifAcc"> </div>
                     }
                 </div>
 

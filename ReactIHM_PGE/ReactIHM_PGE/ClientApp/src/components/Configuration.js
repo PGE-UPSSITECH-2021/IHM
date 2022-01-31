@@ -443,6 +443,14 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         }
     }
 
+    function getClassNameEtatCourant() {
+        if (modeCo === 0) {
+            return "etat-courant";
+        } else if (modeCo === 1) {
+            return "etat-courant-admin";
+        }
+    }
+
     if (modeCo !== 2) {
 
         return (
@@ -532,7 +540,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                     </>}
                 />}
 
-                <div className='etat-courant'>
+                <div className={getClassNameEtatCourant()}>
                     <div className='etat-col-1'>
                         <div className='etat-import'>
                             <AiFillSafetyCertificate className="icone" />
