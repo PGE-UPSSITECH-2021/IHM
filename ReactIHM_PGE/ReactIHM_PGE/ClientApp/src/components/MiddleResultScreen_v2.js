@@ -149,22 +149,22 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
             <div className="box-return"><IconButton><img src={returnArrow} alt="return button" className="return-icon-results" onClick={changePageToHist} /></IconButton></div>
             {resultAction === "identification" ?
                 <div>
-                    <div className="display-results-identification">
+                    <div className="display-results">
                         <img src={noCam} alt="resultats camera" className="no-cam-results" />
-                        <div className="table-results-identification">
+                        <div className="table-results">
 
-                            <div className='header-results-diam-identification'>
+                            <div className='header-results-diam'>
 
                             </div>
-                            <TableContainer className='table-rows-results-identification'>
+                            <TableContainer className='table-rows-results'>
                                 <Table>
                                     <TableHead>
 
                                         <TableRow>
-                                            <TableCell className='table-cell-results-identification' align="center">x</TableCell>
-                                            <TableCell className='table-cell-results-identification' align="center">y</TableCell>
-                                            <TableCell className='table-cell-results-identification' align="center">Diamètre (mm)</TableCell>
-                                            <TableCell className='table-cell-results-identification' align="center">Voir le trou</TableCell>
+                                            <TableCell className='table-cell-results' align="center">x</TableCell>
+                                            <TableCell className='table-cell-results' align="center">y</TableCell>
+                                            <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
+                                            <TableCell className='table-cell-results' align="center">Voir le trou</TableCell>
 
                                         </TableRow>
 
@@ -234,28 +234,29 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                             </TableContainer>
                         </div>
                     </div>
-                    <button className="button-save-result-identification" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
+                    <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
                 </div>
                 : resultAction === "localisation" ?
                     <div>
-                        <div className="display-results-localisation">
+                        <div className="display-results">
                             <img src={noCam} alt="resultats camera" className="no-cam-results" />
-                            <div className="table-results-localisation">
+                            <div className="table-results">
 
-                                <div className='header-results-diam-localisation'>
+                                <div className='header-results-diam'>
 
                                 </div>
-                                <TableContainer className='table-rows-results-localisation'>
+                                <TableContainer className='table-rows-results'>
                                     <Table>
                                         <TableHead>
 
                                             <TableRow>
-                                                <TableCell className='table-cell-results-localisation' align="center">x</TableCell>
-                                                <TableCell className='table-cell-results-localisation' align="center">y</TableCell>
-                                                <TableCell className='table-cell-results-localisation' align="center">z </TableCell>
-                                                <TableCell className='table-cell-results-localisation' align="center">alpha</TableCell>
-                                                <TableCell className='table-cell-results-localisation' align="center">beta</TableCell>
-                                                <TableCell className='table-cell-results-localisation' align="center">gamma</TableCell>
+                                                <TableCell className='table-cell-results' align="center">x</TableCell>
+                                                <TableCell className='table-cell-results' align="center">y</TableCell>
+                                                <TableCell className='table-cell-results' align="center">z </TableCell>
+                                                <TableCell className='table-cell-results' align="center">alpha</TableCell>
+                                                <TableCell className='table-cell-results' align="center">beta</TableCell>
+                                                <TableCell className='table-cell-results' align="center">gamma</TableCell>
+                                                <TableCell className='table-cell-results' align="center">Voir le trou</TableCell>
 
                                             </TableRow>
 
@@ -305,25 +306,26 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                 </TableContainer>
                             </div>
                         </div>
-                        <button className="button-save-result-localisation" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
+                        <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
                     </div> :
                     <div>
-                        <div className="display-results-qualite">
+                        <div className="display-results">
                             <img src={noCam} alt="resultats camera" className="no-cam-results" />
-                            <div className="table-results-qualite">
+                            <div className="table-results">
 
-                                <div className='header-results-diam-qualite'>
+                                <div className='header-results-diam'>
+
                                 </div>
-                                <TableContainer className='table-rows-results-qualite'>
+                                <TableContainer className='table-rows-results'>
                                     <Table>
                                         <TableHead>
 
                                             <TableRow>
-                                                <TableCell className='table-cell-results-qualite' align="center">x</TableCell>
-                                                <TableCell className='table-cell-results-qualite' align="center">y</TableCell>
-                                                <TableCell className='table-cell-results-qualite' align="center">Conforme</TableCell>
-                                                <TableCell className='table-cell-results-qualite' align="center">Raison</TableCell>
-                                                <TableCell className='table-cell-results-qualite' align="center">Voir le trou</TableCell>
+                                                <TableCell className='table-cell-results' align="center">x</TableCell>
+                                                <TableCell className='table-cell-results' align="center">y</TableCell>
+                                                <TableCell className='table-cell-results' align="center">Conforme</TableCell>
+                                                <TableCell className='table-cell-results' align="center">Raison</TableCell>
+                                                <TableCell className='table-cell-results' align="center">Voir le trou</TableCell>
                                             </TableRow>
 
                                         </TableHead>
@@ -406,7 +408,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                             </div>
                         </div>
-                        <button className="button-save-result-qualite" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
+                        <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
                     </div>}
 
 

@@ -1,14 +1,10 @@
-﻿.menu-bar {
-    width: 14%;
-}
-
+﻿
 .main-modif-account {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 30%;
-    padding-top: 2%;
-    margin-left: 42%;
+    padding-top: 5vh;
+    margin-left: 14vw;
 }
 
 .main-modif-acccount-admin {

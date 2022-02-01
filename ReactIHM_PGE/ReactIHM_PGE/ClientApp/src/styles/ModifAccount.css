@@ -2,22 +2,21 @@
     position: absolute;
     background: #E7E6E6;
     color: black;
-    width: 55%;
+    width: 55vw;
     border-style: solid;
-    font-size: medium;
+    font-size: 2vh;
     display: flex;
     flex-direction: column;
 }
 
 .add-account-title {
-    padding-bottom: 1px;
+    padding-bottom: 0.8vh;
     color: #273339;
-    font-size: large;
+    font-size: 2.6vh;
 }
 
 .middle-modif-account {
-    padding-top: 2.3%;
-    padding-left: 5%;
+    padding-left: 2.75vw;
     display: flex;
     flex-direction: row;
 
@@ -29,7 +28,11 @@
     opacity: 0.7;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
     border-radius: 3px;
-    margin-bottom: 15%;
+    position: absolute;
+    width: 22vw;
+    top: 65vh;
+    padding: 0.2vh;
+    font-size: 1.8vh;
 }
 
     .sauvegarder-button-acc:hover {
@@ -41,18 +44,20 @@
     }
 
 .mdp-mail-area-add {
-    width: 41%;
+    width: 22vw;
+    height: 74vh;
     display: flex;
     flex-direction: column;
-    padding-right:5%;
+    padding-right:2.5vw;
 }
 
 .mdp-mail-area-supp {
-    width: 45%;
+    width: 22vw;
+    height: 74vh;
     display: flex;
     flex-direction: column;
     border-left: double;
-    padding-left:5%;
+    padding-left:2.5vw;
 }
 
 .mdp-mail-area-supp-two {   
@@ -66,8 +71,10 @@
     opacity: 0.7;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
     border-radius: 3px;
-    margin-top: 5%;
-    margin-bottom: 15%;
+    margin-top: 2vh;
+    width: 22vw;
+    padding: 0.2vh;
+    font-size: 1.8vh;
 }
 
     .supprimer-button:hover {
@@ -77,3 +84,43 @@
     .supprimer-button:disabled {
         opacity: 0.2;
     }
+
+input[type=identifiant] {
+    font-size: 1.85vh;
+}
+
+.mdp-area-modifAcc {
+    display: flex;
+    flex-direction: column;
+}
+
+.mdp-area-2-modifAcc {
+    display: flex;
+}
+
+.pwd-new-confirm-modifAcc {
+    width: 22vw;
+    font-size: 1.85vh;
+}
+
+.must-container-modifAcc {
+    border: 0.35vh solid #8CD1F5;
+    border-radius: 3px;
+    background-color: #ffffff;
+}
+
+.must-container-invisible-modifAcc {
+}
+
+.must-container-modifAcc .must-line.cross-out {
+    width: 21.65vw;
+}
+
+.icon-set-mdp-visible-acc {
+    width: 2.3vw;
+}
+
+.icon-eye-acc {
+    height: 1.7vh;
+    width: 1vw;
+}

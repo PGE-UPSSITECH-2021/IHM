@@ -1,7 +1,7 @@
 ﻿#header {
     position: absolute;
-    width: 14%;
-    height:84.5%;
+    width: 14vw;
+    height:85.395vh;
 }
 
 #header .pro-sidebar {
@@ -18,6 +18,17 @@
     min-width: 80px;
 }
 
+#header .pro-sidebar .pro-menu .pro-menu-item .pro-inner-item .pro-icon-wrapper {
+    margin-right: 0.7vw;
+    font-size: 1.8vh;
+    width: 2.3vw;
+    min-width: 2.3vw;
+    height: 4.5vh;
+    line-height: 4.5vh;
+    text-align: center;
+    display: inline-block;
+}
+
 #header .pro-sidebar-inner {
     background-color: #7ABD6A;
     box-shadow: 1.5px 0.866px 2px 0px rgba(39, 51, 57, 1);
@@ -28,11 +39,25 @@
 }
 
 #header .pro-sidebar-inner .pro-sidebar-layout .logotext p {
-    font-size: 20px;
+    font-size: 2.8vh;
     padding: 0 20px;
     color: #273339;
     font-weight: bold;
 }
+
+#header .pro-sidebar .pro-menu .pro-menu-item .pro-inner-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 1vh 4vh 1vh 3vh !important;
+    cursor: pointer;
+}
+
+
+#header .pro-sidebar .pro-menu .pro-menu-item {
+    font-size:2.2vh;
+}
+
 
 #header .pro-sidebar-inner .pro-sidebar-layout ul {
     padding: 0 3px;
@@ -40,7 +65,7 @@
 
 #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item {
     color: #273339;
-    margin: 10px 0px;
+    margin: 1.3vh 0px;
     font-weight: bold;
 }
 
@@ -73,6 +98,8 @@
 
 #header .pro-sidebar-inner .pro-sidebar-layout .boutonDeconnexion {
     color: #273339;
+    width:9.5vw;
+    font-size:1.9vh;
 }
 
 #header .pro-sidebar-inner .pro-sidebar-layout .boutonDeconnexion:hover{
@@ -81,16 +108,16 @@
 }
 
 #header .pro-sidebar-inner .pro-sidebar-layout .space {
-    padding-top:114.5%; /*240px*/
-    padding-left:14.5%;
+    padding-top:36vh; /*240px*/
+    padding-left:2vw;
 }
 
 #header .pro-sidebar-inner .pro-sidebar-layout .space-admin {
-    padding-top: 86%; /*180px*/
-    padding-left:14.5%;
+    padding-top: 28vh; /*180px*/
+    padding-left:2vw;
 }
 
 #header .pro-sidebar-inner .pro-sidebar-layout .space-maintenance {
-    padding-top: 143.5%; /*300px*/
-    padding-left:14.5%;
+    padding-top: 43.5vh; /*300px*/
+    padding-left:2vw;
 }

@@ -1,7 +1,7 @@
 ﻿#menu-bar-settings {
     position: absolute;
-    width: 13.3%;
-    height: 59%;
+    width: 14.4vw;
+    height: 59vh;
 }
 
 #menu-bar-settings .pro-sidebar {
@@ -18,6 +18,17 @@
     min-width: 80px;
 }
 
+#menu-bar-settings .pro-sidebar .pro-menu .pro-menu-item .pro-inner-item .pro-icon-wrapper {
+    margin-right: 0.65vw;
+    font-size: 1.8vh;
+    width: 2.3vw;
+    min-width: 2.3vw;
+    height: 4.5vh;
+    line-height: 4.5vh;
+    text-align: center;
+    display: inline-block;
+}
+
 #menu-bar-settings .pro-sidebar-inner {
     background-color: #273339;
     box-shadow: 1.5px 0.866px 2px 0px rgba(39, 51, 57, 1);
@@ -28,7 +39,7 @@
 }
 
 #menu-bar-settings .pro-sidebar-inner .pro-sidebar-layout .logotext p {
-    font-size: 20px;
+    font-size: 2.8vh;
     padding: 0 20px;
     color: white;
     font-weight: bold;
@@ -44,6 +55,10 @@
     font-weight: bold;
 }
 
+#menu-bar-settings .pro-sidebar .pro-menu .pro-menu-item {
+    font-size: 2.2vh;
+}
+
 #menu-bar-settings .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item .pro-icon-wrapper {
     background-color: #E7E6E6;
     color: #273339;
@@ -52,6 +67,14 @@
 
 #menu-bar-settings .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item .pro-icon-wrapper .pro-item-content {
     color: black;
+}
+
+#menu-bar-settings .pro-sidebar .pro-menu .pro-menu-item .pro-inner-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 1vh 4vh 1vh 3vh !important;
+    cursor: pointer;
 }
 
 #menu-bar-settings .pro-sidebar-inner .pro-sidebar-layout .active {
