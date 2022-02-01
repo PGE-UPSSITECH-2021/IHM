@@ -142,7 +142,6 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
         }
     });
 
-    
 
     return (
         <div className='middleResult-v2'>
