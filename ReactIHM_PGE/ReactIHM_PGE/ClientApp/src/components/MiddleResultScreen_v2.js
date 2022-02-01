@@ -17,7 +17,7 @@ import '../styles/bootstrapStyle.scss'
 import returnArrow from "../assets/arrow_back.png"
 import noCam from '../assets/NoCamera.png'
 import fs from "fs";
-import JsonContent from '../file_results.json'
+import JsonContent from '../data/file_results.json'
 import PopUpResult from './PopUpResult'
 
 
@@ -37,8 +37,8 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     const dateSaveResult = moment(now).format('DD/MM/YYYY');
 
     var csv_data = [
-        ['', '', ''],
-        ['', '', ''],
+        ['FileName', 'date', 'plaque', 'action'],
+        ['identification_2', dateSaveResult, 'tole plate', 'identification'],
         ['x', 'y', 'diam'],
         [1, 2, 3],
         [4, 5, 6],
@@ -215,7 +215,6 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                             <div className="table-results-qualite">
 
                                 <div className='header-results-diam-qualite'>
-
                                 </div>
                                 <TableContainer className='table-rows-results-qualite'>
                                     <Table>

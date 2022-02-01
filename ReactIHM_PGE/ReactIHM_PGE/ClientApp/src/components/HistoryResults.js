@@ -12,7 +12,7 @@ import '../styles/HistoryResults.css'
 import { TablePagination } from '@material-ui/core'
 import loupe from '../assets/loupe.png'
 import { MdDeleteForever } from "react-icons/md";
-import JsonData from '../files_results_history.json'
+import JsonData from '../data/files_results_history.json'
 
 
 function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcsvArray, setCsvArray, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate }) {
@@ -170,7 +170,7 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
                                                 <TableCell align="center">{row.date}</TableCell>
                                                 <TableCell align="center">{row.plaque}</TableCell>
                                                 <TableCell align="center">{row.action}</TableCell>
-                                                <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={handleClickDetails} /></IconButton>
+                                                <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={function (event) { setNameFileRes(row.FileName); setResultAction(row.action); handleClickDetails(); }} /></IconButton>
                                                 </TableCell>
 
                                             </TableRow>
@@ -202,7 +202,7 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
                                                 <TableCell align="center">{row.date}</TableCell>
                                                 <TableCell align="center">{row.plaque}</TableCell>
                                                 <TableCell align="center">{row.action}</TableCell>
-                                                <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={(event) => handleClickDetails(event, row.FileName)} /></IconButton>
+                                                <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={function (event) { setNameFileRes(row.FileName); setResultAction(row.action);  handleClickDetails(); }} /></IconButton>
                                                 </TableCell>
                                             </TableRow>
 
