@@ -156,7 +156,6 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                 <TableCell className='table-cell-results-localisation' align="center">alpha</TableCell>
                                                 <TableCell className='table-cell-results-localisation' align="center">beta</TableCell>
                                                 <TableCell className='table-cell-results-localisation' align="center">gamma</TableCell>
-                                                <TableCell className='table-cell-results-localisation' align="center">Voir le trou</TableCell>
 
                                             </TableRow>
 
@@ -178,9 +177,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                         <TableCell align="center">{item.alpha}</TableCell>
                                                         <TableCell align="center">{item.beta}</TableCell>
                                                         <TableCell align="center">{item.gamma}</TableCell>
-                                                        <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" /></IconButton>
-                                                        </TableCell>
-
+                                                       
                                                     </TableRow>
 
 
