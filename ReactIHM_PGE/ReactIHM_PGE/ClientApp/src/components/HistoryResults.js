@@ -12,6 +12,7 @@ import '../styles/HistoryResults.css'
 import { TablePagination } from '@material-ui/core'
 import loupe from '../assets/loupe.png'
 import { MdDeleteForever } from "react-icons/md";
+import { AiOutlineArrowUp } from "react-icons/ai";
 import JsonData from '../data/files_results_history.json'
 
 
@@ -62,7 +63,6 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
         }
         setNameFileRes(files);
         setSelected(newSelected);
-        setResultAction(action);
 
     };
 
@@ -83,7 +83,7 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
     };
 
     function deleteRows() {
-        alert("DELETE TO DO");
+        alert("TO DO");
     }
 
 
@@ -91,6 +91,40 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
         setPageRes(1);
         console.log(nameFileRes);
         console.log(resultAction);
+    }
+
+    JsonData.sort(function (a, b) {
+        var a1st = -1; //negative value means left item should appear first
+        var b1st = 1; //positive value means right item should appear first
+        var equal = 0; //zero means objects are equal
+        //compare your object's property values and determine their order
+        if (b.date < a.date) {
+            return b1st;
+        }
+        else if (a.diam < b.diam) {
+            return a1st;
+        }
+        else {
+            return equal;
+        }
+    });
+
+    function sortByAction() {
+        JsonData.sort(function (a, b) {
+            var a1st = -1; //negative value means left item should appear first
+            var b1st = 1; //positive value means right item should appear first
+            var equal = 0; //zero means objects are equal
+            //compare your object's property values and determine their order
+            if (b.action < a.action) {
+                return b1st;
+            }
+            else if (a.action < b.action) {
+                return a1st;
+            }
+            else {
+                return equal;
+            }
+        });
     }
 
 
