@@ -1,6 +1,8 @@
 {
   "name": "reactihm_pge",
   "version": "0.1.0",
+  "homepage": "./",
+  "main": "./public/electron.js",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.12.3",
@@ -8,6 +10,7 @@
     "browserify-fs": "^1.0.0",
     "csv-file-creator": "^1.0.9",
     "ctx": "^0.3.0",
+    "electron-is-dev": "^2.0.0",
     "eventemitter2": "^6.4.5",
     "http-proxy-middleware": "^0.19.1",
     "jquery": "^3.5.1",
@@ -16,6 +19,7 @@
     "node-sass": "^6.0.1",
     "oidc-client": "^1.11.5",
     "papaparse": "^5.3.1",
+    "pyodide": "^0.19.0",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.2",
     "react-csv": "^2.0.3",
@@ -51,7 +55,10 @@
   },
   "devDependencies": {
     "ajv": "^6.9.1",
+    "concurrently": "^6.5.1",
     "cross-env": "^7.0.3",
+    "electron": "^16.0.7",
+    "electron-builder": "^22.14.5",
     "eslint": "^7.25.0",
     "eslint-config-react-app": "^6.0.0",
     "eslint-plugin-flowtype": "^5.7.2",
@@ -59,14 +66,18 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.23.2",
     "nan": "^2.14.2",
-    "typescript": "^4.2.4"
+    "typescript": "^4.2.4",
+    "wait-on": "^6.0.0"
   },
   "scripts": {
     "start": "rimraf ./build && react-scripts start",
     "build": "react-scripts build",
     "test": "cross-env CI=true react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "eslint ./src/"
+    "electron-dev": "concurrently \"cross-env BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-pack": "electron-builder -c.extraMetadata.main=build/electron.js",
+    "lint": "eslint ./src/",
+    "preelectron-pack": "react-scripts build"
   },
   "eslintConfig": {
     "extends": [
@@ -75,14 +86,22 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "last 1 electron version"
     ],
     "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 electron version"
     ]
+  },
+  "build": {
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "public"
+    },
+    "win": {
+        "icon": "build/logoDBRIF.png"
+    }
   }
 }

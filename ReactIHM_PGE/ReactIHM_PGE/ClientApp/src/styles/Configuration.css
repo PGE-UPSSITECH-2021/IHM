@@ -1,12 +1,13 @@
 ﻿.slider input {
-    width: 65%; /* Full-width */
-    height: 8px; /* Specified height */
+    width: 20.3vw; /* Full-width */
+    height: 1vh; /* Specified height */
     background: #878787; /* Grey background */
     outline: none; /* Remove outline */
     opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
     -webkit-transition: .2s; /* 0.2 seconds transition on hover */
     transition: opacity .2s;
     float: right;
+    -webkit-appearance: none;
 }
 
 /* Mouse-over effects */
@@ -28,6 +29,7 @@
     height: 20px; /* Slider handle height */
     background: #273339; /* Green background */
     cursor: pointer; /* Cursor on hover */
+    -webkit-appearance: none;
 }
 
 .slider::-moz-range-thumb {
@@ -40,20 +42,20 @@
 .config{
     display:flex;
     flex-direction:column;
-    background-color: #E7E6E6;
-    border-bottom-style: solid;
-    border-bottom-width: 3px;
-    border-bottom-color: #273339;
-    padding-left:5%;
-    padding-right:5%;
+    padding-left:2vw;
+    padding-right:2vw;
 }
 
 h3 {
     text-align: center;
-    padding-bottom: 10px;
-    font-size: 20px;
+    padding-bottom: 1.25vh;
+    font-size: 2.8vh;
     color: #273339;
     font-weight: bold;
+}
+
+select{
+    font-size:1.8vh;
 }
 
 .bouton-normal {
@@ -62,7 +64,9 @@ h3 {
     opacity: 0.7;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
     border-radius:6px;
-    padding-bottom:2px;
+    padding-bottom:0.25vh;
+    margin-bottom:0.8vh;
+    font-size:1.85vh;
 }
 /* Mouse-over effects */
 .bouton-normal:hover {
@@ -78,7 +82,8 @@ h3 {
     opacity: 0.7;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
     border-radius: 6px;
-    width: 50%;
+    width: 17.85vw;
+    font-size:1.85vh;
 }
 /* Mouse-over effects */
 .bouton-import:hover {
@@ -91,7 +96,7 @@ h3 {
 .champImport {
     display: flex;
     flex-direction: row-reverse;
-    padding-right: 5px;
+    padding-right: 0.34vw;
 }
 
 .bouton-select {
@@ -99,10 +104,11 @@ h3 {
     color: black;
     box-shadow: 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.8);
     border-radius: 6px;
-    width:38%;
+    width:14.35vw;
     text-align:center;
-    font-size:small;
+    font-size:1.75vh;
     opacity:0.8;
+    margin-bottom:0.6vh;
 }
 .bouton-select:hover {
    opacity:1;
@@ -112,12 +118,14 @@ h3 {
 }
 
 .labels {
-    padding-left:0.9%; /*5px*/
-    padding-right: 1.8%; /*10px*/
+    padding-left: 0.35vw; /*5px*/
+    padding-right: 0.65vw; /*10px*/
+    font-size: 2vh;
 }
 
 .labels-mtnc {
-    margin-right:5px;
+    margin-right: 5px;
+    font-size: 2vh;
 }
 
 .bouton-run {
@@ -126,6 +134,7 @@ h3 {
     opacity: 0.7;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
     border-radius: 6px;
+    font-size:1.85vh;
 }
 /* Mouse-over effects */
 .bouton-run:hover {
@@ -136,28 +145,36 @@ h3 {
 }
 
 .champ{
-    padding-top:3.6%; /*20px*/
+    padding-top:2.55vh; /*20px*/
 }
 
 .champ-mtnc {
     align-self:center;
-    padding-top: 20%;
+    padding-top: 14.1vh;
 }
 
 .champ-slider {
-    padding-top: 3.6%; /*20px*/
-    padding-bottom: 3.6%; /*20px*/
-    padding-right: 12.8%; /*70px*/
+    padding-top: 2.5vh; /*20px*/
+    padding-bottom: 2.55vh; /*20px*/
+    padding-right: 4.6vw; /*70px*/
 }
 
 .etat-courant {
-    padding-top:5%; 
+    padding-top:5.25vh; 
     display: flex;
     flex-direction:row;
+    font-size: 2vh;
+}
+
+.etat-courant-admin {
+    padding-top: 5.2vh;
+    display: flex;
+    flex-direction: row;
+    font-size: 2vh;
 }
 
 .etat-courant-maintenance {
-    padding-top: 30.5%;
+    padding-top: 25.6vh;
     display: flex;
     flex-direction: row;
 }
@@ -165,7 +182,7 @@ h3 {
 .etat-col-1{
     display:flex;
     flex-direction:column;
-    width:55%;
+    width:19.8vw;
 }
 
 .etat{
@@ -174,59 +191,61 @@ h3 {
 }
 
 .etat-import {
-    padding-bottom: 3.3%; /*20px*/
-    padding-left: 0.1%; /*5px*/
+    padding-bottom: 1.3vh; /*20px*/
+    padding-left: 0.05vw; /*5px*/
 }
 
-.rep{
-    padding-left:0.5%; /*15px*/
-    font-weight:bold;
-    font-size:large;
-    color:#7ABD6A
+.rep {
+    padding-left: 0.1vw; /*15px*/
+    font-weight: bold;
+    font-size: 2.1vh;
+    color: #7ABD6A
 }
 
 .rep-occ {
-    padding-left: 0.5%;
+    padding-left: 0.1vw;
     font-weight: bold;
-    font-size: large;
+    font-size: 2.1vh;
     color: #EC6427;
 }
 
 .rep-stop {
-    padding-left: 0.5%;
+    padding-left: 0.3vw;
     font-weight: bold;
-    font-size: large;
+    font-size: 2.1vh;
     color: #E30613;
 }
 
 .rep-non-init {
-    padding-left: 0.5%;
+    padding-left: 0.1vw;
     font-weight: bold;
-    font-size: large;
+    font-size: 2.1vh;
     color: #FAB62B;
 }
 
 .champCheck {
     display: flex;
     flex-direction: column;
-    padding-left: 27%;
+    padding-left: 9.7vw;
+    font-size:2vh;
 }
 
 .icone{
-    width:6.8%;
+    width:1.5vw;
 }
 
 .import-ok{
-    font-size:small;
+    font-size:1.65vh;
     font-style:italic;
     text-align:right;
-    padding-top:2px;
-    padding-right:5px;
+    padding-top:0.25vh;
+    padding-right:0.3vw;
     color:#EC6427;
 }
 
 .value-conf{
     opacity:1;
+    font-size:2vh;
 }
 
 .value-conf-disabled{
@@ -242,12 +261,12 @@ h3 {
 }
 
 .wrap-bouton-parking{
-    padding-left:10%;
-    padding-bottom:3%;
+    padding-left:2vw;
+    padding-bottom:1.5vh;
 }
 
 .bouton-group {
-    width: 100%;
+    width: 36vw;
 }
 
 .bouton-normal-mid {
@@ -256,8 +275,9 @@ h3 {
     opacity: 0.7;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
     border-radius: 6px;
-    padding-bottom: 0.5px;
-    width:50%
+    width:18vw;
+    font-size:1.85vh;
+    margin-bottom:0.8vh;
 }
     /* Mouse-over effects */
     .bouton-normal-mid:hover {
@@ -269,47 +289,47 @@ h3 {
     }
 
 .run-buttons-mtnc {
-    padding-left: 27%;
-    padding-top: 13.8%;
+    padding-left: 9.7vw;
+    padding-top: 9.75vh;
 }
 
 .space-button-mtnc {
-    padding-right: 10%;
+    padding-right: 2.65vw;
 }
 
 .bouton-start-mtnc {
-    width: 15%;
+    width: 3.95vw;
     opacity: 0.8;
 }
 .bouton-start-mtnc:hover {
     opacity: 1;
 }
 .bouton-start-mtnc-disabled {
-    width: 15%;
+    width: 3.95vw;
     opacity: 0.2;
 }
 
 .bouton-pause-mtnc {
-    width: 15%;
+    width: 3.95vw;
     opacity: 0.8;
 }
 .bouton-pause-mtnc:hover {
     opacity: 1;
 }
 .bouton-pause-mtnc-disabled {
-    width: 15%;
+    width: 3.95vw;
     opacity: 0.2;
 }
 
 
 .bouton-stop-mtnc {
-    width: 15.8%;
+    width: 4.15vw;
     opacity: 0.8;
 }
 .bouton-stop-mtnc:hover {
     opacity: 1;
 }
 .bouton-stop-mtnc-disabled {
-    width: 15.8%;
+    width: 4.15vw;
     opacity: 0.2;
 }

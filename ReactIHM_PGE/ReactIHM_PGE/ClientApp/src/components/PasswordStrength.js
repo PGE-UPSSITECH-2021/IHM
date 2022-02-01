@@ -91,7 +91,7 @@ function PasswordStrength() {
         setNewPassword("");
         setPasswordConfirm("");
         setContainsUL(false);
-        alert("Mot de passe modifié !");
+        //alert("Mot de passe modifié !");
     }
 
     return (
@@ -105,7 +105,7 @@ function PasswordStrength() {
                     onChange={e => passwordModif(e)}
                     onKeyUp={validatePassword}
                     />
-                <button onClick={() => setPasswordIsVisible(!passwordIsVisible)}> {passwordIsVisible ? <BiShowAlt /> : <BiHide />} </button>
+                <button className="icon-set-mdp-visible" onClick={() => setPasswordIsVisible(!passwordIsVisible)}> {passwordIsVisible ? <BiShowAlt className="icon-eye" /> : <BiHide className="icon-eye"/>} </button>
             </div>
             <span className='label-identifiant'> Confirmation mot de passe : </span>
             <div className="mdp-area-2">
@@ -115,8 +115,8 @@ function PasswordStrength() {
                     value={passwordConfirm}
                     onChange={e => confirmPasswordModif(e)}
                     onKeyUp={validatePassword}
-                    />
-                <button onClick={() => setPasswordConfirmIsVisible(!passwordConfirmIsVisible)}> {passwordConfirmIsVisible ? <BiShowAlt /> : <BiHide />} </button>
+                />
+                <button className="icon-set-mdp-visible" onClick={() => setPasswordConfirmIsVisible(!passwordConfirmIsVisible)}> {passwordConfirmIsVisible ? <BiShowAlt className="icon-eye" /> : <BiHide className="icon-eye" />} </button>
             </div>
             <Button block size="lg" type="submit" disabled={!(containsUL && containsLL && containsN && containsSC && contains7C && passwordMatch)} className='mdp-sauv-button' onClick={saveNewPassword}>
                 Enregistrer

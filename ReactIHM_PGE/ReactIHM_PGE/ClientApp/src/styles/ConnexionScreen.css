@@ -1,45 +1,46 @@
 .pge-id-title {
     text-align: center;
-    padding-bottom: 10px;
-    padding-bottom:0.7%;
+    padding-bottom:1.3vh;
     color: #273339;
+    font-size:3vh;
 }
 
 .pge-id-champ {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: medium;
+    font-size: 2vh;
     color: black;
 }
 
 .input-box, textarea{
     background-color:white;
     width: 98%; 
+    font-size:1.9vh;
 }
 
 .input-box-fail, textarea {
     border-style: solid;
     border-color: rgba(227,6,19,0.8);
-    border-width:2px;
+    border-width: 2px;
     width: 98%;
+    font-size: 1.9vh;
 }
 
 .lineCo{
-    padding-top:10px;
+    padding-top:1.2vh;
 }
 
 .input-button{
     background-color: #273339;
     color: white;
     float: right;
-    font-size: small;
-    height: 25px;
+    height: 3.2vh;
     border-radius:6px;
+    font-size:1.7vh;
 }
 
 .input-button:disabled {
-    background-color: #273339;
     opacity:0.2;
 }
 
@@ -50,25 +51,25 @@
 
 .label{
     padding-bottom: 20px;
+    font-size:2vh;
 }
 
 .forgotten-mdp{
-    font-size: small;
     text-decoration: underline;
     color : blue;
 }
 
 .logo-usr {
-    padding-top: 60px;
-    width: 80px;
+    padding-top: 8vh;
+    width: 6vw;
     display: block;
     margin-left: auto;
     margin-right: auto
 }
 
 .info-erreur {
-    padding-top: 8px;
-    font-size: small;
+    padding-top: 0.9vh;
+    font-size: 1.65vh;
     font-style: italic;
     color: rgb(227,6,19);
     text-align: center;

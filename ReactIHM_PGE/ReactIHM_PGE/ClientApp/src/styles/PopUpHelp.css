@@ -3,23 +3,13 @@
     position: absolute;
     background: rgba(39,51,57,0.6);
     border-radius: 4px;
-    top: 18%;
+    top: 19vh;
     border-style: solid;
     border-width: 3px;
     border-color: #273339;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
-    width: 40%;
-    margin-left:1%;
-}
-
-.cardImagePopUp {
-    width: 80%;
-    align-content: center;
-    align-self: center;
-}
-
-#imgPopUpHelp {
-    /*width: 99.9%;*/
+    width: 50vw;
+    margin-left:-5vw;
 }
 
 .box-help {
@@ -28,9 +18,12 @@
     border-radius: 4px;
     background-color: #E7E6E6;
     border: 2px solid #999;
-    width: 95%;
-    padding: 5px;
-    margin: 8px;
+    padding: 0.7vw;
+    margin: 1vh;
+}
+
+h5.popup-text{
+    font-size:1.8vh;
 }
 
 .return-help {
@@ -38,25 +31,13 @@
     background-color: #273339;
     color:white;
     opacity:0.7;
+    font-size:1.9vh;
+    padding:0.2vh;
 }
 .return-help:hover{
     opacity:1;
 }
 
-.forcer-conform {
-    background-color: #273339;
-    color: white;
-    border-radius: 6px;
-    opacity: 0.8;
-}
-
-    .forcer-conform:hover {
-        opacity: 1;
-    }
-
-    .forcer-conform:disabled {
-        opacity: 0.2;
-    }
 
 .popup-title {
     font-weight: bold;

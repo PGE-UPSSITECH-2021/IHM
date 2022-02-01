@@ -98,7 +98,7 @@ function Header({ isDecoDisabled, currentPage, setCurrentPage, modeCo }) {
                             <MenuItem active={isResultsActive()} icon={<FaList />} onClick={changePageToResult} className="menuItem"><span className='textItem'>Résultats</span></MenuItem>
                         }
                         {modeCo === 1 ?
-                            <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem" onClick={changePageToUser}><span className='textItem'>Administrateur</span></MenuItem>
+                            <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem" onClick={changePageToUser}><span className='textItem'>Admin</span></MenuItem>
                             : modeCo === 0? <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem" onClick={changePageToUser}><span className='textItem'>Utilisateur</span></MenuItem>
                                 : <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem" onClick={changePageToUser}><span className='textItem'>Maintenance</span></MenuItem>
                         }
