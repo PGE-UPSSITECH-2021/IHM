@@ -2,6 +2,7 @@
 import 'eventemitter2';
 import * as ROSLIB from 'roslib';
 import noCam from '../assets/NoCamera.png';
+import dispositif from '../assets/dispositif.jpg'
 import start from '../assets/start.png';
 import pause from '../assets/pause.png';
 import stop from '../assets/stop.png';
@@ -130,7 +131,7 @@ function MiddleScreen({ actionEnCours, setActionEnCours, actionRunning, setActio
                             <div className='run-console-text'>• Action en cours...</div>
                         </div>
                     </div>
-                    : <img src={noCam} alt="No available image" className="img-demonstrateur" />}
+                    : <img src={dispositif} alt="Image du dispositif" className="img-demonstrateur" />}
             </div>
         )
     } else {

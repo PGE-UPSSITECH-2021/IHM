@@ -5,11 +5,11 @@
     margin-left: 2vw;
 }
 
-.scroll-bar {
+/*.scroll-bar {
     scroll-behavior: smooth;
     overflow-y: scroll;
     height: 30vh;
-}
+}*/
 
 .display-results {
     display: flex;
@@ -47,8 +47,8 @@
 
 .table-rows-results {
     background-color: #E7E6E6;
-    scroll-behavior: smooth;
-    overflow-y: scroll;
+    /*scroll-behavior: smooth;*/
+    /*overflow-y: scroll;*/
     height: 44vh;
 }
 
@@ -106,6 +106,12 @@
     text-align: center;
     transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     border-radius: 50%;
+}
+
+.table-results .MuiTableCell-head {
+    color: white;
+    font-weight: 550;
+    line-height: 1.5rem;
 }
 
 .MuiTableCell-root {

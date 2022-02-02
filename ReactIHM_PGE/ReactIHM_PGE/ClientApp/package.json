@@ -1,5 +1,6 @@
 {
-  "name": "reactihm_pge",
+  "name": "sauron",
+  "productName":  "Dispositif SAURON",
   "version": "0.1.0",
   "homepage": "./",
   "main": "./public/electron.js",
@@ -101,7 +102,7 @@
       "buildResources": "public"
     },
     "win": {
-        "icon": "build/logoDBRIF.png"
+        "icon": "public/logoDBRIF.ico"
     }
   }
 }

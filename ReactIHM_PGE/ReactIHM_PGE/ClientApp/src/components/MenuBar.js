@@ -81,6 +81,14 @@ function Header({ isDecoDisabled, currentPage, setCurrentPage, modeCo }) {
         return currentPage === 4;
     }
 
+    function getMenuItemClass() {
+        if (!isDecoDisabled) {
+            return "menuItem";
+        } else {
+            return "menuItem-disabled";
+        }
+    }
+
     return (
         <div id="header">
             {/* collapsed props to change menu size using menucollapse state */}
@@ -93,19 +101,19 @@ function Header({ isDecoDisabled, currentPage, setCurrentPage, modeCo }) {
                 </SidebarHeader>
                 <SidebarContent>
                     <Menu iconShape="square">
-                        <MenuItem active={isMainActive()} icon={<FiHome />} onClick={changePageToMain} className="menuItem"><span className='textItem'>Accueil</span></MenuItem>
+                        <MenuItem active={isMainActive()} icon={<FiHome />} onClick={changePageToMain} className={getMenuItemClass()}><span className='textItem'>Accueil</span></MenuItem>
                         {modeCo === 2 ? <span /> :
-                            <MenuItem active={isResultsActive()} icon={<FaList />} onClick={changePageToResult} className="menuItem"><span className='textItem'>Résultats</span></MenuItem>
+                            <MenuItem active={isResultsActive()} icon={<FaList />} onClick={changePageToResult} className={getMenuItemClass()}><span className='textItem'>Résultats</span></MenuItem>
                         }
                         {modeCo === 1 ?
-                            <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem" onClick={changePageToUser}><span className='textItem'>Admin</span></MenuItem>
-                            : modeCo === 0? <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem" onClick={changePageToUser}><span className='textItem'>Utilisateur</span></MenuItem>
-                                : <MenuItem active={isUserActive()} icon={<FaRegUser />} className="menuItem" onClick={changePageToUser}><span className='textItem'>Maintenance</span></MenuItem>
+                            <MenuItem active={isUserActive()} icon={<FaRegUser />} className={getMenuItemClass()} onClick={changePageToUser}><span className='textItem'>Admin</span></MenuItem>
+                            : modeCo === 0 ? <MenuItem active={isUserActive()} icon={<FaRegUser />} className={getMenuItemClass()} onClick={changePageToUser}><span className='textItem'>Utilisateur</span></MenuItem>
+                                : <MenuItem active={isUserActive()} icon={<FaRegUser />} className={getMenuItemClass()} onClick={changePageToUser}><span className='textItem'>Maintenance</span></MenuItem>
                         }
                         {modeCo === 1 ?
-                            <MenuItem active={isParamActive()} icon={<FiSettings />} className="menuItem" onClick={changePageToParam}><span className='textItem'>+/- Comptes</span></MenuItem>
+                            <MenuItem active={isParamActive()} icon={<FiSettings />} className={getMenuItemClass()} onClick={changePageToParam}><span className='textItem'>+/- Comptes</span></MenuItem>
                             : <span></span>}
-                        <MenuItem active={isHelpActive()} icon={<MdOutlineHelpOutline />} className="menuItem" onClick={changePageToHelp}><span className='textItem'>Aide</span></MenuItem>
+                        <MenuItem active={isHelpActive()} icon={<MdOutlineHelpOutline />} className={getMenuItemClass()} onClick={changePageToHelp}><span className='textItem'>Aide</span></MenuItem>
                         {modeCo === 1 ?
                             <div className='space-admin'><Button type="solid" startIcon={<FaPowerOff />} className="boutonDeconnexion" onClick={handleLogout} disabled={isDecoDisabled}>Déconnexion</Button></div>
                             : modeCo === 0 ? <div className='space'><Button type="solid" startIcon={<FaPowerOff />} className="boutonDeconnexion" onClick={handleLogout} disabled={isDecoDisabled}>Déconnexion</Button></div>

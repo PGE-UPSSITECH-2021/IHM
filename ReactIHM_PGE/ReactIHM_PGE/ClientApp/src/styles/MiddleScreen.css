@@ -1,7 +1,8 @@
 ﻿.img-demonstrateur{
-    padding-top:13.5vh;
-    width:39vw;
-    align-self:center;
+    width:55vw;
+    opacity:0.5;
+    height: 85.395vh;
+    margin-left:-9vw;
 }
 
 .middle {
