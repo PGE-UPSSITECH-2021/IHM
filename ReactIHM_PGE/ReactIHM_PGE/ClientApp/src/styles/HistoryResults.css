@@ -48,12 +48,25 @@
     background-color: #E7E6E6;
 }
 
-.MuiTableCell-root .MuiTableCell-head .table-cell .MuiTableCell-alignCenter {
-    font-size: 1.8vh;
+.MuiTableCell-root {
+    display: table-cell;
+    padding: 16px;
+    font-size: 1.8vh !important;
+    text-align: left;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 1.43;
+    border-bottom: 1px solid rgba(224, 224, 224, 1);
+    letter-spacing: 0.01071em;
+    vertical-align: inherit;
 }
 
-.MuiTableCell-root .MuiTableCell-body .MuiTableCell-alignCenter{
-    font-size: 1.8vh;
+.MuiTypography-body2 {
+    font-size: 1.5vh;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 1.43;
+    letter-spacing: 0.01071em;
 }
 
 .table-head {

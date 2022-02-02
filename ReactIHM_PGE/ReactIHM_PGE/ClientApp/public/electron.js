@@ -20,7 +20,9 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1024,
         height: 1024,
-        title: "SAURON"
+        title: "SAURON",
+        icon: "../build/logoDBRIF.png"
+
     });
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'index.html'),

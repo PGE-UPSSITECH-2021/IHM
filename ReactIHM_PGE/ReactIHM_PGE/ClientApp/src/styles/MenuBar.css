@@ -96,11 +96,21 @@
     color:black;
 }
 
+    #header .pro-sidebar-inner .pro-sidebar-layout .menuItem-disabled {
+        color: #E7E6E6;
+        opacity:0.5;
+    }
+
 #header .pro-sidebar-inner .pro-sidebar-layout .boutonDeconnexion {
     color: #273339;
     width:9.5vw;
     font-size:1.9vh;
+    opacity:1;
 }
+
+    #header .pro-sidebar-inner .pro-sidebar-layout .boutonDeconnexion:disabled {
+        opacity:0.5;
+    }
 
 #header .pro-sidebar-inner .pro-sidebar-layout .boutonDeconnexion:hover{
     color: #E30613;
