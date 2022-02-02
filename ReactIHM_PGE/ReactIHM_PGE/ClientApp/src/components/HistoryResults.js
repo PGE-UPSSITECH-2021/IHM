@@ -96,7 +96,7 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
         if (b.date < a.date) {
             return b1st;
         }
-        else if (a.diam < b.diam) {
+        else if (a.date < b.date) {
             return a1st;
         }
         else {

@@ -171,7 +171,6 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                             <TableCell className='table-cell-results' align="center">x</TableCell>
                                             <TableCell className='table-cell-results' align="center">y</TableCell>
                                             <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
-                                            <TableCell className='table-cell-results' align="center">Voir le trou</TableCell>
 
                                         </TableRow>
 
@@ -190,8 +189,6 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                     <TableCell align="center">{item.x}</TableCell>
                                                     <TableCell align="center">{item.y}</TableCell>
                                                     <TableCell align="center">{item.diam}</TableCell>
-                                                    <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" /></IconButton>
-                                                    </TableCell>
 
                                                 </TableRow>
 
@@ -213,7 +210,6 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                             <TableRow>
 
-                                                <TableCell align="center">aucun résultat</TableCell>
                                                 <TableCell align="center">aucun résultat</TableCell>
                                                 <TableCell align="center">aucun résultat</TableCell>
                                                 <TableCell align="center">aucun résultat</TableCell>

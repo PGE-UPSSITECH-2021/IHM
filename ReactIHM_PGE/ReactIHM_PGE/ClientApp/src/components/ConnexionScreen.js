@@ -59,32 +59,13 @@ function ConnexionScreen({ failed, modeCo, setModeCo }) {
         userHasAuthenticated(false);
     }
 
-    const main = async (code) => {
-        let pyodide_pkg = await import("pyodide/pyodide.js");
-        let pyodide = await pyodide_pkg.loadPyodide({
-            indexURL: "https://cdn.jsdelivr.net/pyodide/v0.19.0/full/"
-        });
-        return await pyodide.runPythonAsync(code);
-    }
-
-    const [output, setOutput] = useState("(loading...)");
-
-    useEffect(() => {
-        const run = async () => {
-            const scriptText = await (await fetch(script)).text();
-            const out = await main(scriptText);
-            setOutput(out);
-        }
-        run();
-
-    }, []);
-
+   
 
     return (
     <div>
         <img src={logo_usr} alt='logo utilisateur' className='logo-usr' />
             <h2 className='pge-id-title'>Identification
-                5 + 7 ={output}             </h2>
+                5 + 7 =           </h2>
         <div className='pge-id-champ'>
                 <Form onSubmit={handleSubmit} className="login" autocomplete="off">
                 <Form.Group size="lg" controlId="userID">
