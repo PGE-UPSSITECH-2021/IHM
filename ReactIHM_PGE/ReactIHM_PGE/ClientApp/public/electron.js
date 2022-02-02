@@ -20,7 +20,7 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1024,
         height: 1024,
-        title: "PGE"
+        title: "SAURON"
     });
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'index.html'),
@@ -34,3 +34,31 @@ function createWindow() {
     });
 }
 
+function openFileDialog(win, openInNewWindow) {
+    var dialogOptions = {
+        title: 'Select markdown file',
+        properties: ['openFile'],
+        filters: [
+            {
+                name: 'Markdown',
+                extensions: markdownExtensions
+            },
+            {
+                name: 'Al files',
+                extensions: ['*']
+            }
+        ]
+    }
+
+    win && dialog.showOpenDialog(win, dialogOptions, function (filePaths) {
+        if (!Array.isArray(filePaths) || !filePaths.length) {
+            return
+        }
+
+        if (!openInNewWindow) {
+            return sharedState.setFilePath(win.id, filePaths[0])
+        }
+
+        createWindow(createWindowOptions(true, filePaths[0]))
+    })
+}

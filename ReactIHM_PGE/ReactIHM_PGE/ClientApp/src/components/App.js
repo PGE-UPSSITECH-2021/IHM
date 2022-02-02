@@ -1,11 +1,11 @@
 import '../styles/App.css';
 import AppLogin from './AppLogin'
 import AppMainScreen from './AppMainScreen'
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AppContextAuth } from "../lib/contextLibAuth";
 
-
 function App() {
+
     const [isAuthenticated, userHasAuthenticated] = useState(false);
     const [modeCo, setModeCo] = useState(0);
     

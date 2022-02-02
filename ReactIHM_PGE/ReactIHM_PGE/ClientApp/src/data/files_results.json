@@ -1,27 +1,113 @@
-﻿[
-  {
-    "x": "1",
-    "y": "2.2",
-    "diam": "5"
-  },
-  {
-    "x": "1.5",
-    "y": "2.3",
-    "diam": "5"
-  },
-  {
-    "x": "2",
-    "y": "1",
-    "diam": "7"
-  },
-  {
-    "x": "5.6",
-    "y": "5.6",
-    "diam": "7"
-  },
-  {
-    "x": "3",
-    "y": "4",
-    "diam": "7"
-  }
-]
+{
+      "identification": [
+            {
+                  "x": "1",
+                  "y": "2.2",
+                  "diam": "5"
+            },
+            {
+                  "x": "1.5",
+                  "y": "2.3",
+                  "diam": "5"
+            },
+            {
+                  "x": "2",
+                  "y": "1",
+                  "diam": "7"
+            },
+            {
+                  "x": "5.6",
+                  "y": "5.6",
+                  "diam": "7"
+            },
+            {
+                  "x": "3",
+                  "y": "4",
+                  "diam": "7"
+            }
+      ],
+      "localisation": [
+            {
+                  "x": "1.01",
+                  "y": "1.192",
+                  "z": "2.168",
+                  "alpha": "3.14",
+                  "beta": "1.27",
+                  "gamma": "2.98"
+            }
+      ],
+      "qualite": [
+            {
+                  "x": "1",
+                  "y": "2.2",
+                  "diam": "5",
+                  "conform": "oui",
+                  "reason": "aucune"
+            },
+            {
+                  "x": "1.5",
+                  "y": "2.3",
+                  "diam": "5",
+                  "conform": "non",
+                  "reason": "difforme"
+            },
+            {
+                  "x": "2",
+                  "y": "1",
+                  "diam": "7",
+                  "conform": "oui",
+                  "reason": "aucune"
+            },
+            {
+                  "x": "5.6",
+                  "y": "5.6",
+                  "diam": "7",
+                  "conform": "non",
+                  "reason": "fissure"
+            },
+            {
+                  "x": "3",
+                  "y": "4",
+                  "diam": "7",
+                  "conform": "oui",
+                  "reason": "aucune"
+            }
+      ],
+      "qualite2": [
+            {
+                  "x": "1",
+                  "y": "2.2",
+                  "diam": "5",
+                  "conform": "oui",
+                  "reason": "aucune"
+            },
+            {
+                  "x": "1.5",
+                  "y": "2.3",
+                  "diam": "5",
+                  "conform": "non",
+                  "reason": "difforme"
+            },
+            {
+                  "x": "2",
+                  "y": "1",
+                  "diam": "7",
+                  "conform": "non",
+                  "reason": "difforme"
+            },
+            {
+                  "x": "5.6",
+                  "y": "5.6",
+                  "diam": "7",
+                  "conform": "oui",
+                  "reason": " aucune"
+            },
+            {
+                  "x": "3",
+                  "y": "4",
+                  "diam": "7",
+                  "conform": "oui",
+                  "reason": "aucune"
+            }
+      ]
+}

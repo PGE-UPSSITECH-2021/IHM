@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -16,13 +16,8 @@ import { AiOutlineArrowUp } from "react-icons/ai";
 import JsonData from '../data/files_results_history.json'
 
 
-function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcsvArray, setCsvArray, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate }) {
 
-    // TO DO
-    /* 1) Récupérer les données du fichier sauvegardé et les intégrer au tableau OK
-     * 2) Charger les données du fichier csv sélectionné dans le tableau et faire apparaitre les résultats
-     * 
-     * */
+function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcsvArray, setCsvArray, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate }) {
 
     const [checked, setChecked] = useState({});
     const handleChange = (event, row) => {

@@ -15,7 +15,7 @@ import loupe from '../assets/loupe.png'
 import '../styles/bootstrapStyle.scss'
 import returnArrow from "../assets/arrow_back.png"
 import noCam from '../assets/NoCamera.png'
-import JsonContent from '../data/file_results.json'
+import JsonContent from '../data/files_results.json'
 import PopUpResult from './PopUpResult'
 
 
@@ -64,7 +64,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
         setIsOpen(!isOpen);
     }
 
-    function chanegConformity() {
+    function changeConformity() {
         setIsOpen(!isOpen);
         JsonContent[nameFileRes].sort(function (a, b) {
             var a1st = -1; //negative value means left item should appear first
@@ -119,7 +119,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
         var b1st = 1; //positive value means right item should appear first
         var equal = 0; //zero means objects are equal
         //compare your object's property values and determine their order
-        if (JsonContent[nameFileRes].action === "identification")
+        if (JsonContent[nameFileRes].action === "identification" || JsonContent[nameFileRes].action === "qualite")
             if (b.diam < a.diam) {
                 return b1st;
             }
@@ -129,7 +129,15 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
             else {
                 return equal;
             }
-        else {
+     
+    });
+
+    JsonContent[nameFileRes].sort(function (a, b) {
+        var a1st = -1; //negative value means left item should appear first
+        var b1st = 1; //positive value means right item should appear first
+        var equal = 0; //zero means objects are equal
+        //compare your object's property values and determine their order
+        if (JsonContent[nameFileRes].action === "qualite")
             if (b.conform < a.conform) {
                 return b1st;
             }
@@ -139,7 +147,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
             else {
                 return equal;
             }
-        }
+
     });
 
 
@@ -255,7 +263,6 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                 <TableCell className='table-cell-results' align="center">alpha</TableCell>
                                                 <TableCell className='table-cell-results' align="center">beta</TableCell>
                                                 <TableCell className='table-cell-results' align="center">gamma</TableCell>
-                                                <TableCell className='table-cell-results' align="center">Voir le trou</TableCell>
 
                                             </TableRow>
 
@@ -295,7 +302,6 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                     <TableCell align="center">aucun résultat </TableCell>
                                                     <TableCell align="center">aucun résultat </TableCell>
                                                     <TableCell align="center">aucun résultat </TableCell>
-                                                    <TableCell align="center">aucun résultat </TableCell>
 
                                                 </TableRow>
                                                 
@@ -322,6 +328,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                             <TableRow>
                                                 <TableCell className='table-cell-results' align="center">x</TableCell>
                                                 <TableCell className='table-cell-results' align="center">y</TableCell>
+                                                <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
                                                 <TableCell className='table-cell-results' align="center">Conforme</TableCell>
                                                 <TableCell className='table-cell-results' align="center">Raison</TableCell>
                                                 <TableCell className='table-cell-results' align="center">Voir le trou</TableCell>
@@ -340,11 +347,12 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                         key={i}
                                                     >
 
-                                                        {item.conform === "no" ? <TableCell className="non-conform" align="center">{item.x}</TableCell> : <TableCell align="center">{item.x}</TableCell>}
-                                                        {item.conform === "no" ? <TableCell className="non-conform" align="center">{item.y}</TableCell> : <TableCell align="center">{item.y}</TableCell>}
-                                                        {item.conform === "no" ? <TableCell className="non-conform" align="center">{item.conform}</TableCell> : <TableCell align="center">{item.conform}</TableCell>}
-                                                        {item.conform === "no" ? <TableCell className="non-conform-reason" align="center">{item.reason}</TableCell> : <TableCell align="center">{item.reason}</TableCell>}
-                                                        {item.conform === "no" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell>}
+                                                        {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.x}</TableCell> : <TableCell align="center">{item.x}</TableCell>}
+                                                        {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.y}</TableCell> : <TableCell align="center">{item.y}</TableCell>}
+                                                        {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.diam}</TableCell> : <TableCell align="center">{item.diam}</TableCell>}
+                                                        {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.conform}</TableCell> : <TableCell align="center">{item.conform}</TableCell>}
+                                                        {item.conform === "non" ? <TableCell className="non-conform-reason" align="center">{item.reason}</TableCell> : <TableCell align="center">{item.reason}</TableCell>}
+                                                        {item.conform === "non" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell>}
                                                         {isOpen && <PopUpResult
                                                             content={<>
                                                                 <h3 className="popup-title">id trou</h3>
@@ -369,6 +377,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                                 <TableRow>
 
+                                                    <TableCell align="center">aucun résultat</TableCell>
                                                     <TableCell align="center">aucun résultat</TableCell>
                                                     <TableCell align="center">aucun résultat</TableCell>
                                                     <TableCell align="center">aucun résultat</TableCell>
