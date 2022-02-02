@@ -8,7 +8,6 @@ import TableFooter from '@material-ui/core/TableFooter'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton'
 import '../styles/HistoryResults.css'
 import { TablePagination } from '@material-ui/core'
@@ -16,7 +15,6 @@ import loupe from '../assets/loupe.png'
 import '../styles/bootstrapStyle.scss'
 import returnArrow from "../assets/arrow_back.png"
 import noCam from '../assets/NoCamera.png'
-import fs from "fs";
 import JsonContent from '../files_results.json'
 import PopUpResult from './PopUpResult'
 
@@ -37,8 +35,8 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     const dateSaveResult = moment(now).format('DD/MM/YYYY');
 
     var csv_data = [
-        ['', '', ''],
-        ['', '', ''],
+        ['FileName', 'date', 'plaque', 'action'],
+        ['identification_2', dateSaveResult, 'tole plate', 'identification'],
         ['x', 'y', 'diam'],
         [1, 2, 3],
         [4, 5, 6],
@@ -66,6 +64,92 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
         setIsOpen(!isOpen);
     }
 
+    function chanegConformity() {
+        setIsOpen(!isOpen);
+        JsonContent[nameFileRes].sort(function (a, b) {
+            var a1st = -1; //negative value means left item should appear first
+            var b1st = 1; //positive value means right item should appear first
+            var equal = 0; //zero means objects are equal
+            //compare your object's property values and determine their order
+            if (JsonContent[nameFileRes].action === "identification")
+                if (b.diam < a.diam) {
+                    return b1st;
+                }
+                else if (a.diam < b.diam) {
+                    return a1st;
+                }
+                else {
+                    return equal;
+                }
+            else {
+                if (b.conform < a.conform) {
+                    return b1st;
+                }
+                else if (a.conform < b.conform) {
+                    return a1st;
+                }
+                else {
+                    return equal;
+                }
+            }
+        });
+
+    }
+
+    /* Gestion de la pagination */
+
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(7);
+    const [dense, setDense] = React.useState(false);
+
+    const emptyRows =
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - JsonContent[nameFileRes].length) : 0;
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+    };
+
+
+    JsonContent[nameFileRes].sort(function (a, b) {
+        var a1st = -1; //negative value means left item should appear first
+        var b1st = 1; //positive value means right item should appear first
+        var equal = 0; //zero means objects are equal
+        //compare your object's property values and determine their order
+        if (JsonContent[nameFileRes].action === "identification" || JsonContent[nameFileRes].action === "qualite")
+            if (b.diam < a.diam) {
+                return b1st;
+            }
+            else if (a.diam < b.diam) {
+                return a1st;
+            }
+            else {
+                return equal;
+            }
+
+    });
+
+    JsonContent[nameFileRes].sort(function (a, b) {
+        var a1st = -1; //negative value means left item should appear first
+        var b1st = 1; //positive value means right item should appear first
+        var equal = 0; //zero means objects are equal
+        //compare your object's property values and determine their order
+        if (JsonContent[nameFileRes].action === "qualite")
+            if (b.conform < a.conform) {
+                return b1st;
+            }
+            else if (a.conform < b.conform) {
+                return a1st;
+            }
+            else {
+                return equal;
+            }
+
+    });
 
 
     return (
@@ -87,35 +171,40 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                         <TableRow>
                                             <TableCell className='table-cell-results' align="center">x</TableCell>
                                             <TableCell className='table-cell-results' align="center">y</TableCell>
-                                            <TableCell className='table-cell-results' align="center">Diamètre </TableCell>
-                                            <TableCell className='table-cell-results' align="center">Voir le trou</TableCell>
+                                            <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
 
                                         </TableRow>
 
                                     </TableHead>
                                     {JsonContent[nameFileRes].length > 0 ?
 
-                                        <TableBody >
+                                        <TableBody>
+                                            {(rowsPerPage > 0
+                                                ? JsonContent[nameFileRes].slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                : JsonContent[nameFileRes]).map((item, i) => (
 
-                                            {JsonContent[nameFileRes].map((item, i) => (
+                                                    <TableRow
+                                                        key={i}
+                                                    >
+
+                                                        <TableCell align="center">{item.x}</TableCell>
+                                                        <TableCell align="center">{item.y}</TableCell>
+                                                        <TableCell align="center">{item.diam}</TableCell>
+
+                                                    </TableRow>
 
 
+
+                                                ))}
+                                            {emptyRows > 0 && (
                                                 <TableRow
-                                                    key={i}
-
+                                                    style={{
+                                                        height: (dense ? 33 : 53) * emptyRows,
+                                                    }}
                                                 >
 
-                                                    <TableCell align="center">{item.x}</TableCell>
-                                                    <TableCell align="center">{item.y}</TableCell>
-                                                    <TableCell align="center">{item.diam}</TableCell>
-                                                    <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" /></IconButton>
-                                                    </TableCell>
-
                                                 </TableRow>
-
-
-
-                                            ))}
+                                            )}
 
                                         </TableBody> :
                                         <TableBody>
@@ -125,11 +214,26 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                 <TableCell align="center">aucun résultat</TableCell>
                                                 <TableCell align="center">aucun résultat</TableCell>
                                                 <TableCell align="center">aucun résultat</TableCell>
-                                                <TableCell align="center">aucun résultat</TableCell>
 
                                             </TableRow>
 
                                         </TableBody>}
+                                    <TableFooter>
+                                        <TableRow>
+
+                                            <TablePagination
+                                                rowsPerPageOptions={[7]}
+                                                colSpan={4}
+                                                count={JsonContent[nameFileRes].length}
+                                                rowsPerPage={rowsPerPage}
+                                                page={page}
+                                                onPageChange={handleChangePage}
+                                                onRowsPerPageChange={handleChangeRowsPerPage}
+                                            />
+
+                                        </TableRow>
+
+                                    </TableFooter>
                                 </Table>
                             </TableContainer>
                         </div>
@@ -156,7 +260,6 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                 <TableCell className='table-cell-results' align="center">alpha</TableCell>
                                                 <TableCell className='table-cell-results' align="center">beta</TableCell>
                                                 <TableCell className='table-cell-results' align="center">gamma</TableCell>
-                                                <TableCell className='table-cell-results' align="center">Voir le trou</TableCell>
 
                                             </TableRow>
 
@@ -178,8 +281,6 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                         <TableCell align="center">{item.alpha}</TableCell>
                                                         <TableCell align="center">{item.beta}</TableCell>
                                                         <TableCell align="center">{item.gamma}</TableCell>
-                                                        <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" /></IconButton>
-                                                        </TableCell>
 
                                                     </TableRow>
 
@@ -198,11 +299,11 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                     <TableCell align="center">aucun résultat </TableCell>
                                                     <TableCell align="center">aucun résultat </TableCell>
                                                     <TableCell align="center">aucun résultat </TableCell>
-                                                    <TableCell align="center">aucun résultat </TableCell>
 
                                                 </TableRow>
 
                                             </TableBody>}
+
                                     </Table>
                                 </TableContainer>
                             </div>
@@ -224,6 +325,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                             <TableRow>
                                                 <TableCell className='table-cell-results' align="center">x</TableCell>
                                                 <TableCell className='table-cell-results' align="center">y</TableCell>
+                                                <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
                                                 <TableCell className='table-cell-results' align="center">Conforme</TableCell>
                                                 <TableCell className='table-cell-results' align="center">Raison</TableCell>
                                                 <TableCell className='table-cell-results' align="center">Voir le trou</TableCell>
@@ -233,29 +335,40 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                         {JsonContent[nameFileRes].length > 0 ?
                                             <TableBody >
 
-                                                {JsonContent[nameFileRes].map((item, i) => (
+                                                {(rowsPerPage > 0
+                                                    ? JsonContent[nameFileRes].slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                    : JsonContent[nameFileRes]).map((item, i) => (
 
 
+                                                        <TableRow
+                                                            key={i}
+                                                        >
+
+                                                            {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.x}</TableCell> : <TableCell align="center">{item.x}</TableCell>}
+                                                            {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.y}</TableCell> : <TableCell align="center">{item.y}</TableCell>}
+                                                            {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.diam}</TableCell> : <TableCell align="center">{item.diam}</TableCell>}
+                                                            {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.conform}</TableCell> : <TableCell align="center">{item.conform}</TableCell>}
+                                                            {item.conform === "non" ? <TableCell className="non-conform-reason" align="center">{item.reason}</TableCell> : <TableCell align="center">{item.reason}</TableCell>}
+                                                            {item.conform === "non" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell>}
+                                                            {isOpen && <PopUpResult
+                                                                content={<>
+                                                                    <h3 className="popup-title">id trou</h3>
+                                                                </>}
+                                                                handleClose={togglePopupResult}
+                                                            />}
+
+                                                        </TableRow>
+
+                                                    ))}
+                                                {emptyRows > 0 && (
                                                     <TableRow
-                                                        key={i}
+                                                        style={{
+                                                            height: (dense ? 33 : 53) * emptyRows,
+                                                        }}
                                                     >
 
-                                                        {item.conform === "no" ? <TableCell className="non-conform" align="center">{item.x}</TableCell> : <TableCell align="center">{item.x}</TableCell>}
-                                                        {item.conform === "no" ? <TableCell className="non-conform" align="center">{item.y}</TableCell> : <TableCell align="center">{item.y}</TableCell>}
-                                                        {item.conform === "no" ? <TableCell className="non-conform" align="center">{item.conform}</TableCell> : <TableCell align="center">{item.conform}</TableCell>}
-                                                        {item.conform === "no" ? <TableCell className="non-conform-reason" align="center">{item.reason}</TableCell> : <TableCell align="center">{item.reason}</TableCell>}
-                                                        {item.conform === "no" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell>}
-
-
                                                     </TableRow>
-
-                                                ))}{isOpen && <PopUpResult
-                                                    content={<>
-                                                        <h3 className="popup-title">id trou</h3>
-                                                    </>}
-                                                    handleClose={togglePopupResult}
-                                                />}
-
+                                                )}
                                             </TableBody> :
                                             <TableBody>
 
@@ -264,12 +377,37 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                     <TableCell align="center">aucun résultat</TableCell>
                                                     <TableCell align="center">aucun résultat</TableCell>
                                                     <TableCell align="center">aucun résultat</TableCell>
+                                                    <TableCell align="center">aucun résultat</TableCell>
                                                     <TableCell align="center">aucun résultat </TableCell>
                                                     <TableCell align="center">aucun résultat </TableCell>
 
                                                 </TableRow>
+                                                {emptyRows > 0 && (
+                                                    <TableRow
+                                                        style={{
+                                                            height: (dense ? 33 : 53) * emptyRows,
+                                                        }}
+                                                    >
 
+                                                    </TableRow>
+                                                )}
                                             </TableBody>}
+                                        <TableFooter>
+                                            <TableRow>
+
+                                                <TablePagination
+                                                    rowsPerPageOptions={[7]}
+                                                    colSpan={5}
+                                                    count={JsonContent[nameFileRes].length}
+                                                    rowsPerPage={rowsPerPage}
+                                                    page={page}
+                                                    onPageChange={handleChangePage}
+                                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                                />
+
+                                            </TableRow>
+
+                                        </TableFooter>
                                     </Table>
                                 </TableContainer>
 

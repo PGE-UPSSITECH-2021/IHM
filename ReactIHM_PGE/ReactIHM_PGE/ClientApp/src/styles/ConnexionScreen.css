@@ -13,6 +13,10 @@
     color: black;
 }
 
+.forgotten-mdp .css-901oao {
+    font-size:1.7vh;
+}
+
 .input-box, textarea{
     background-color:white;
     width: 98%; 

@@ -17,11 +17,6 @@ import JsonData from '../files_results_history.json'
 
 function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcsvArray, setCsvArray, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate }) {
 
-    // TO DO
-    /* 1) Récupérer les données du fichier sauvegardé et les intégrer au tableau OK
-     * 2) Charger les données du fichier csv sélectionné dans le tableau et faire apparaitre les résultats
-     * 
-     * */
 
     const [checked, setChecked] = useState({});
     const handleChange = (event, row) => {
@@ -91,6 +86,40 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
         setPageRes(1);
         console.log(nameFileRes);
         console.log(resultAction);
+    }
+
+    JsonData.sort(function (a, b) {
+        var a1st = -1; //negative value means left item should appear first
+        var b1st = 1; //positive value means right item should appear first
+        var equal = 0; //zero means objects are equal
+        //compare your object's property values and determine their order
+        if (b.date < a.date) {
+            return b1st;
+        }
+        else if (a.diam < b.diam) {
+            return a1st;
+        }
+        else {
+            return equal;
+        }
+    });
+
+    function sortByAction() {
+        JsonData.sort(function (a, b) {
+            var a1st = -1; //negative value means left item should appear first
+            var b1st = 1; //positive value means right item should appear first
+            var equal = 0; //zero means objects are equal
+            //compare your object's property values and determine their order
+            if (b.action < a.action) {
+                return b1st;
+            }
+            else if (a.action < b.action) {
+                return a1st;
+            }
+            else {
+                return equal;
+            }
+        });
     }
 
 
@@ -170,7 +199,7 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
                                                 <TableCell align="center">{row.date}</TableCell>
                                                 <TableCell align="center">{row.plaque}</TableCell>
                                                 <TableCell align="center">{row.action}</TableCell>
-                                                <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={handleClickDetails} /></IconButton>
+                                                <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={function (event) { setNameFileRes(row.FileName); setResultAction(row.action); handleClickDetails(); }} /></IconButton>
                                                 </TableCell>
 
                                             </TableRow>
@@ -202,7 +231,7 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
                                                 <TableCell align="center">{row.date}</TableCell>
                                                 <TableCell align="center">{row.plaque}</TableCell>
                                                 <TableCell align="center">{row.action}</TableCell>
-                                                <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={(event) => handleClickDetails(event, row.FileName)} /></IconButton>
+                                                <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={function (event) { setNameFileRes(row.FileName); setResultAction(row.action); handleClickDetails(); }} /></IconButton>
                                                 </TableCell>
                                             </TableRow>
 
@@ -241,7 +270,6 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
         </div>
     );
 }
-
 
 
 export default HistoryResults;

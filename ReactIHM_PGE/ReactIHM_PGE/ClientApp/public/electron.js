@@ -23,7 +23,7 @@ function createWindow() {
         width: 1024,
         height: 1024,
         title: "SAURON",
-        icon: "../build/logoDBRIF.png"
+        icon: "./logoDBRIF.ico"
 
     });
     mainWindow.loadURL(url.format({
