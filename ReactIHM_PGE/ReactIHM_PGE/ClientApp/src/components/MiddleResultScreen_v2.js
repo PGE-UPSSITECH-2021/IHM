@@ -48,14 +48,14 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
     function saveResult() {
 
-        csvFileCreator(nameFileRes, csv_data);
+       /* csvFileCreator(nameFileRes, csv_data);
 
         const ctnt_action = csv_data[0][3];
         const ctnt_plaque = csv_data[0][4];
         const ctnt_date = csv_data[0][5];
         setResultAction(ctnt_action);
         setResultPlaque(ctnt_plaque);
-        setResultDate(ctnt_date);
+        setResultDate(ctnt_date);*/
     }
 
     //PopUp details result

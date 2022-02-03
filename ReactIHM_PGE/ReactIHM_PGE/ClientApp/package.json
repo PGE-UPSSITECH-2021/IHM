@@ -1,6 +1,6 @@
 {
   "name": "sauron",
-  "productName":  "Dispositif SAURON",
+  "productName": "Dispositif SAURON",
   "version": "0.1.0",
   "homepage": "./",
   "main": "./public/electron.js",
@@ -17,6 +17,7 @@
     "jquery": "^3.5.1",
     "merge": "^2.1.1",
     "moment": "^2.29.1",
+    "move-file": "^3.0.0",
     "node-sass": "^6.0.1",
     "oidc-client": "^1.11.5",
     "papaparse": "^5.3.1",
@@ -102,7 +103,7 @@
       "buildResources": "public"
     },
     "win": {
-        "icon": "public/logoDBRIF.ico"
+      "icon": "public/logoDBRIF.ico"
     }
   }
 }
