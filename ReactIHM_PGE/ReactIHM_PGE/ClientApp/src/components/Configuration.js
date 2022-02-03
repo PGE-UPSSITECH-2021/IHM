@@ -18,12 +18,15 @@ import stop from '../assets/stop.png';
 // import { moveFile } from 'move-file';
 
 var ros = new ROSLIB.Ros({
-    url: 'ws://192.168.137.230:9090'
+    url: 'ws://192.168.1.63:9090'
 })
 
 function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo, selectedTest, setSelectedTest, testRunning, setTestRunning }) {
     const [msg_act_courante, setMsgActCourante] = useState("");
     const [etatRobotActuel, setEtatRobotActuel] = useState("DECONNECTE"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE/ INITIALISATION
+    const [etatCamActuel, setEtatCamActuel] = useState("ETEINTE"); // Etats possibles : ETEINTE / EN MARCHE 
+    const [etatSecuriteActuel, setEtatSecuriteActuel] = useState("NOK"); // Etats possibles : NOK / OK
+    const [etatPlaqueActuel, setEtatPlaqueActuel] = useState("?"); // Etats possibles : ? / NOK / OK
     const [isConnectedROS, setIsConnectedROS] = useState(false);
     const [subscribed, setSubscribed] = useState(false);
     // var RNFS = require("react-native-fs");
@@ -34,9 +37,8 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         var message_ihm_run = new ROSLIB.Topic({
             ros: ros,
             name: '/message_ihm_run',
-            messageType: 'test_com/test_msg'
+            messageType: 'motoman_hc10_moveit_config/IHM_msg'
         });
-
         // Fonction appelée une fois la connexion établie
         ros.on('connection', function () {
             console.log('Connected to websocket server.');
@@ -52,6 +54,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
             setIsConnectedROS(false);
         });
 
+        // ROS ETAT ROBOT
         function callbackEtatRobot(message) {
             // Log console
             //console.log('Received message on ' + robot_state_listener.name);
@@ -60,8 +63,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
             setEtatRobotActuel(message.data);
 
         }
-
-        // Création du listener ROS
+        // Création du listener ROS Etat Robot
         var robot_state_listener = new ROSLIB.Topic({
             ros: ros,
             name: '/robot_state', // Choix du topic
@@ -71,7 +73,60 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
             robot_state_listener.subscribe(callbackEtatRobot);
             setSubscribed(true);
         }
-        // Affectation de la fonction de callback
+
+        // ROS ETAT CAMERA
+        function callbackEtatCam(message) {
+            // Log console
+            //console.log(message.data);
+            setEtatCamActuel(message.data);
+
+        }
+        // Création du listener ROS Etat Camera
+        var cam_state_listener = new ROSLIB.Topic({
+            ros: ros,
+            name: '/cam_state', // Choix du topic
+            messageType: 'std_msgs/String' // Type du message transmis
+        });
+        if (subscribed === false) {
+            cam_state_listener.subscribe(callbackEtatCam);
+            setSubscribed(true);
+        }
+
+        //ROS ETAT SECURITE
+        function callbackEtatSecurite(message) {
+            // Log console
+            //console.log(message.data);
+            setEtatSecuriteActuel(message.data);
+
+        }
+        // Création du listener ROS Etat Securite
+        var securite_state_listener = new ROSLIB.Topic({
+            ros: ros,
+            name: '/securite_state', // Choix du topic
+            messageType: 'std_msgs/String' // Type du message transmis
+        });
+        if (subscribed === false) {
+            securite_state_listener.subscribe(callbackEtatSecurite);
+            setSubscribed(true);
+        }
+
+        //ROS ETAT PLAQUE
+        function callbackEtatPlaque(message) {
+            // Log console
+            //console.log(message.data);
+            setEtatPlaqueActuel(message.data);
+
+        }
+        // Création du listener ROS Etat Plaque
+        var plaque_state_listener = new ROSLIB.Topic({
+            ros: ros,
+            name: '/plaque_state', // Choix du topic
+            messageType: 'std_msgs/String' // Type du message transmis
+        });
+        if (subscribed === false) {
+            plaque_state_listener.subscribe(callbackEtatPlaque);
+            setSubscribed(true);
+        }
     }
 
     const [openFileSelector, { filesContent, loading, errors, plainFiles, clear }] = useFilePicker({ multiple: false, accept: ['.csv'] })
@@ -213,15 +268,27 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                 [selectedAction, selectedPlaque, selectedDiam, rangevalConf]
             ];
         }
-        return csv_data;
+        const fs = require('browserify-fs');
+        var newPath = "C:/Users/Utilisateur/Documents/Julie_UPSSITECH/3A/PGE/GitHub/IHM/ReactIHM_PGE/ReactIHM_PGE/ClientApp/src/assets/default.csv";
+        //fs.writeFile(newPath, csv_data);
+        fs.writeFile(newPath, csv_data, (err) => {
+            if (err) {
+                console.log(err);
+                console.log("Current dir : " + process.cwd());
+                console.log("dirname: " + __dirname);
+            } else {
+                console.log("File written successfully\n");
+            }
+        });
+        //return csv_data;
     }
 
     function moveToRightFolder() {
         // TODO
-        var oldPath = 'C:/Users/Utilisateur/Downloads/default.csv';
-        var newPath = '../assets/default.csv';
+        //var oldPath = 'C:/Users/Utilisateur/Downloads/default.csv';
+        //var newPath = '../assets/default.csv';
         //moveFile(oldPath, newPath);
-        console.log('The file has been moved');
+        //console.log('The file has been moved');
     }
 
     function selectAll() {
@@ -509,9 +576,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                 {modeCo === 1 ?
                     <div className="bouton-group">
                         <button type="button" className="bouton-normal-mid" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
-                        <CSVLink data={saveConfigDefault()} filename={"default.csv"} onClick={moveToRightFolder()}>
-                            <button type="button" className="bouton-normal-mid" onClick={saveConfigDefault} disabled={!configValid()}>Sauvegarder comme Config Défaut</button>
-                        </CSVLink>
+                        <button type="button" className="bouton-normal-mid" onClick={saveConfigDefault} disabled={!configValid()}>Sauvegarder comme Config Défaut</button>
                     </div>
                     : <button type="button" className="bouton-normal" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
                 }
@@ -545,7 +610,8 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                         <div className='etat-import'>
                             <AiFillSafetyCertificate className="icone" />
                             Sécurité :
-                            <span className='rep'> OK </span>
+                            {etatSecuriteActuel === "NOK" ? <span className='rep-stop'>{etatSecuriteActuel}</span> : <span className='rep'>{etatSecuriteActuel}</span>}
+                            
                         </div>
                         <div className='etat-import'>
                             <GiRobotGrab className="icone" />
@@ -561,11 +627,13 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                     <div className='etat-col-2'>
                         <div className='etat-import'>
                             <   AiFillVideoCamera className="icone" />
-                            Etat caméra : <span className='rep'>EN MARCHE</span>
+                            Etat caméra :
+                            {etatCamActuel === "EN MARCHE" ? <span className='rep'>{etatCamActuel}</span> : <span className='rep-stop'>{etatCamActuel}</span> }
                         </div>
                         <div className='etat-import'>
                             <GiMetalPlate className="icone" />
-                            Plaque détectée : <span className='rep'>OK</span>
+                            Plaque détectée :
+                            {etatPlaqueActuel === "?" ? <span className='rep-non-init'>{etatPlaqueActuel}</span> : etatPlaqueActuel === "OK" ? <span className='rep'>{etatPlaqueActuel}</span> : <span className='rep-stop'>{etatPlaqueActuel}</span> }
                         </div>
                     </div>
                 </div>
@@ -606,7 +674,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                         <div className='etat-import'>
                             <AiFillSafetyCertificate className="icone" />
                             Sécurité :
-                            <span className='rep'> OK </span>
+                            {etatSecuriteActuel === "NOK" ? <span className='rep-stop'>{etatSecuriteActuel}</span> : <span className='rep'>{etatSecuriteActuel}</span>}
                         </div>
                         <div className='etat-import'>
                             <GiRobotGrab className="icone" />
@@ -622,11 +690,13 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                     <div className='etat-col-2'>
                         <div className='etat-import'>
                             <   AiFillVideoCamera className="icone" />
-                            Etat caméra : <span className='rep'>EN MARCHE</span>
+                            Etat caméra :
+                            {etatCamActuel === "EN MARCHE" ? <span className='rep'>{etatCamActuel}</span> : <span className='rep-stop'>{etatCamActuel}</span>}
                         </div>
                         <div className='etat-import'>
                             <GiMetalPlate className="icone" />
-                            Plaque détectée : <span className='rep'>OK</span>
+                            Plaque détectée :
+                            {etatPlaqueActuel === "?" ? <span className='rep-non-init'>{etatPlaqueActuel}</span> : etatPlaqueActuel === "OK" ? <span className='rep'>{etatPlaqueActuel}</span> : <span className='rep-stop'>{etatPlaqueActuel}</span>}
                         </div>
                     </div>
                 </div>
