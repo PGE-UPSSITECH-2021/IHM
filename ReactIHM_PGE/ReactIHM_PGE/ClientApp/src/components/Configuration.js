@@ -21,7 +21,7 @@ var ros = new ROSLIB.Ros({
     url: 'ws://192.168.137.230:9090'
 })
 
-function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo, selectedTest, setSelectedTest, testRunning, setTestRunning }) {
+function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo, selectedTest, setSelectedTest, testRunning, setTestRunning }) {
     const [msg_act_courante, setMsgActCourante] = useState("");
     const [etatRobotActuel, setEtatRobotActuel] = useState("DECONNECTE"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE/ INITIALISATION
     const [isConnectedROS, setIsConnectedROS] = useState(false);

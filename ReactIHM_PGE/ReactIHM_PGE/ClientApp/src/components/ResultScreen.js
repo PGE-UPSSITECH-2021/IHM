@@ -5,7 +5,7 @@ import MiddleResultScreen_v2 from './MiddleResultScreen_v2'
 import HistoryResults from './HistoryResults'
 
 
-function ResultScreen({ currentPage, setCurrentPage, modeCo }) {
+function ResultScreen({ nameFileCsv, setNameFileCsv, currentPage, setCurrentPage, modeCo }) {
 
     const [pageRes, setPageRes] = useState(0);
     const [nameFileRes, setNameFileRes] = useState("");
@@ -19,7 +19,7 @@ function ResultScreen({ currentPage, setCurrentPage, modeCo }) {
             <span className='menu-bar'><MenuBar currentPage={currentPage} setCurrentPage={setCurrentPage} modeCo={modeCo} /></span>
             {pageRes === 0 ?
                 <HistoryResults setPageRes={setPageRes} nameFileRes={nameFileRes} setNameFileRes={setNameFileRes} modeCo={modeCo} csvArray={csvArray} setCsvArray={setCsvArray} setResultAction={setResultAction} resultAction={resultAction} setResultPlaque={setResultPlaque} resultPlaque={resultPlaque} setResultDate={setResultDate} resultDate={resultDate}/>
-                : <MiddleResultScreen_v2 setPageRes={setPageRes} nameFileRes={nameFileRes} setNameFileRes={setNameFileRes} csvArray={csvArray} setCsvArray={setCsvArray} setResultAction={setResultAction} resultAction={resultAction} setResultPlaque={setResultPlaque} resultPlaque={resultPlaque} setResultDate={setResultDate} resultDate={resultDate}/>
+                : <MiddleResultScreen_v2 nameFileCsv={nameFileCsv} setNameFileCsv={setNameFileCsv} setPageRes={setPageRes} nameFileRes={nameFileRes} setNameFileRes={setNameFileRes} csvArray={csvArray} setCsvArray={setCsvArray} setResultAction={setResultAction} resultAction={resultAction} setResultPlaque={setResultPlaque} resultPlaque={resultPlaque} setResultDate={setResultDate} resultDate={resultDate}/>
             }
 
         </div>)

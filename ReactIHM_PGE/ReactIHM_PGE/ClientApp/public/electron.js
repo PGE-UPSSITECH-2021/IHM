@@ -16,12 +16,17 @@ app.on('activate', function () {
         createWindow()
     }
 });
+
 function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1024,
         height: 1024,
         title: "SAURON",
-        icon: "../build/logoDBRIF.png"
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+            enableRemoteModule: true
+        }
 
     });
     mainWindow.loadURL(url.format({
@@ -34,4 +39,10 @@ function createWindow() {
     mainWindow.on('page-title-updated', function (e) {
         e.preventDefault()
     });
+    /*var python = require('child_process').spawn('python', ['../src/python/specificResults.py']);
+    python.stdout.on('data', function (data) {
+        console.log("data: ", data.toString('utf8'));
+    });*/
+
 }
+

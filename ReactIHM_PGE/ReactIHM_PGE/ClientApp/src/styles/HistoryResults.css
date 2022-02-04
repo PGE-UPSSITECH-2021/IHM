@@ -69,6 +69,10 @@
     letter-spacing: 0.01071em;
 }
 
+.table-rows {
+    background-color: #E7E6E6;
+}
+
 .table-head {
     font-size: 2.45vh;
     position: absolute;

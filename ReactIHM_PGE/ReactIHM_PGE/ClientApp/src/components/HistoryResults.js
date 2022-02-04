@@ -13,11 +13,12 @@ import { TablePagination } from '@material-ui/core'
 import loupe from '../assets/loupe.png'
 import { MdDeleteForever } from "react-icons/md";
 import { AiOutlineArrowUp } from "react-icons/ai";
-import JsonData from '../data/files_results_history.json'
+import JsonData from 'C:\\Users\\AnaisM\\Documents\\UPSSITECH\\3A\\PGE\\IHM\\IHM\\ReactIHM_PGE\\ReactIHM_PGE\\ClientApp\\src\\data\\files_results_history.json'
+import $ from 'jquery';
 
 
 
-function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcsvArray, setCsvArray, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate }) {
+function HistoryResults({ nameFileCsv, setNameFileCsv, setPageRes, nameFileRes, setNameFileRes, modeCo, setcsvArray, setCsvArray, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate }) {
 
     const [checked, setChecked] = useState({});
     const handleChange = (event, row) => {
@@ -78,6 +79,8 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
     };
 
     function deleteRows() {
+        var csv = require('jquery-csv');
+        console.log($.csv.toArray("../data/identification.csv"));
         alert("TO DO");
     }
 
@@ -126,7 +129,7 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
     return (
         <div className='middle-results-history'>
             <div className='header-results-history'>
-                <h1 className='table-head'> Historique des résultats </h1>
+                <h1 className='table-head'> Historique des résultats {nameFileCsv} </h1>
                 {modeCo === 1 ? <span className="nb-select"> Nombre de fichiers sélectionnés :  {selected.length} </span> : <span></span>}
                 {modeCo === 1 ? <MdDeleteForever alt='Suppression des élements' className="button-remove" onClick={deleteRows} /> : <span className="button-remove" />}
 

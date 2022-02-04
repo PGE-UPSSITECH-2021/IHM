@@ -8,9 +8,9 @@ import sys
 
 def getJSONContent():
     """ Fonction permettant de lister le contenu du dossier, sous forme de liste, dans lequel sont sauvegardés les résultats """
-    path_to_folder = '..\\data\\'
+    path_to_folder = 'C:\\Users\\AnaisM\\Documents\\UPSSITECH\\3A\\PGE\\IHM\\IHM\\ReactIHM_PGE\\ReactIHM_PGE\\ClientApp\\src\\data\\'
     path_to_file_list = glob.glob(path_to_folder + '*csv' )
-    print("coucou"+path_to_file_list)
+    print(path_to_file_list)
     file_list = [i.split('\\')[-1] for i in path_to_file_list]
     list_hist = []
     list_content=[]
@@ -36,12 +36,13 @@ def getJSONContent():
             d[clean_name_file]=list_content
             line_count=True
     # the json file where the output must be stored
-    out_file = open("../data/files_results_history.json", "w")
-    out_file_content = open("../data/files_results.json", "w")
+    out_file = open("C:\\Users\\AnaisM\\Documents\\UPSSITECH\\3A\\PGE\\IHM\\IHM\\ReactIHM_PGE\\ReactIHM_PGE\\ClientApp\\src\\data\\files_results_history.json", "w")
+    out_file_content = open("C:\\Users\\AnaisM\\Documents\\UPSSITECH\\3A\\PGE\\IHM\\IHM\\ReactIHM_PGE\\ReactIHM_PGE\\ClientApp\\src\\data\\files_results.json", "w")
     json.dump(dict(d), out_file_content, indent = 6)
     json.dump(list_hist, out_file, indent = 6)
     out_file.close()
     out_file_content.close()
-    return 5 + 8
+    return True
 
-getJSONContent()
+print(getJSONContent())
+sys.stdout.flush()

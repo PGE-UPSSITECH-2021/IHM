@@ -19,12 +19,36 @@ import JsonContent from '../data/files_results.json'
 import PopUpResult from './PopUpResult'
 
 
-function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArray, setCsvArray, selectedAction, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate }) {
+function MiddleResultScreen_v2({ changePage, setChangePage, nameFileCsv, setNameFileCsv, setPageRes, nameFileRes, setNameFileRes, csvArray, setCsvArray, selectedAction, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate }) {
 
 
     function changePageToHist() {
         setPageRes(0);
     }
+
+    //javascript create JSON object from two dimensional Array
+    function arrayToJSONObject(arr) {
+        //header
+        var keys = arr[0];
+
+        //vacate keys from main array
+        var newArr = arr.slice(1, arr.length);
+        var fs = require('fs');
+        var formatted = [],
+            data = newArr,
+            cols = keys,
+            l = cols.length;
+        for (var i = 0; i < data.length; i++) {
+            var d = data[i],
+                o = {};
+            for (var j = 0; j < l; j++)
+                o[cols[j]] = d[j];
+            formatted.push(o);
+        }
+        console.log(formatted);
+        return formatted;
+    }
+
 
     //Import/Export fichier.csv
     const csvFileCreator = require('csv-file-creator');
@@ -36,7 +60,9 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
     var csv_data = [
         ['FileName', 'date', 'plaque', 'action'],
-        ['identification_2', dateSaveResult, 'tole plate', 'identification'],
+        ['identification_2', dateSaveResult, 'tole plate', 'identification']
+    ];
+    var csv_data_content = [
         ['x', 'y', 'diam'],
         [1, 2, 3],
         [4, 5, 6],
@@ -49,7 +75,8 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     function saveResult() {
 
         csvFileCreator(nameFileRes, csv_data);
-
+        arrayToJSONObject(csv_data);
+        console.log(arrayToJSONObject(csv_data));
         const ctnt_action = csv_data[0][3];
         const ctnt_plaque = csv_data[0][4];
         const ctnt_date = csv_data[0][5];

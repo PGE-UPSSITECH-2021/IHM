@@ -15,6 +15,7 @@ function AppMainScreen({ modeCo }) { // main screen
     const [actionEnCours, setActionEnCours] = useState("Aucune action en cours");
     const [testRunning, setTestRunning] = useState(false);
     const [selectedTest, setSelectedTest] = useState("");
+    const [nameFileCsv, setNameFileCsv] = useState("");
 
     if (modeCo === 0) { // USER
         if (currentPage === 0) {
@@ -57,7 +58,7 @@ function AppMainScreen({ modeCo }) { // main screen
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
                     <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={1} selectedTest={selectedTest}/></div>
-                    <div className='main'><MainScreenUSR actionEnCrous={actionEnCours} setActionEnCours={setActionEnCours} currentPage={0} setCurrentPage={setCurrentPage} modeCo={1}
+                    <div className='main'><MainScreenUSR nameFileCsv={nameFileCsv} setNameFileCsv={setNameFileCsv} actionEnCrous={actionEnCours} setActionEnCours={setActionEnCours} currentPage={0} setCurrentPage={setCurrentPage} modeCo={1}
                         testRunning={testRunning} setTestRunning={setTestRunning} selectedTest={selectedTest} setSelectedTest={setSelectedTest}/></div>
                 </div>
             )
@@ -66,7 +67,7 @@ function AppMainScreen({ modeCo }) { // main screen
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
                     <div className='stateBanner'><StateBannerUSR actionEnCours={actionEnCours} modeCo={1} selectedTest={selectedTest}/></div>
-                    <div className='main'><ResultScreen actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={1} setCurrentPage={setCurrentPage} modeCo={1} /></div>
+                    <div className='main'><ResultScreen nameFileCsv={nameFileCsv} setNameFileCsv={setNameFileCsv} actionEnCours={actionEnCours} setActionEnCours={setActionEnCours} currentPage={1} setCurrentPage={setCurrentPage} modeCo={1} /></div>
                 </div>
             )
         } else if (currentPage === 2) {
