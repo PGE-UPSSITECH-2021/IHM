@@ -1,4 +1,3 @@
-
 const electron = require('electron');
 const { app, BrowserWindow } = electron;
 const path = require('path');
@@ -23,8 +22,12 @@ function createWindow() {
         width: 1024,
         height: 1024,
         title: "SAURON",
-        icon: "./logoDBRIF.ico"
-
+        icon: "./logoDBRIF.ico",
+        webPreferences: {
+            enableRemoteModule: true,
+            nodeIntegration: true,
+            contextIsolation: false
+        }
     });
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'index.html'),
@@ -36,4 +39,5 @@ function createWindow() {
     mainWindow.on('page-title-updated', function (e) {
         e.preventDefault()
     });
+    //require("@electron/remote/main").enable(mainWindow.webContents);
 }
