@@ -16,118 +16,99 @@ import start from '../assets/start.png';
 import pause from '../assets/pause.png';
 import stop from '../assets/stop.png';
 // import { moveFile } from 'move-file';
+//import * as RNFS from 'react-native-fs';
 
-var ros = new ROSLIB.Ros({
-    url: 'ws://192.168.1.63:9090'
-})
 
-function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo, selectedTest, setSelectedTest, testRunning, setTestRunning }) {
+function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo, selectedTest, setSelectedTest, testRunning, setTestRunning, memAction, setMemAction, ros}) {
     const [msg_act_courante, setMsgActCourante] = useState("");
-    const [etatRobotActuel, setEtatRobotActuel] = useState("DECONNECTE"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE/ INITIALISATION
-    const [etatCamActuel, setEtatCamActuel] = useState("ETEINTE"); // Etats possibles : ETEINTE / EN MARCHE 
-    const [etatSecuriteActuel, setEtatSecuriteActuel] = useState("NOK"); // Etats possibles : NOK / OK
-    const [etatPlaqueActuel, setEtatPlaqueActuel] = useState("?"); // Etats possibles : ? / NOK / OK
-    const [isConnectedROS, setIsConnectedROS] = useState(false);
+    const [etatRobotActuel, setEtatRobotActuel] = useState("LIBRE INIT"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE/ INITIALISATION
+    const [etatCamActuel, setEtatCamActuel] = useState("EN MARCHE"); // Etats possibles : ETEINTE / EN MARCHE 
+    const [etatSecuriteActuel, setEtatSecuriteActuel] = useState("OK"); // Etats possibles : NOK / OK
+    const [etatPlaqueActuel, setEtatPlaqueActuel] = useState("INCONNU"); // Etats possibles : INCONNU / NOK / OK
     const [subscribed, setSubscribed] = useState(false);
     // var RNFS = require("react-native-fs");
-    if (isConnectedROS === false) {
-        //ROS
-        
-        // Récupération du topic sur lequel on veut publier
-        var message_ihm_run = new ROSLIB.Topic({
-            ros: ros,
-            name: '/message_ihm_run',
-            messageType: 'motoman_hc10_moveit_config/IHM_msg'
-        });
-        // Fonction appelée une fois la connexion établie
-        ros.on('connection', function () {
-            console.log('Connected to websocket server.');
-            setIsConnectedROS(true);
-        });
-        // Fonction appelée en cas d'erreur de connexion
-        ros.on('error', function (error) {
-            console.log('Error connecting to websocket server: ', error);
-        });
-        // Fonction appelée une fois la connexion fermé
-        ros.on('close', function () {
-            console.log('Connection to websocket server closed.');
-            setIsConnectedROS(false);
-        });
+            
+    // Récupération du topic sur lequel on veut publier
+    var message_ihm_run = new ROSLIB.Topic({
+        ros: ros,
+        name: '/message_ihm_run',
+        messageType: 'motoman_hc10_moveit_config/IHM_msg'
+    });
 
-        // ROS ETAT ROBOT
-        function callbackEtatRobot(message) {
-            // Log console
-            //console.log('Received message on ' + robot_state_listener.name);
-            // Récupération de la valeur de l'état du robot
-            //console.log(message.data);
-            setEtatRobotActuel(message.data);
+    // ROS ETAT ROBOT
+    function callbackEtatRobot(message) {
+        // Log console
+        //console.log('Received message on ' + robot_state_listener.name);
+        // Récupération de la valeur de l'état du robot
+        //console.log(message.data);
+        setEtatRobotActuel(message.data);
 
-        }
-        // Création du listener ROS Etat Robot
-        var robot_state_listener = new ROSLIB.Topic({
-            ros: ros,
-            name: '/robot_state', // Choix du topic
-            messageType: 'std_msgs/String' // Type du message transmis
-        });
-        if (subscribed === false) {
-            robot_state_listener.subscribe(callbackEtatRobot);
-            setSubscribed(true);
-        }
-
-        // ROS ETAT CAMERA
-        function callbackEtatCam(message) {
-            // Log console
-            //console.log(message.data);
-            setEtatCamActuel(message.data);
-
-        }
-        // Création du listener ROS Etat Camera
-        var cam_state_listener = new ROSLIB.Topic({
-            ros: ros,
-            name: '/cam_state', // Choix du topic
-            messageType: 'std_msgs/String' // Type du message transmis
-        });
-        if (subscribed === false) {
-            cam_state_listener.subscribe(callbackEtatCam);
-            setSubscribed(true);
-        }
-
-        //ROS ETAT SECURITE
-        function callbackEtatSecurite(message) {
-            // Log console
-            //console.log(message.data);
-            setEtatSecuriteActuel(message.data);
-
-        }
-        // Création du listener ROS Etat Securite
-        var securite_state_listener = new ROSLIB.Topic({
-            ros: ros,
-            name: '/securite_state', // Choix du topic
-            messageType: 'std_msgs/String' // Type du message transmis
-        });
-        if (subscribed === false) {
-            securite_state_listener.subscribe(callbackEtatSecurite);
-            setSubscribed(true);
-        }
-
-        //ROS ETAT PLAQUE
-        function callbackEtatPlaque(message) {
-            // Log console
-            //console.log(message.data);
-            setEtatPlaqueActuel(message.data);
-
-        }
-        // Création du listener ROS Etat Plaque
-        var plaque_state_listener = new ROSLIB.Topic({
-            ros: ros,
-            name: '/plaque_state', // Choix du topic
-            messageType: 'std_msgs/String' // Type du message transmis
-        });
-        if (subscribed === false) {
-            plaque_state_listener.subscribe(callbackEtatPlaque);
-            setSubscribed(true);
-        }
     }
+    // Création du listener ROS Etat Robot
+    var robot_state_listener = new ROSLIB.Topic({
+        ros: ros,
+        name: '/robot_state', // Choix du topic
+        messageType: 'std_msgs/String' // Type du message transmis
+    });
+    if (subscribed === false) {
+        robot_state_listener.subscribe(callbackEtatRobot);
+        setSubscribed(true);
+    }
+
+    // ROS ETAT CAMERA
+    function callbackEtatCam(message) {
+        // Log console
+        //console.log(message.data);
+        setEtatCamActuel(message.data);
+
+    }
+    // Création du listener ROS Etat Camera
+    var cam_state_listener = new ROSLIB.Topic({
+        ros: ros,
+        name: '/cam_state', // Choix du topic
+        messageType: 'std_msgs/String' // Type du message transmis
+    });
+    if (subscribed === false) {
+        cam_state_listener.subscribe(callbackEtatCam);
+        setSubscribed(true);
+    }
+
+    //ROS ETAT SECURITE
+    function callbackEtatSecurite(message) {
+        // Log console
+        //console.log(message.data);
+        setEtatSecuriteActuel(message.data);
+
+    }
+    // Création du listener ROS Etat Securite
+    var securite_state_listener = new ROSLIB.Topic({
+        ros: ros,
+        name: '/securite_state', // Choix du topic
+        messageType: 'std_msgs/String' // Type du message transmis
+    });
+    if (subscribed === false) {
+        securite_state_listener.subscribe(callbackEtatSecurite);
+        setSubscribed(true);
+    }
+
+    //ROS ETAT PLAQUE
+    function callbackEtatPlaque(message) {
+        // Log console
+        //console.log(message.data);
+        setEtatPlaqueActuel(message.data);
+
+    }
+    // Création du listener ROS Etat Plaque
+    var plaque_state_listener = new ROSLIB.Topic({
+        ros: ros,
+        name: '/plaque_state', // Choix du topic
+        messageType: 'std_msgs/String' // Type du message transmis
+    });
+    if (subscribed === false) {
+        plaque_state_listener.subscribe(callbackEtatPlaque);
+        setSubscribed(true);
+    }
+    //}
 
     const [openFileSelector, { filesContent, loading, errors, plainFiles, clear }] = useFilePicker({ multiple: false, accept: ['.csv'] })
 
@@ -268,28 +249,36 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                 [selectedAction, selectedPlaque, selectedDiam, rangevalConf]
             ];
         }
-        const fs = require('browserify-fs');
-        var newPath = "C:/Users/Utilisateur/Documents/Julie_UPSSITECH/3A/PGE/GitHub/IHM/ReactIHM_PGE/ReactIHM_PGE/ClientApp/src/assets/default.csv";
-        //fs.writeFile(newPath, csv_data);
-        fs.writeFile(newPath, csv_data, (err) => {
-            if (err) {
-                console.log(err);
-                console.log("Current dir : " + process.cwd());
-                console.log("dirname: " + __dirname);
-            } else {
-                console.log("File written successfully\n");
-            }
-        });
-        //return csv_data;
+
+        //const { webContents } = require('electron');
+        //const electron = require('@electron/remote/main').enable(webContents.getFocusedWebContents());
+        //const path = require('path');
+        //const fs = require('browserify-fs');
+        //// Importing dialog module using remote
+        //const dialog = electron.remote.dialog;
+        //var saveConf = document.getElementById('saveConfDef');
+        //saveConf.addEventListener('click', (event) => {
+        //    dialog.showSaveDialog({
+        //        title: 'Sauvegarder comme Config Défaut',
+        //        defaultPath: path.join(__dirname, '../assets/default.csv'),
+        //        buttonLabel: 'Sauvegarder comme Config Défaut',
+        //    }).then(file => {
+        //        console.log(file.canceled);
+        //        if (!file.canceled) {
+        //            console.log(file.filePath.toString());
+        //            fs.writeFile(file.filePath.toString(), csv_data,
+        //                function (err) {
+        //                    if (err) throw err;
+        //                    console.log('Saved!');
+        //                });
+        //        }
+        //    }).catch(err => {
+        //        console.log(err)
+        //    });
+        //});
+        
     }
 
-    function moveToRightFolder() {
-        // TODO
-        //var oldPath = 'C:/Users/Utilisateur/Downloads/default.csv';
-        //var newPath = '../assets/default.csv';
-        //moveFile(oldPath, newPath);
-        //console.log('The file has been moved');
-    }
 
     function selectAll() {
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -366,6 +355,10 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         }        
     }
 
+    function disableRun() {
+        return !configValid() || !(etatRobotActuel === "LIBRE INIT" && etatCamActuel === "EN MARCHE" && etatSecuriteActuel === "OK");
+    }
+
     function handleSelectAction(event) {
         event.preventDefault();
         setSelectedAction(event.target.value);
@@ -390,7 +383,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         return selectedAction === "Localiser la plaque" || isOpen || actionRunning;
     }
     function disableConf() {
-        return selectedAction === "Localiser la plaque" || selectedAction === "Deplacer le robot" || isOpen || actionRunning;// || nameFileImp!="";
+        return selectedAction === "Localiser la plaque" || selectedAction === "Deplacer le robot" || isOpen || actionRunning;
     }
     function disableTest() {
         return testRunning;
@@ -417,15 +410,19 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         if (selectedAction === "Deplacer le robot") {
             setActionEnCours("Déplacement du robot en cours...");
             setMsgActCourante("Déplacement du robot en cours...");
+            setMemAction("Deplacer le robot");
         } else if (selectedAction === "Identifier") {
             setActionEnCours("Identification en cours...");
             setMsgActCourante("Identification en cours...");
+            setMemAction("Identifier");
         } else if (selectedAction === "Verifier conformite") {
             setActionEnCours("Vérification de la conformité en cours...");
             setMsgActCourante("Vérification de la conformité en cours...");
+            setMemAction("Verifier conformite");
         } else if (selectedAction === "Localiser la plaque") {
             setActionEnCours("Localisation de la plaque en cours...");
             setMsgActCourante("Localisation de la plaque en cours...");
+            setMemAction("Localiser la plaque");
         }
 
         // Création du message à envoyer
@@ -576,12 +573,12 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                 {modeCo === 1 ?
                     <div className="bouton-group">
                         <button type="button" className="bouton-normal-mid" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
-                        <button type="button" className="bouton-normal-mid" onClick={saveConfigDefault} disabled={!configValid()}>Sauvegarder comme Config Défaut</button>
+                        <button type="button" className="bouton-normal-mid" onClick={saveConfigDefault} disabled={!configValid()} id='saveConfDef'>Sauvegarder comme Config Défaut</button>
                     </div>
                     : <button type="button" className="bouton-normal" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
                 }
                 <button type="button" className="bouton-normal" disabled={disableGeneral()} onClick={backToConfigDefault}>Configuration par défaut</button>
-                <button type="submit" className="bouton-run" onClick={togglePopup} disabled={!configValid()}>Run</button>
+                <button type="submit" className="bouton-run" onClick={togglePopup} disabled={disableRun()}>Run</button>
                 {isOpen && <Popup
                     content={<>
                         <h3 className="popup-title">Lancement de l'action</h3>
@@ -633,7 +630,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                         <div className='etat-import'>
                             <GiMetalPlate className="icone" />
                             Plaque détectée :
-                            {etatPlaqueActuel === "?" ? <span className='rep-non-init'>{etatPlaqueActuel}</span> : etatPlaqueActuel === "OK" ? <span className='rep'>{etatPlaqueActuel}</span> : <span className='rep-stop'>{etatPlaqueActuel}</span> }
+                            {etatPlaqueActuel === "INCONNU" ? <span className='rep-non-init'>{etatPlaqueActuel}</span> : etatPlaqueActuel === "OK" ? <span className='rep'>{etatPlaqueActuel}</span> : <span className='rep-stop'>{etatPlaqueActuel}</span> }
                         </div>
                     </div>
                 </div>
@@ -696,7 +693,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                         <div className='etat-import'>
                             <GiMetalPlate className="icone" />
                             Plaque détectée :
-                            {etatPlaqueActuel === "?" ? <span className='rep-non-init'>{etatPlaqueActuel}</span> : etatPlaqueActuel === "OK" ? <span className='rep'>{etatPlaqueActuel}</span> : <span className='rep-stop'>{etatPlaqueActuel}</span>}
+                            {etatPlaqueActuel === "INCONNU" ? <span className='rep-non-init'>{etatPlaqueActuel}</span> : etatPlaqueActuel === "OK" ? <span className='rep'>{etatPlaqueActuel}</span> : <span className='rep-stop'>{etatPlaqueActuel}</span>}
                         </div>
                     </div>
                 </div>

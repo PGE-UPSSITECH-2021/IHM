@@ -15,7 +15,7 @@ import { MdDeleteForever } from "react-icons/md";
 import JsonData from '../files_results_history.json'
 
 
-function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcsvArray, setCsvArray, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate }) {
+function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcsvArray, setCsvArray, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate, showHistory, setShowHistory, memAction, setMemAction}) {
 
 
     const [checked, setChecked] = useState({});
@@ -104,7 +104,7 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
         }
     });
 
-    function sortByAction() {
+    /*function sortByAction() {
         JsonData.sort(function (a, b) {
             var a1st = -1; //negative value means left item should appear first
             var b1st = 1; //positive value means right item should appear first
@@ -120,7 +120,7 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
                 return equal;
             }
         });
-    }
+    }*/
 
 
     return (
@@ -199,7 +199,7 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
                                                 <TableCell align="center">{row.date}</TableCell>
                                                 <TableCell align="center">{row.plaque}</TableCell>
                                                 <TableCell align="center">{row.action}</TableCell>
-                                                <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={function (event) { setNameFileRes(row.FileName); setResultAction(row.action); handleClickDetails(); }} /></IconButton>
+                                                <TableCell align="center"><IconButton className="details-history" onClick={function (event) { setNameFileRes(row.FileName); setResultAction(row.action); handleClickDetails(); }}><img src={loupe} alt='Voir plus' class="button-details" /></IconButton>
                                                 </TableCell>
 
                                             </TableRow>
@@ -231,7 +231,7 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
                                                 <TableCell align="center">{row.date}</TableCell>
                                                 <TableCell align="center">{row.plaque}</TableCell>
                                                 <TableCell align="center">{row.action}</TableCell>
-                                                <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={function (event) { setNameFileRes(row.FileName); setResultAction(row.action); handleClickDetails(); }} /></IconButton>
+                                                <TableCell align="center"><IconButton className="details-history" onClick={function (event) { setNameFileRes(row.FileName); setResultAction(row.action); handleClickDetails(); }}><img src={loupe} alt='Voir plus' class="button-details" /></IconButton>
                                                 </TableCell>
                                             </TableRow>
 
