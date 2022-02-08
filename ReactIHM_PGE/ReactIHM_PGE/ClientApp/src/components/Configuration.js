@@ -185,14 +185,23 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         const tmp = filesContent[0].content;
         const tmp_split = tmp.split("\n");
         const ctnt = tmp_split[1].split(",");
-        const ctnt_action = ctnt[0];
-        const ctnt_plaque = ctnt[1];
-        const ctnt_diam = ctnt[2];
-        const ctnt_conf = ctnt[3].split("\r")[0];
+        const ctnt_action = ctnt[0].split("\"")[1];
+        const ctnt_plaque = ctnt[1].split("\"")[1];
+        const ctnt_diam = ctnt[2].split("\"")[1];
+        const ctnt_conf = ctnt[3].split("\r")[0].split("\"")[1];
+
         setSelectedAction(ctnt_action);
         setSelectedPlaque(ctnt_plaque);
         setCheckedDiam(ctnt_diam);
         setRangevalConf(ctnt_conf);
+
+        if (ctnt_action === "Localiser la plaque") {
+            setCheckedDiam(defaultDiam);
+            setRangevalConf(defaultConf);
+        } else if (ctnt_action === "Deplacer le robot") {
+            setRangevalConf(defaultConf);
+        }
+        
         // file name
         setNameFileImp(plainFiles[0].name);
         setCpt(1);
@@ -238,7 +247,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                 ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
                 [selectedAction, selectedPlaque, "", ""]
             ];
-        } else if (selectedAction === "Déplacer le robot") {
+        } else if (selectedAction === "Deplacer le robot") {
             var csv_data = [
                 ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
                 [selectedAction, selectedPlaque, selectedDiam, ""]
