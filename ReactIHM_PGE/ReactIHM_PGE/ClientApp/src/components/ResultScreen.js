@@ -17,7 +17,6 @@ function ResultScreen({ pageRes, setPageRes, currentPage, setCurrentPage, modeCo
     return (
         <div className='mainResult'>
             <span className='menu-bar'><MenuBar pageRes={pageRes} setPageRes={setPageRes} currentPage={currentPage} setCurrentPage={setCurrentPage} modeCo={modeCo} showHistory={showHistory} setShowHistory={setShowHistory}/></span>
-            {console.log("HEY YO pageRes", pageRes), console.log("HEY YO showHistory", showHistory)}
             {pageRes === 0 && showHistory === true ?
                 <HistoryResults setPageRes={setPageRes} nameFileRes={nameFileRes} setNameFileRes={setNameFileRes} modeCo={modeCo} csvArray={csvArray} setCsvArray={setCsvArray} setResultAction={setResultAction} resultAction={resultAction} setResultPlaque={setResultPlaque} resultPlaque={resultPlaque} setResultDate={setResultDate} resultDate={resultDate}
                     showHistory={showHistory} setShowHistory={setShowHistory} memAction={memAction} setMemAction={setMemAction}/>

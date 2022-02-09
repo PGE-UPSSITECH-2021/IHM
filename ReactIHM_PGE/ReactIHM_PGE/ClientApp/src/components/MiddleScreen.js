@@ -15,13 +15,15 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
     const [subscribed, setSubscribed] = useState(false);
     // ROS RECEPTION FLAG FIN ACTION
     function callbackFinAction(message) {
-        console.log("ACTION FINIE");
-        setActionRunning(false);
-        setActionEnCours("Aucune action en cours");
-        setDecoDisabled(false);
-        setIsPaused(false);
-        setShowHistory(false);
-        setCurrentPage(1);
+        if (actionRunning) {
+            console.log("ACTION FINIE");
+            setActionRunning(false);
+            setActionEnCours("Aucune action en cours");
+            setDecoDisabled(false);
+            setIsPaused(false);
+            setShowHistory(false);
+            setCurrentPage(1);
+        }
     }
     // Création du listener ROS Resultats Identification
     var fin_action_listener = new ROSLIB.Topic({
