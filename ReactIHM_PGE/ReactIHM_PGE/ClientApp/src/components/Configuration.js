@@ -459,6 +459,10 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
 
     function nothing() { }
 
+    function launchCalibration() {
+        alert("TODO : prompt calibration camera");
+    }
+
     function setConf(event) {
         setRangevalConf(event.target.value);
         setNameFileImp("new config");
@@ -653,7 +657,9 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         return (
             <div className="config">
                 <h3> TESTS DES FONCTIONNALITES </h3>
-               
+
+                <span className="champCalibration"><button type="button" className="bouton-calibration-mtnc" onClick={launchCalibration} disabled={etatCamActuel==="ETEINTE"}>Calibrer la caméra</button></span>
+
                 <div className='champ-mtnc'><label className='labels-mtnc'>Choix du pôle à évaluer :</label>
                     <select value={selectedTestList} onChange={handleSelectTest} disabled={disableTest()}>
                         <option selected disabled hidden value="">-----</option>

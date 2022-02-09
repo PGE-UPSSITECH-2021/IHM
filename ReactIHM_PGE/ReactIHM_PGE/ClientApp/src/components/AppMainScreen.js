@@ -11,8 +11,8 @@ import * as ROSLIB from 'roslib';
 
 
 var ros = new ROSLIB.Ros({
-    url: 'ws://192.168.1.63:9090' // AIP
-    //url: 'ws://192.168.137.184:9090' // Alexandre PC
+    //url: 'ws://192.168.1.63:9090' // AIP
+    url: 'ws://192.168.137.80:9090' // Alexandre PC
 })
 
 function AppMainScreen({ modeCo }) { // main screen

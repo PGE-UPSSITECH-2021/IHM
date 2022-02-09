@@ -22,6 +22,14 @@ import * as ROSLIB from 'roslib';
 
 function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArray, setCsvArray, selectedAction, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate, showHistory, setShowHistory, memAction, setMemAction, ros }) {
 
+    // Récupération du topic sur lequel on veut publier pour dire qu'on a reçu resultats
+    var message_ihm_results_ok = new ROSLIB.Topic({
+        ros: ros,
+        name: '/result/ok',
+        messageType: 'std_msgs/Bool'
+    });
+
+
     // Identification
     const [trousIdentification, setTrousIdentification] = useState([]);
     const [imgIdentification, setImgIdentification] = useState("");
@@ -36,6 +44,10 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
         setTrousIdentification(message.trous);
         setNbTrousIdentification(message.nbTrous);
         setImgIdentification(message.image);
+        var msg = new ROSLIB.Message({
+            data: true
+        });
+        message_ihm_results_ok.publish(msg);
     }
     // Création du listener ROS Resultats Identification
     var resultats_identification_listener = new ROSLIB.Topic({
@@ -71,6 +83,10 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
         setPos_a(message.a);
         setPos_b(message.b);
         setPos_g(message.g);
+        var msg = new ROSLIB.Message({
+            data: true
+        });
+        message_ihm_results_ok.publish(msg);
     }
     // Création du listener ROS Resultats Localisation
     var resultats_localisation_listener = new ROSLIB.Topic({
@@ -93,10 +109,14 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
         console.log("Recuperation de resultats Qualite :");
         console.log("Trous : ", message.trous);
         console.log("nbTrous : ", message.nbTrous);
-        console.log("image : ", message.image);
+        //console.log("image : ", message.image);
         setTrousQualite(message.trous);
         setNbTrousQualite(message.nbTrous);
         setImgQualite(message.image);
+        var msg = new ROSLIB.Message({
+            data: true
+        });
+        message_ihm_results_ok.publish(msg);
     }
     // Création du listener ROS Resultats Qualite
     var resultats_qualite_listener = new ROSLIB.Topic({
