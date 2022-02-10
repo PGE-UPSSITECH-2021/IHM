@@ -296,5 +296,4 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
 }
 
 
-
 export default HistoryResults;

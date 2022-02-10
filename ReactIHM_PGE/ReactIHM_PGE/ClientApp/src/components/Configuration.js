@@ -28,7 +28,6 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     const [etatPlaqueActuel, setEtatPlaqueActuel] = useState("INCONNU"); // Etats possibles : INCONNU / NOK / OK
     const [subscribed, setSubscribed] = useState(false);
     // var RNFS = require("react-native-fs");
-
     // Récupération du topic sur lequel on veut publier
     var message_ihm_run = new ROSLIB.Topic({
         ros: ros,
@@ -202,7 +201,6 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         } else if (ctnt_action === "Deplacer le robot") {
             setRangevalConf(defaultConf);
         }
-
         // file name
         setNameFileImp(plainFiles[0].name);
         setCpt(1);
@@ -286,7 +284,6 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         //        console.log(err)
         //    });
         //});
-
     }
 
 
@@ -363,6 +360,10 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         } else {
             return selectedPlaque !== "" && selectedDiam !== "";
         }
+    }
+
+    function disableRun() {
+        return !configValid() || !(etatRobotActuel === "LIBRE INIT" && etatCamActuel === "EN MARCHE" && etatSecuriteActuel === "OK");
     }
 
     function disableRun() {
@@ -622,7 +623,6 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                             <AiFillSafetyCertificate className="icone" />
                             Sécurité :
                             {etatSecuriteActuel === "NOK" ? <span className='rep-stop'>{etatSecuriteActuel}</span> : <span className='rep'>{etatSecuriteActuel}</span>}
-
                         </div>
                         <div className='etat-import'>
                             <GiRobotGrab className="icone" />

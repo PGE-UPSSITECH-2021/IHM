@@ -6,7 +6,6 @@ import React, { useState } from "react";
 
 
 function MainScreenUSR({ pageRes, setPageRes, actionEnCours, setActionEnCours, currentPage, setCurrentPage, modeCo, testRunning, setTestRunning, selectedTest, setSelectedTest, showHistory, setShowHistory, memAction, setMemAction, ros }) {
-
     const [isDecoDisabled, setDecoDisabled] = useState(false);
     const [actionRunning, setActionRunning] = useState(false);
 

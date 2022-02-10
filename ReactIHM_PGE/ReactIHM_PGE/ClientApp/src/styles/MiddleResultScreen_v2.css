@@ -101,6 +101,12 @@
     border-radius: 50%;
 }
 
+.table-results .MuiTableCell-head {
+    color: white;
+    font-weight: 550;
+    line-height: 1.5rem;
+}
+
 .MuiTableCell-root {
     display: table-cell;
     padding: 1vw;

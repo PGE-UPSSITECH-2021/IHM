@@ -15,8 +15,7 @@ import loupe from '../assets/loupe.png'
 import '../styles/bootstrapStyle.scss'
 import returnArrow from "../assets/arrow_back.png"
 import noCam from '../assets/NoCamera.png'
-//import JsonContent from 'C:\\Users\\AnaisM\\Documents\\UPSSITECH\\3A\\PGE\\IHM\\IHM\\ReactIHM_PGE\\ReactIHM_PGE\\ClientApp\\src\\data\\files_results.json'
-import JsonContent from '../data/files_results.json'
+import JsonContent from '../files_results.json'
 import PopUpResult from './PopUpResult'
 import * as ROSLIB from 'roslib';
 
@@ -265,12 +264,12 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
         });
     }
-    console.log(showHistory);
+
     if (showHistory === true) {
 
+        
 
-
-        return (
+        return(
             <div className='middleResult-v2'>
                 <div className="box-return"><IconButton onClick={changePageToHist}><img src={returnArrow} alt="return button" className="return-icon-results" /></IconButton></div>
                 {resultAction === "identification" ?
@@ -297,7 +296,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                         {JsonContent[nameFileRes].length > 0 ?
 
                                             <TableBody>
-
+                                                
                                                 {(rowsPerPage > 0
                                                     ? JsonContent[nameFileRes].slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                                     : JsonContent[nameFileRes]).map((item, i) => (
@@ -537,92 +536,10 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     } else {
 
 
-        return (
-            <div className='middleResult-v2'>
-                <div className="box-return"><IconButton onClick={changePageToHist}><img src={returnArrow} alt="return button" className="return-icon-results" /></IconButton></div>
-                {memAction === "Identifier" ?
-                    <div>
-                        <div className="display-results">
-                            <img src={noCam} alt="resultats camera" className="no-cam-results" />
-                            <div className="table-results">
-
-                                <div className='header-results-diam'></div>
-                                <TableContainer className='table-rows-results'>
-                                    <Table>
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell className='table-cell-results' align="center">x</TableCell>
-                                                <TableCell className='table-cell-results' align="center">y</TableCell>
-                                                <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
-
-                                            </TableRow>
-                                        </TableHead>
-
-                                        {nbTrousIdentification > 0 ?
-
-                                            <TableBody>
-
-                                                {(rowsPerPage > 0
-                                                    ? trousIdentification.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                                    : trousIdentification).map((item, i) => (
-
-                                                        <TableRow
-                                                            key={i}
-                                                        >
-                                                            <TableCell align="center">{item.x}</TableCell>
-                                                            <TableCell align="center">{item.y}</TableCell>
-                                                            <TableCell align="center">{item.diam}</TableCell>
-
-                                                        </TableRow>
-
-
-
-                                                    ))}
-                                                {emptyRows > 0 && (
-                                                    <TableRow
-                                                        style={{
-                                                            height: (dense ? 33 : 53) * emptyRows,
-                                                        }}
-                                                    >
-
-                                                    </TableRow>
-                                                )}
-
-                                            </TableBody> :
-                                            <TableBody>
-
-                                                <TableRow>
-
-                                                    <TableCell align="center">aucun résultat</TableCell>
-                                                    <TableCell align="center">aucun résultat</TableCell>
-                                                    <TableCell align="center">aucun résultat</TableCell>
-
-                                                </TableRow>
-
-                                            </TableBody>}
-                                        <TableFooter>
-                                            <TableRow>
-
-                                                <TablePagination
-                                                    rowsPerPageOptions={[7]}
-                                                    colSpan={4}
-                                                    count={nbTrousIdentification}
-                                                    rowsPerPage={rowsPerPage}
-                                                    page={page}
-                                                    onPageChange={handleChangePage}
-                                                    onRowsPerPageChange={handleChangeRowsPerPage}
-                                                />
-
-                                            </TableRow>
-
-                                        </TableFooter>
-                                    </Table>
-                                </TableContainer>
-                            </div>
-                        </div>
-                        <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
-                    </div>
-                    : memAction === "Localiser la plaque" ?
+            return(
+             <div className='middleResult-v2'>
+                    <div className="box-return"><IconButton onClick={changePageToHist}><img src={returnArrow} alt="return button" className="return-icon-results"/></IconButton></div>
+                    {memAction === "Identifier" ?
                         <div>
                             <div className="display-results">
                                 <img src={noCam} alt="resultats camera" className="no-cam-results" />
@@ -631,56 +548,138 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                     <div className='header-results-diam'></div>
                                     <TableContainer className='table-rows-results'>
                                         <Table>
-
-                                            <TableHead>
-                                                <TableRow>
-                                                    <TableCell className='table-cell-results' align="center">x</TableCell>
-                                                    <TableCell className='table-cell-results' align="center">y</TableCell>
-                                                    <TableCell className='table-cell-results' align="center">z </TableCell>
-                                                    <TableCell className='table-cell-results' align="center">alpha</TableCell>
-                                                    <TableCell className='table-cell-results' align="center">beta</TableCell>
-                                                    <TableCell className='table-cell-results' align="center">gamma</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-
-                                            <TableBody>
-                                                <TableRow>
-                                                    <TableCell align="center">{pos_x}</TableCell>
-                                                    <TableCell align="center">{pos_y}</TableCell>
-                                                    <TableCell align="center">{pos_z}</TableCell>
-                                                    <TableCell align="center">{pos_a}</TableCell>
-                                                    <TableCell align="center">{pos_b}</TableCell>
-                                                    <TableCell align="center">{pos_g}</TableCell>
-                                                </TableRow>
-                                            </TableBody>
-
-                                        </Table>
-                                    </TableContainer>
-                                </div>
-                            </div>
-                            <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
-                        </div> :
-                        <div>
-                            <div className="display-results">
-                                <img src={noCam} alt="resultats camera" className="no-cam-results" />
-                                <div className="table-results">
-
-                                    <div className='header-results-diam'></div>
-                                    <TableContainer className='table-rows-results'>
-                                        <Table>
-
                                             <TableHead>
                                                 <TableRow>
                                                     <TableCell className='table-cell-results' align="center">x</TableCell>
                                                     <TableCell className='table-cell-results' align="center">y</TableCell>
                                                     <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
-                                                    <TableCell className='table-cell-results' align="center">Conforme</TableCell>
-                                                    <TableCell className='table-cell-results' align="center">Raison</TableCell>
-                                                    <TableCell className='table-cell-results' align="center">Voir le trou</TableCell>
+
                                                 </TableRow>
                                             </TableHead>
+                                            
+                                            {nbTrousIdentification > 0 ?
 
-                                            {nbTrousQualite > 0 ?
+                                                <TableBody>
+
+                                                    {(rowsPerPage > 0
+                                                        ? trousIdentification.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                        : trousIdentification).map((item, i) => (
+
+                                                            <TableRow
+                                                                key={i}
+                                                            >
+                                                                <TableCell align="center">{item.x}</TableCell>
+                                                                <TableCell align="center">{item.y}</TableCell>
+                                                                <TableCell align="center">{item.diam}</TableCell>
+
+                                                            </TableRow>
+
+
+
+                                                        ))}
+                                                    {emptyRows > 0 && (
+                                                        <TableRow
+                                                            style={{
+                                                                height: (dense ? 33 : 53) * emptyRows,
+                                                            }}
+                                                        >
+
+                                                        </TableRow>
+                                                    )}
+
+                                                </TableBody> :
+                                                <TableBody>
+
+                                                    <TableRow>
+
+                                                        <TableCell align="center">aucun résultat</TableCell>
+                                                        <TableCell align="center">aucun résultat</TableCell>
+                                                        <TableCell align="center">aucun résultat</TableCell>
+
+                                                    </TableRow>
+
+                                                </TableBody>}
+                                            <TableFooter>
+                                                <TableRow>
+
+                                                    <TablePagination
+                                                        rowsPerPageOptions={[7]}
+                                                        colSpan={4}
+                                                        count={nbTrousIdentification}
+                                                        rowsPerPage={rowsPerPage}
+                                                        page={page}
+                                                        onPageChange={handleChangePage}
+                                                        onRowsPerPageChange={handleChangeRowsPerPage}
+                                                    />
+
+                                                </TableRow>
+
+                                            </TableFooter>
+                                        </Table>
+                                    </TableContainer>
+                                </div>
+                            </div>
+                            <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
+                        </div>
+                        : memAction === "Localiser la plaque" ?
+                            <div>
+                                <div className="display-results">
+                                    <img src={noCam} alt="resultats camera" className="no-cam-results" />
+                                    <div className="table-results">
+
+                                        <div className='header-results-diam'></div>
+                                        <TableContainer className='table-rows-results'>
+                                            <Table>
+
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell className='table-cell-results' align="center">x</TableCell>
+                                                        <TableCell className='table-cell-results' align="center">y</TableCell>
+                                                        <TableCell className='table-cell-results' align="center">z </TableCell>
+                                                        <TableCell className='table-cell-results' align="center">alpha</TableCell>
+                                                        <TableCell className='table-cell-results' align="center">beta</TableCell>
+                                                        <TableCell className='table-cell-results' align="center">gamma</TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                
+                                                <TableBody>
+                                                    <TableRow>
+                                                        <TableCell align="center">{pos_x}</TableCell>
+                                                        <TableCell align="center">{pos_y}</TableCell>
+                                                        <TableCell align="center">{pos_z}</TableCell>
+                                                        <TableCell align="center">{pos_a}</TableCell>
+                                                        <TableCell align="center">{pos_b}</TableCell>
+                                                        <TableCell align="center">{pos_g}</TableCell>
+                                                    </TableRow>
+                                                </TableBody>
+
+                                            </Table>
+                                        </TableContainer>
+                                    </div>
+                                </div>
+                                <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
+                            </div> :
+                            <div>
+                                <div className="display-results">
+                                    <img src={noCam} alt="resultats camera" className="no-cam-results" /> 
+                                    <div className="table-results">
+
+                                        <div className='header-results-diam'></div>
+                                        <TableContainer className='table-rows-results'>
+                                            <Table>
+
+                                                <TableHead>
+                                                    <TableRow>
+                                                        <TableCell className='table-cell-results' align="center">x</TableCell>
+                                                        <TableCell className='table-cell-results' align="center">y</TableCell>
+                                                        <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
+                                                        <TableCell className='table-cell-results' align="center">Conforme</TableCell>
+                                                        <TableCell className='table-cell-results' align="center">Raison</TableCell>
+                                                        <TableCell className='table-cell-results' align="center">Voir le trou</TableCell>
+                                                    </TableRow>
+                                                </TableHead>
+                                                
+                                                {nbTrousQualite > 0 ?
                                                 <TableBody >
 
                                                     {(rowsPerPage > 0
@@ -740,27 +739,27 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                     )}
                                                 </TableBody>}
 
-                                            <TableFooter>
-                                                <TableRow>
-                                                    <TablePagination
-                                                        rowsPerPageOptions={[7]}
-                                                        colSpan={5}
-                                                        count={nbTrousQualite}
-                                                        rowsPerPage={rowsPerPage}
-                                                        page={page}
-                                                        onPageChange={handleChangePage}
-                                                        onRowsPerPageChange={handleChangeRowsPerPage}
-                                                    />
-                                                </TableRow>
-                                            </TableFooter>
+                                                <TableFooter>
+                                                    <TableRow>
+                                                        <TablePagination
+                                                            rowsPerPageOptions={[7]}
+                                                            colSpan={5}
+                                                            count={nbTrousQualite}
+                                                            rowsPerPage={rowsPerPage}
+                                                            page={page}
+                                                            onPageChange={handleChangePage}
+                                                            onRowsPerPageChange={handleChangeRowsPerPage}
+                                                        />
+                                                    </TableRow>
+                                                </TableFooter>
 
-                                        </Table>
-                                    </TableContainer>
+                                            </Table>
+                                        </TableContainer>
 
+                                    </div>
                                 </div>
-                            </div>
-                            <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
-                        </div>}
+                                <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
+                            </div>}
             </div>)
     }
 

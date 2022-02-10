@@ -1,0 +1,8 @@
+FileName,date,plaque,action
+qualite2,02/02/2022, tole plate,qualite
+x,y,diam,conform,reason
+1,2.2,5,oui,aucune
+1.5,2.3,5,non,difforme
+2,1,7,non,difforme
+5.6,5.6,7,oui, aucune
+3,4,7,oui,aucune

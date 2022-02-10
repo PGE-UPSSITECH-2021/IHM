@@ -99,7 +99,6 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
 
     if (modeCo !== 2) {
         return (
-
             <div className='middle'>
                 {actionRunning === true ?
                     <div className='middle-run'>

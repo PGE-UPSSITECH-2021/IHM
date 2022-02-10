@@ -21,16 +21,16 @@ function AppMainScreen({ modeCo }) { // main screen
     //MAIN CONNEXION RESEAU AIP ICI
     const [isConnectedROS, setIsConnectedROS] = useState(false);
     if (isConnectedROS === false) {
-        // Fonction appelée une fois la connexion établie
+        // Fonction appelï¿½e une fois la connexion ï¿½tablie
         ros.on('connection', function () {
             console.log('Connected to websocket server.');
             setIsConnectedROS(true);
         });
-        // Fonction appelée en cas d'erreur de connexion
+        // Fonction appelï¿½e en cas d'erreur de connexion
         ros.on('error', function (error) {
             console.log('Error connecting to websocket server: ', error);
         });
-        // Fonction appelée une fois la connexion fermé
+        // Fonction appelï¿½e une fois la connexion fermï¿½
         ros.on('close', function () {
             console.log('Connection to websocket server closed.');
             setIsConnectedROS(false);
