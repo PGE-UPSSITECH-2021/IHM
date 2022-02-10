@@ -1,78 +1,115 @@
 ﻿import '../styles/Configuration.css'
-import React,{ useState } from 'react';
+import React, { useState } from 'react';
 import { AiFillSafetyCertificate, AiFillVideoCamera } from "react-icons/ai";
-import { GiRobotGrab, GiMetalPlate} from "react-icons/gi";
+import { GiRobotGrab, GiMetalPlate } from "react-icons/gi";
 import { useFilePicker } from 'use-file-picker'
 import Popup from './PopUp'
 import PopUpConfirm from './PopUpConfirm'
 import confirm from '../assets/confirm.png'
 import cancel from '../assets/cancel.png'
 import defaultFile from '../assets/default.csv'
-// import { readString } from 'react-papaparse';
+//import { readString } from 'react-papaparse';
 import 'eventemitter2';
 import * as ROSLIB from 'roslib';
 import { CSVLink, CSVDownload } from "react-csv";
 import start from '../assets/start.png';
 import pause from '../assets/pause.png';
 import stop from '../assets/stop.png';
-// import { moveFile } from 'move-file';
 
 var ros = new ROSLIB.Ros({
-    url: 'ws://192.168.137.230:9090'
+    url: 'ws://192.168.1.63:9090'
 })
 
-function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo, selectedTest, setSelectedTest, testRunning, setTestRunning }) {
+function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo, selectedTest, setSelectedTest, testRunning, setTestRunning, memAction, setMemAction, ros }) {
     const [msg_act_courante, setMsgActCourante] = useState("");
-    const [etatRobotActuel, setEtatRobotActuel] = useState("DECONNECTE"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE/ INITIALISATION
-    const [isConnectedROS, setIsConnectedROS] = useState(false);
+    const [etatRobotActuel, setEtatRobotActuel] = useState("LIBRE INIT"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE/ INITIALISATION
+    const [etatCamActuel, setEtatCamActuel] = useState("EN MARCHE"); // Etats possibles : ETEINTE / EN MARCHE 
+    const [etatSecuriteActuel, setEtatSecuriteActuel] = useState("OK"); // Etats possibles : NOK / OK
+    const [etatPlaqueActuel, setEtatPlaqueActuel] = useState("INCONNU"); // Etats possibles : INCONNU / NOK / OK
     const [subscribed, setSubscribed] = useState(false);
     // var RNFS = require("react-native-fs");
-    if (isConnectedROS === false) {
-        //ROS
-        
-        // Récupération du topic sur lequel on veut publier
-        var message_ihm_run = new ROSLIB.Topic({
-            ros: ros,
-            name: '/message_ihm_run',
-            messageType: 'test_com/test_msg'
-        });
 
-        // Fonction appelée une fois la connexion établie
-        ros.on('connection', function () {
-            console.log('Connected to websocket server.');
-            setIsConnectedROS(true);
-        });
-        // Fonction appelée en cas d'erreur de connexion
-        ros.on('error', function (error) {
-            console.log('Error connecting to websocket server: ', error);
-        });
-        // Fonction appelée une fois la connexion fermé
-        ros.on('close', function () {
-            console.log('Connection to websocket server closed.');
-            setIsConnectedROS(false);
-        });
+    // Récupération du topic sur lequel on veut publier
+    var message_ihm_run = new ROSLIB.Topic({
+        ros: ros,
+        name: '/message_ihm_run',
+        messageType: 'motoman_hc10_moveit_config/IHM_msg'
+    });
 
-        function callbackEtatRobot(message) {
-            // Log console
-            //console.log('Received message on ' + robot_state_listener.name);
-            // Récupération de la valeur de l'état du robot
-            //console.log(message.data);
-            setEtatRobotActuel(message.data);
+    // ROS ETAT ROBOT
+    function callbackEtatRobot(message) {
+        // Log console
+        //console.log('Received message on ' + robot_state_listener.name);
+        // Récupération de la valeur de l'état du robot
+        //console.log(message.data);
+        setEtatRobotActuel(message.data);
 
-        }
-
-        // Création du listener ROS
-        var robot_state_listener = new ROSLIB.Topic({
-            ros: ros,
-            name: '/robot_state', // Choix du topic
-            messageType: 'std_msgs/String' // Type du message transmis
-        });
-        if (subscribed === false) {
-            robot_state_listener.subscribe(callbackEtatRobot);
-            setSubscribed(true);
-        }
-        // Affectation de la fonction de callback
     }
+    // Création du listener ROS Etat Robot
+    var robot_state_listener = new ROSLIB.Topic({
+        ros: ros,
+        name: '/robot_state', // Choix du topic
+        messageType: 'std_msgs/String' // Type du message transmis
+    });
+    if (subscribed === false) {
+        robot_state_listener.subscribe(callbackEtatRobot);
+        setSubscribed(true);
+    }
+
+    // ROS ETAT CAMERA
+    function callbackEtatCam(message) {
+        // Log console
+        //console.log(message.data);
+        setEtatCamActuel(message.data);
+
+    }
+    // Création du listener ROS Etat Camera
+    var cam_state_listener = new ROSLIB.Topic({
+        ros: ros,
+        name: '/cam_state', // Choix du topic
+        messageType: 'std_msgs/String' // Type du message transmis
+    });
+    if (subscribed === false) {
+        cam_state_listener.subscribe(callbackEtatCam);
+        setSubscribed(true);
+    }
+
+    //ROS ETAT SECURITE
+    function callbackEtatSecurite(message) {
+        // Log console
+        //console.log(message.data);
+        setEtatSecuriteActuel(message.data);
+
+    }
+    // Création du listener ROS Etat Securite
+    var securite_state_listener = new ROSLIB.Topic({
+        ros: ros,
+        name: '/securite_state', // Choix du topic
+        messageType: 'std_msgs/String' // Type du message transmis
+    });
+    if (subscribed === false) {
+        securite_state_listener.subscribe(callbackEtatSecurite);
+        setSubscribed(true);
+    }
+
+    //ROS ETAT PLAQUE
+    function callbackEtatPlaque(message) {
+        // Log console
+        //console.log(message.data);
+        setEtatPlaqueActuel(message.data);
+
+    }
+    // Création du listener ROS Etat Plaque
+    var plaque_state_listener = new ROSLIB.Topic({
+        ros: ros,
+        name: '/plaque_state', // Choix du topic
+        messageType: 'std_msgs/String' // Type du message transmis
+    });
+    if (subscribed === false) {
+        plaque_state_listener.subscribe(callbackEtatPlaque);
+        setSubscribed(true);
+    }
+    //}
 
     const [openFileSelector, { filesContent, loading, errors, plainFiles, clear }] = useFilePicker({ multiple: false, accept: ['.csv'] })
 
@@ -149,14 +186,23 @@ function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDis
         const tmp = filesContent[0].content;
         const tmp_split = tmp.split("\n");
         const ctnt = tmp_split[1].split(",");
-        const ctnt_action = ctnt[0];
-        const ctnt_plaque = ctnt[1];
-        const ctnt_diam = ctnt[2];
-        const ctnt_conf = ctnt[3].split("\r")[0];
+        const ctnt_action = ctnt[0].split("\"")[1];
+        const ctnt_plaque = ctnt[1].split("\"")[1];
+        const ctnt_diam = ctnt[2].split("\"")[1];
+        const ctnt_conf = ctnt[3].split("\r")[0].split("\"")[1];
+
         setSelectedAction(ctnt_action);
         setSelectedPlaque(ctnt_plaque);
         setCheckedDiam(ctnt_diam);
         setRangevalConf(ctnt_conf);
+
+        if (ctnt_action === "Localiser la plaque") {
+            setCheckedDiam(defaultDiam);
+            setRangevalConf(defaultConf);
+        } else if (ctnt_action === "Deplacer le robot") {
+            setRangevalConf(defaultConf);
+        }
+
         // file name
         setNameFileImp(plainFiles[0].name);
         setCpt(1);
@@ -171,7 +217,7 @@ function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDis
         setRangevalConf(defaultConf);
         setNameFileImp("default");
     }
-    
+
 
     function saveConfig() {
         if (selectedAction === "Localiser la plaque") {
@@ -190,9 +236,9 @@ function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDis
                 [selectedAction, selectedPlaque, selectedDiam, rangevalConf]
             ];
         }
-        
+
         csvFileCreator('config.csv', csv_data);
-       
+
     }
 
     function saveConfigDefault() {
@@ -202,7 +248,7 @@ function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDis
                 ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
                 [selectedAction, selectedPlaque, "", ""]
             ];
-        } else if (selectedAction === "Déplacer le robot") {
+        } else if (selectedAction === "Deplacer le robot") {
             var csv_data = [
                 ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
                 [selectedAction, selectedPlaque, selectedDiam, ""]
@@ -213,16 +259,36 @@ function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDis
                 [selectedAction, selectedPlaque, selectedDiam, rangevalConf]
             ];
         }
-        return csv_data;
+
+        //const { webContents } = require('electron');
+        //const electron = require('@electron/remote/main').enable(webContents.getFocusedWebContents());
+        //const path = require('path');
+        //const fs = require('browserify-fs');
+        //// Importing dialog module using remote
+        //const dialog = electron.remote.dialog;
+        //var saveConf = document.getElementById('saveConfDef');
+        //saveConf.addEventListener('click', (event) => {
+        //    dialog.showSaveDialog({
+        //        title: 'Sauvegarder comme Config Défaut',
+        //        defaultPath: path.join(__dirname, '../assets/default.csv'),
+        //        buttonLabel: 'Sauvegarder comme Config Défaut',
+        //    }).then(file => {
+        //        console.log(file.canceled);
+        //        if (!file.canceled) {
+        //            console.log(file.filePath.toString());
+        //            fs.writeFile(file.filePath.toString(), csv_data,
+        //                function (err) {
+        //                    if (err) throw err;
+        //                    console.log('Saved!');
+        //                });
+        //        }
+        //    }).catch(err => {
+        //        console.log(err)
+        //    });
+        //});
+
     }
 
-    function moveToRightFolder() {
-        // TODO
-        var oldPath = 'C:/Users/Utilisateur/Downloads/default.csv';
-        var newPath = '../assets/default.csv';
-        //moveFile(oldPath, newPath);
-        console.log('The file has been moved');
-    }
 
     function selectAll() {
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -296,7 +362,11 @@ function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDis
             return selectedPlaque !== "";
         } else {
             return selectedPlaque !== "" && selectedDiam !== "";
-        }        
+        }
+    }
+
+    function disableRun() {
+        return !configValid() || !(etatRobotActuel === "LIBRE INIT" && etatCamActuel === "EN MARCHE" && etatSecuriteActuel === "OK");
     }
 
     function handleSelectAction(event) {
@@ -323,7 +393,7 @@ function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDis
         return selectedAction === "Localiser la plaque" || isOpen || actionRunning;
     }
     function disableConf() {
-        return selectedAction === "Localiser la plaque" || selectedAction === "Deplacer le robot" || isOpen || actionRunning;// || nameFileImp!="";
+        return selectedAction === "Localiser la plaque" || selectedAction === "Deplacer le robot" || isOpen || actionRunning;
     }
     function disableTest() {
         return testRunning;
@@ -350,15 +420,19 @@ function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDis
         if (selectedAction === "Deplacer le robot") {
             setActionEnCours("Déplacement du robot en cours...");
             setMsgActCourante("Déplacement du robot en cours...");
+            setMemAction("Deplacer le robot");
         } else if (selectedAction === "Identifier") {
             setActionEnCours("Identification en cours...");
             setMsgActCourante("Identification en cours...");
+            setMemAction("Identifier");
         } else if (selectedAction === "Verifier conformite") {
             setActionEnCours("Vérification de la conformité en cours...");
             setMsgActCourante("Vérification de la conformité en cours...");
+            setMemAction("Verifier conformite");
         } else if (selectedAction === "Localiser la plaque") {
             setActionEnCours("Localisation de la plaque en cours...");
             setMsgActCourante("Localisation de la plaque en cours...");
+            setMemAction("Localiser la plaque");
         }
 
         // Création du message à envoyer
@@ -385,6 +459,10 @@ function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDis
 
 
     function nothing() { }
+
+    function launchCalibration() {
+        alert("TODO : prompt calibration camera");
+    }
 
     function setConf(event) {
         setRangevalConf(event.target.value);
@@ -420,7 +498,7 @@ function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDis
     }
 
     function getClassNameStart() {
-        if ((testRunning && !testPaused)||selectedTestList==="") {
+        if ((testRunning && !testPaused) || selectedTestList === "") {
             return 'bouton-start-mtnc-disabled';
         } else {
             return 'bouton-start-mtnc';
@@ -509,14 +587,12 @@ function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDis
                 {modeCo === 1 ?
                     <div className="bouton-group">
                         <button type="button" className="bouton-normal-mid" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
-                        <CSVLink data={saveConfigDefault()} filename={"default.csv"} onClick={moveToRightFolder()}>
-                            <button type="button" className="bouton-normal-mid" onClick={saveConfigDefault} disabled={!configValid()}>Sauvegarder comme Config Défaut</button>
-                        </CSVLink>
+                        <button type="button" className="bouton-normal-mid" onClick={saveConfigDefault} disabled={!configValid()} id='saveConfDef'>Sauvegarder comme Config Défaut</button>
                     </div>
                     : <button type="button" className="bouton-normal" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
                 }
                 <button type="button" className="bouton-normal" disabled={disableGeneral()} onClick={backToConfigDefault}>Configuration par défaut</button>
-                <button type="submit" className="bouton-run" onClick={togglePopup} disabled={!configValid()}>Run</button>
+                <button type="submit" className="bouton-run" onClick={togglePopup} disabled={disableRun()}>Run</button>
                 {isOpen && <Popup
                     content={<>
                         <h3 className="popup-title">Lancement de l'action</h3>
@@ -545,7 +621,8 @@ function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDis
                         <div className='etat-import'>
                             <AiFillSafetyCertificate className="icone" />
                             Sécurité :
-                            <span className='rep'> OK </span>
+                            {etatSecuriteActuel === "NOK" ? <span className='rep-stop'>{etatSecuriteActuel}</span> : <span className='rep'>{etatSecuriteActuel}</span>}
+
                         </div>
                         <div className='etat-import'>
                             <GiRobotGrab className="icone" />
@@ -561,11 +638,13 @@ function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDis
                     <div className='etat-col-2'>
                         <div className='etat-import'>
                             <   AiFillVideoCamera className="icone" />
-                            Etat caméra : <span className='rep'>EN MARCHE</span>
+                            Etat caméra :
+                            {etatCamActuel === "EN MARCHE" ? <span className='rep'>{etatCamActuel}</span> : <span className='rep-stop'>{etatCamActuel}</span>}
                         </div>
                         <div className='etat-import'>
                             <GiMetalPlate className="icone" />
-                            Plaque détectée : <span className='rep'>OK</span>
+                            Plaque détectée :
+                            {etatPlaqueActuel === "INCONNU" ? <span className='rep-non-init'>{etatPlaqueActuel}</span> : etatPlaqueActuel === "OK" ? <span className='rep'>{etatPlaqueActuel}</span> : <span className='rep-stop'>{etatPlaqueActuel}</span>}
                         </div>
                     </div>
                 </div>
@@ -579,7 +658,9 @@ function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDis
         return (
             <div className="config">
                 <h3> TESTS DES FONCTIONNALITES </h3>
-               
+
+                <span className="champCalibration"><button type="button" className="bouton-calibration-mtnc" onClick={launchCalibration} disabled={etatCamActuel === "ETEINTE"}>Calibrer la caméra</button></span>
+
                 <div className='champ-mtnc'><label className='labels-mtnc'>Choix du pôle à évaluer :</label>
                     <select value={selectedTestList} onChange={handleSelectTest} disabled={disableTest()}>
                         <option selected disabled hidden value="">-----</option>
@@ -606,7 +687,7 @@ function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDis
                         <div className='etat-import'>
                             <AiFillSafetyCertificate className="icone" />
                             Sécurité :
-                            <span className='rep'> OK </span>
+                            {etatSecuriteActuel === "NOK" ? <span className='rep-stop'>{etatSecuriteActuel}</span> : <span className='rep'>{etatSecuriteActuel}</span>}
                         </div>
                         <div className='etat-import'>
                             <GiRobotGrab className="icone" />
@@ -622,11 +703,13 @@ function Configuration({ nameFileCsv, setNameFileCsv, isDecoDisabled, setDecoDis
                     <div className='etat-col-2'>
                         <div className='etat-import'>
                             <   AiFillVideoCamera className="icone" />
-                            Etat caméra : <span className='rep'>EN MARCHE</span>
+                            Etat caméra :
+                            {etatCamActuel === "EN MARCHE" ? <span className='rep'>{etatCamActuel}</span> : <span className='rep-stop'>{etatCamActuel}</span>}
                         </div>
                         <div className='etat-import'>
                             <GiMetalPlate className="icone" />
-                            Plaque détectée : <span className='rep'>OK</span>
+                            Plaque détectée :
+                            {etatPlaqueActuel === "INCONNU" ? <span className='rep-non-init'>{etatPlaqueActuel}</span> : etatPlaqueActuel === "OK" ? <span className='rep'>{etatPlaqueActuel}</span> : <span className='rep-stop'>{etatPlaqueActuel}</span>}
                         </div>
                     </div>
                 </div>

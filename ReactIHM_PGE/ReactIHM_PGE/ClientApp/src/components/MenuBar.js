@@ -22,7 +22,7 @@ import { useAppContextAuth } from "../lib/contextLibAuth";
 
 
 
-function Header({ isDecoDisabled, currentPage, setCurrentPage, modeCo }) {
+function Header({ pageRes, setPageRes, isDecoDisabled, currentPage, setCurrentPage, modeCo, showHistory, setShowHistory }) {
 
     //create initial menuCollapse state using useState hook
     const [menuCollapse, setMenuCollapse] = useState(false)
@@ -41,26 +41,43 @@ function Header({ isDecoDisabled, currentPage, setCurrentPage, modeCo }) {
 
     function changePageToMain() {
         if (!isDecoDisabled) {
+            if (currentPage === 1 && showHistory === false) {
+                alert("TODO: PROPOSER SAUVEGARDE");
+            }
             setCurrentPage(0);
         }
     }
     function changePageToResult() {
         if (!isDecoDisabled) {
+            if (currentPage === 1 && showHistory === false) {
+                alert("TODO: PROPOSER SAUVEGARDE");
+            }
+            setShowHistory(true);
+            setPageRes(0);
             setCurrentPage(1);
         }
     }
     function changePageToUser() {
         if (!isDecoDisabled) {
+            if (currentPage === 1 && showHistory === false) {
+                alert("TODO: PROPOSER SAUVEGARDE");
+            }
             setCurrentPage(2);
         }
     }
     function changePageToHelp() {
         if (!isDecoDisabled) {
+            if (currentPage === 1 && showHistory === false) {
+                alert("TODO: PROPOSER SAUVEGARDE");
+            }
             setCurrentPage(3);
         }
     }
     function changePageToParam() {
         if (!isDecoDisabled) {
+            if (currentPage === 1 && showHistory === false) {
+                alert("TODO: PROPOSER SAUVEGARDE");
+            }
             setCurrentPage(4);
         }
     }

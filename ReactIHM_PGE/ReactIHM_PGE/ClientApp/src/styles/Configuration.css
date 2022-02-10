@@ -1,4 +1,4 @@
-﻿.slider input {
+﻿﻿.slider input {
     width: 20.3vw; /* Full-width */
     height: 1vh; /* Specified height */
     background: #878787; /* Grey background */
@@ -15,13 +15,13 @@
     opacity: 1; /* Fully shown on mouse-over */
 }
 
-.slider :disabled{
-    opacity:0.1;
-}
-
-.slider :disabled:hover {
+.slider :disabled {
     opacity: 0.1;
 }
+
+    .slider :disabled:hover {
+        opacity: 0.1;
+    }
 
 /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
 .slider::-webkit-slider-thumb {
@@ -39,11 +39,11 @@
     cursor: pointer; /* Cursor on hover */
 }
 
-.config{
-    display:flex;
-    flex-direction:column;
-    padding-left:2vw;
-    padding-right:2vw;
+.config {
+    display: flex;
+    flex-direction: column;
+    padding-left: 2vw;
+    padding-right: 2vw;
 }
 
 h3 {
@@ -54,8 +54,8 @@ h3 {
     font-weight: bold;
 }
 
-select{
-    font-size:1.8vh;
+select {
+    font-size: 1.8vh;
 }
 
 .bouton-normal {
@@ -63,18 +63,19 @@ select{
     color: white;
     opacity: 0.7;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
-    border-radius:6px;
-    padding-bottom:0.25vh;
-    margin-bottom:0.8vh;
-    font-size:1.85vh;
+    border-radius: 6px;
+    padding-bottom: 0.25vh;
+    margin-bottom: 0.8vh;
+    font-size: 1.85vh;
 }
-/* Mouse-over effects */
-.bouton-normal:hover {
-    opacity: 1; /* Fully shown on mouse-over */
-}
-.bouton-normal:disabled {
-    opacity: 0.2; 
-}
+    /* Mouse-over effects */
+    .bouton-normal:hover {
+        opacity: 1; /* Fully shown on mouse-over */
+    }
+
+    .bouton-normal:disabled {
+        opacity: 0.2;
+    }
 
 .bouton-import {
     background-color: #273339;
@@ -83,15 +84,16 @@ select{
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
     border-radius: 6px;
     width: 17.85vw;
-    font-size:1.85vh;
+    font-size: 1.85vh;
 }
-/* Mouse-over effects */
-.bouton-import:hover {
-    opacity: 1; /* Fully shown on mouse-over */
-}
-.bouton-import:disabled {
-    opacity: 0.2; 
-}
+    /* Mouse-over effects */
+    .bouton-import:hover {
+        opacity: 1; /* Fully shown on mouse-over */
+    }
+
+    .bouton-import:disabled {
+        opacity: 0.2;
+    }
 
 .champImport {
     display: flex;
@@ -104,18 +106,20 @@ select{
     color: black;
     box-shadow: 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.8);
     border-radius: 6px;
-    width:14.35vw;
-    text-align:center;
-    font-size:1.75vh;
-    opacity:0.8;
-    margin-bottom:0.6vh;
+    width: 14.35vw;
+    text-align: center;
+    font-size: 1.75vh;
+    opacity: 0.8;
+    margin-bottom: 0.6vh;
 }
-.bouton-select:hover {
-   opacity:1;
-}
-.bouton-select:disabled {
-    opacity: 0.3;
-}
+
+    .bouton-select:hover {
+        opacity: 1;
+    }
+
+    .bouton-select:disabled {
+        opacity: 0.3;
+    }
 
 .labels {
     padding-left: 0.35vw; /*5px*/
@@ -134,23 +138,24 @@ select{
     opacity: 0.7;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
     border-radius: 6px;
-    font-size:1.85vh;
+    font-size: 1.85vh;
 }
-/* Mouse-over effects */
-.bouton-run:hover {
-    opacity: 1; /* Fully shown on mouse-over */
-}
-.bouton-run:disabled {
-    opacity: 0.4;
-}
+    /* Mouse-over effects */
+    .bouton-run:hover {
+        opacity: 1; /* Fully shown on mouse-over */
+    }
 
-.champ{
-    padding-top:2.55vh; /*20px*/
+    .bouton-run:disabled {
+        opacity: 0.4;
+    }
+
+.champ {
+    padding-top: 2.55vh; /*20px*/
 }
 
 .champ-mtnc {
-    align-self:center;
-    padding-top: 14.1vh;
+    align-self: center;
+    padding-top: 9vh;
 }
 
 .champ-slider {
@@ -160,9 +165,9 @@ select{
 }
 
 .etat-courant {
-    padding-top:5.25vh; 
+    padding-top: 5.25vh;
     display: flex;
-    flex-direction:row;
+    flex-direction: row;
     font-size: 2vh;
 }
 
@@ -179,15 +184,15 @@ select{
     flex-direction: row;
 }
 
-.etat-col-1{
-    display:flex;
-    flex-direction:column;
-    width:19.8vw;
+.etat-col-1 {
+    display: flex;
+    flex-direction: column;
+    width: 19.8vw;
 }
 
-.etat{
-    padding-bottom:1%;/*20px*/
-    padding-left:5%; /*5px*/
+.etat {
+    padding-bottom: 1%; /*20px*/
+    padding-left: 5%; /*5px*/
 }
 
 .etat-import {
@@ -227,29 +232,29 @@ select{
     display: flex;
     flex-direction: column;
     padding-left: 9.7vw;
-    font-size:2vh;
+    font-size: 2vh;
 }
 
-.icone{
-    width:1.5vw;
+.icone {
+    width: 1.5vw;
 }
 
-.import-ok{
-    font-size:1.65vh;
-    font-style:italic;
-    text-align:right;
-    padding-top:0.25vh;
-    padding-right:0.3vw;
-    color:#EC6427;
+.import-ok {
+    font-size: 1.65vh;
+    font-style: italic;
+    text-align: right;
+    padding-top: 0.25vh;
+    padding-right: 0.3vw;
+    color: #EC6427;
 }
 
-.value-conf{
-    opacity:1;
-    font-size:2vh;
+.value-conf {
+    opacity: 1;
+    font-size: 2vh;
 }
 
-.value-conf-disabled{
-    opacity:0.2;
+.value-conf-disabled {
+    opacity: 0.2;
 }
 
 .value-diam {
@@ -260,9 +265,9 @@ select{
     opacity: 0.2;
 }
 
-.wrap-bouton-parking{
-    padding-left:2vw;
-    padding-bottom:1.5vh;
+.wrap-bouton-parking {
+    padding-left: 2vw;
+    padding-bottom: 1.5vh;
 }
 
 .bouton-group {
@@ -275,9 +280,9 @@ select{
     opacity: 0.7;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
     border-radius: 6px;
-    width:18vw;
-    font-size:1.85vh;
-    margin-bottom:0.8vh;
+    width: 18vw;
+    font-size: 1.85vh;
+    margin-bottom: 0.8vh;
 }
     /* Mouse-over effects */
     .bouton-normal-mid:hover {
@@ -301,9 +306,11 @@ select{
     width: 3.95vw;
     opacity: 0.8;
 }
-.bouton-start-mtnc:hover {
-    opacity: 1;
-}
+
+    .bouton-start-mtnc:hover {
+        opacity: 1;
+    }
+
 .bouton-start-mtnc-disabled {
     width: 3.95vw;
     opacity: 0.2;
@@ -313,9 +320,11 @@ select{
     width: 3.95vw;
     opacity: 0.8;
 }
-.bouton-pause-mtnc:hover {
-    opacity: 1;
-}
+
+    .bouton-pause-mtnc:hover {
+        opacity: 1;
+    }
+
 .bouton-pause-mtnc-disabled {
     width: 3.95vw;
     opacity: 0.2;
@@ -326,10 +335,38 @@ select{
     width: 4.15vw;
     opacity: 0.8;
 }
-.bouton-stop-mtnc:hover {
-    opacity: 1;
-}
+
+    .bouton-stop-mtnc:hover {
+        opacity: 1;
+    }
+
 .bouton-stop-mtnc-disabled {
     width: 4.15vw;
     opacity: 0.2;
 }
+
+
+.champCalibration {
+    display: flex;
+    flex-direction: row-reverse;
+    padding-right: 5.7vw;
+    padding-top: 2.2vh;
+}
+
+.bouton-calibration-mtnc {
+    background-color: #273339;
+    color: white;
+    opacity: 0.7;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 1);
+    border-radius: 6px;
+    width: 25vw;
+    font-size: 1.85vh;
+}
+    /* Mouse-over effects */
+    .bouton-calibration-mtnc:hover {
+        opacity: 1; /* Fully shown on mouse-over */
+    }
+
+    .bouton-calibration-mtnc:disabled {
+        opacity: 0.2;
+    }

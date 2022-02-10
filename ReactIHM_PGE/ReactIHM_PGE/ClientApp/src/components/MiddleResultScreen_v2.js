@@ -15,40 +15,130 @@ import loupe from '../assets/loupe.png'
 import '../styles/bootstrapStyle.scss'
 import returnArrow from "../assets/arrow_back.png"
 import noCam from '../assets/NoCamera.png'
+//import JsonContent from 'C:\\Users\\AnaisM\\Documents\\UPSSITECH\\3A\\PGE\\IHM\\IHM\\ReactIHM_PGE\\ReactIHM_PGE\\ClientApp\\src\\data\\files_results.json'
 import JsonContent from '../data/files_results.json'
 import PopUpResult from './PopUpResult'
+import * as ROSLIB from 'roslib';
 
 
-function MiddleResultScreen_v2({ changePage, setChangePage, nameFileCsv, setNameFileCsv, setPageRes, nameFileRes, setNameFileRes, csvArray, setCsvArray, selectedAction, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate }) {
+function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArray, setCsvArray, selectedAction, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate, showHistory, setShowHistory, memAction, setMemAction, ros }) {
+
+    // Récupération du topic sur lequel on veut publier pour dire qu'on a reçu resultats
+    var message_ihm_results_ok = new ROSLIB.Topic({
+        ros: ros,
+        name: '/result/ok',
+        messageType: 'std_msgs/Bool'
+    });
+
+
+    // Identification
+    const [trousIdentification, setTrousIdentification] = useState([]);
+    const [imgIdentification, setImgIdentification] = useState("");
+    const [nbTrousIdentification, setNbTrousIdentification] = useState(0);
+    const [subscribedI, setSubscribedI] = useState(false);
+    // ROS RECEPTION RESULTATS IDENTIFICATION
+    function callbackResultatsIdentification(message) {
+        console.log("Recuperation de resultats Identification :");
+        console.log("Trous : ", message.trous);
+        console.log("nbTrous : ", message.nbTrous);
+        console.log("image : ", message.image);
+        setTrousIdentification(message.trous);
+        setNbTrousIdentification(message.nbTrous);
+        setImgIdentification(message.image);
+        var msg = new ROSLIB.Message({
+            data: true
+        });
+        message_ihm_results_ok.publish(msg);
+    }
+    // Création du listener ROS Resultats Identification
+    var resultats_identification_listener = new ROSLIB.Topic({
+        ros: ros,
+        name: '/result/identification', // Choix du topic
+        messageType: 'deplacement_robot/Identification' // Type du message transmis
+    });
+    if (subscribedI === false) {
+        resultats_identification_listener.subscribe(callbackResultatsIdentification);
+        setSubscribedI(true);
+    }
+
+    // Localiser la plaque
+    const [pos_x, setPos_x] = useState(0);
+    const [pos_y, setPos_y] = useState(0);
+    const [pos_z, setPos_z] = useState(0);
+    const [pos_a, setPos_a] = useState(0);
+    const [pos_b, setPos_b] = useState(0);
+    const [pos_g, setPos_g] = useState(0);
+    const [subscribedL, setSubscribedL] = useState(false);
+    // ROS RECEPTION RESULTATS LOCALISATION
+    function callbackResultatsLocalisation(message) {
+        console.log("Recuperation de resultats Localisation :");
+        console.log("x : ", message.x);
+        console.log("y : ", message.y);
+        console.log("z : ", message.z);
+        console.log("a : ", message.a);
+        console.log("b : ", message.b);
+        console.log("g : ", message.g);
+        setPos_x(message.x);
+        setPos_y(message.y);
+        setPos_z(message.z);
+        setPos_a(message.a);
+        setPos_b(message.b);
+        setPos_g(message.g);
+        var msg = new ROSLIB.Message({
+            data: true
+        });
+        message_ihm_results_ok.publish(msg);
+    }
+    // Création du listener ROS Resultats Localisation
+    var resultats_localisation_listener = new ROSLIB.Topic({
+        ros: ros,
+        name: '/result/localisation', // Choix du topic
+        messageType: 'deplacement_robot/Localisation' // Type du message transmis
+    });
+    if (subscribedL === false) {
+        resultats_localisation_listener.subscribe(callbackResultatsLocalisation);
+        setSubscribedL(true);
+    }
+
+    // Qualité
+    const [trousQualite, setTrousQualite] = useState([]);
+    const [imgQualite, setImgQualite] = useState("");
+    const [nbTrousQualite, setNbTrousQualite] = useState(0);
+    const [subscribedQ, setSubscribedQ] = useState(false);
+    // ROS RECEPTION RESULTATS QUALITE
+    function callbackResultatsQualite(message) {
+        console.log("Recuperation de resultats Qualite :");
+        console.log("Trous : ", message.trous);
+        console.log("nbTrous : ", message.nbTrous);
+        //console.log("image : ", message.image);
+        setTrousQualite(message.trous);
+        setNbTrousQualite(message.nbTrous);
+        setImgQualite(message.image);
+        var msg = new ROSLIB.Message({
+            data: true
+        });
+        message_ihm_results_ok.publish(msg);
+    }
+    // Création du listener ROS Resultats Qualite
+    var resultats_qualite_listener = new ROSLIB.Topic({
+        ros: ros,
+        name: '/result/qualite', // Choix du topic
+        messageType: 'deplacement_robot/Qualite' // Type du message transmis
+    });
+    if (subscribedQ === false) {
+        resultats_qualite_listener.subscribe(callbackResultatsQualite);
+        setSubscribedQ(true);
+    }
+
 
 
     function changePageToHist() {
-        setPageRes(0);
-    }
-
-    //javascript create JSON object from two dimensional Array
-    function arrayToJSONObject(arr) {
-        //header
-        var keys = arr[0];
-
-        //vacate keys from main array
-        var newArr = arr.slice(1, arr.length);
-        var fs = require('fs');
-        var formatted = [],
-            data = newArr,
-            cols = keys,
-            l = cols.length;
-        for (var i = 0; i < data.length; i++) {
-            var d = data[i],
-                o = {};
-            for (var j = 0; j < l; j++)
-                o[cols[j]] = d[j];
-            formatted.push(o);
+        if (showHistory === false) {
+            alert("TODO: PROPOSER SAUVEGARDE");
         }
-        console.log(formatted);
-        return formatted;
+        setPageRes(0);
+        setShowHistory(true);
     }
-
 
     //Import/Export fichier.csv
     const csvFileCreator = require('csv-file-creator');
@@ -60,9 +150,7 @@ function MiddleResultScreen_v2({ changePage, setChangePage, nameFileCsv, setName
 
     var csv_data = [
         ['FileName', 'date', 'plaque', 'action'],
-        ['identification_2', dateSaveResult, 'tole plate', 'identification']
-    ];
-    var csv_data_content = [
+        ['identification_2', dateSaveResult, 'tole plate', 'identification'],
         ['x', 'y', 'diam'],
         [1, 2, 3],
         [4, 5, 6],
@@ -74,15 +162,13 @@ function MiddleResultScreen_v2({ changePage, setChangePage, nameFileCsv, setName
 
     function saveResult() {
 
-        csvFileCreator(nameFileRes, csv_data);
-        arrayToJSONObject(csv_data);
-        console.log(arrayToJSONObject(csv_data));
-        const ctnt_action = csv_data[0][3];
-        const ctnt_plaque = csv_data[0][4];
-        const ctnt_date = csv_data[0][5];
-        setResultAction(ctnt_action);
-        setResultPlaque(ctnt_plaque);
-        setResultDate(ctnt_date);
+        /* csvFileCreator(nameFileRes, csv_data);
+         const ctnt_action = csv_data[0][3];
+         const ctnt_plaque = csv_data[0][4];
+         const ctnt_date = csv_data[0][5];
+         setResultAction(ctnt_action);
+         setResultPlaque(ctnt_plaque);
+         setResultDate(ctnt_date);*/
     }
 
     //PopUp details result
@@ -91,7 +177,7 @@ function MiddleResultScreen_v2({ changePage, setChangePage, nameFileCsv, setName
         setIsOpen(!isOpen);
     }
 
-    function changeConformity() {
+    function chanegConformity() {
         setIsOpen(!isOpen);
         JsonContent[nameFileRes].sort(function (a, b) {
             var a1st = -1; //negative value means left item should appear first
@@ -141,201 +227,53 @@ function MiddleResultScreen_v2({ changePage, setChangePage, nameFileCsv, setName
         setPage(0);
     };
 
-    JsonContent[nameFileRes].sort(function (a, b) {
-        var a1st = -1; //negative value means left item should appear first
-        var b1st = 1; //positive value means right item should appear first
-        var equal = 0; //zero means objects are equal
-        //compare your object's property values and determine their order
-        if (JsonContent[nameFileRes].action === "identification" || JsonContent[nameFileRes].action === "qualite")
-            if (b.diam < a.diam) {
-                return b1st;
-            }
-            else if (a.diam < b.diam) {
-                return a1st;
-            }
-            else {
-                return equal;
-            }
-     
-    });
+    if (showHistory === true) {
 
-    JsonContent[nameFileRes].sort(function (a, b) {
-        var a1st = -1; //negative value means left item should appear first
-        var b1st = 1; //positive value means right item should appear first
-        var equal = 0; //zero means objects are equal
-        //compare your object's property values and determine their order
-        if (JsonContent[nameFileRes].action === "qualite")
-            if (b.conform < a.conform) {
-                return b1st;
-            }
-            else if (a.conform < b.conform) {
-                return a1st;
-            }
-            else {
-                return equal;
-            }
+        JsonContent[nameFileRes].sort(function (a, b) {
+            var a1st = -1; //negative value means left item should appear first
+            var b1st = 1; //positive value means right item should appear first
+            var equal = 0; //zero means objects are equal
+            //compare your object's property values and determine their order
+            if (JsonContent[nameFileRes].action === "identification" || JsonContent[nameFileRes].action === "qualite")
+                if (b.diam < a.diam) {
+                    return b1st;
+                }
+                else if (a.diam < b.diam) {
+                    return a1st;
+                }
+                else {
+                    return equal;
+                }
 
-    });
+        });
 
+        JsonContent[nameFileRes].sort(function (a, b) {
+            var a1st = -1; //negative value means left item should appear first
+            var b1st = 1; //positive value means right item should appear first
+            var equal = 0; //zero means objects are equal
+            //compare your object's property values and determine their order
+            if (JsonContent[nameFileRes].action === "qualite")
+                if (b.conform < a.conform) {
+                    return b1st;
+                }
+                else if (a.conform < b.conform) {
+                    return a1st;
+                }
+                else {
+                    return equal;
+                }
 
-    return (
-        <div className='middleResult-v2'>
-            <div className="box-return"><IconButton><img src={returnArrow} alt="return button" className="return-icon-results" onClick={changePageToHist} /></IconButton></div>
-            {resultAction === "identification" ?
-                <div>
-                    <div className="display-results">
-                        <img src={noCam} alt="resultats camera" className="no-cam-results" />
-                        <div className="table-results">
-
-                            <div className='header-results-diam'>
-
-                            </div>
-                            <TableContainer className='table-rows-results'>
-                                <Table>
-                                    <TableHead>
-
-                                        <TableRow>
-                                            <TableCell className='table-cell-results' align="center">x</TableCell>
-                                            <TableCell className='table-cell-results' align="center">y</TableCell>
-                                            <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
-
-                                        </TableRow>
-
-                                    </TableHead>
-                                    {JsonContent[nameFileRes].length > 0 ?
-
-                                        <TableBody>
-                                            {(rowsPerPage > 0
-                                                ? JsonContent[nameFileRes].slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                                : JsonContent[nameFileRes]).map((item, i) => (
-                                               
-                                                <TableRow
-                                                    key={i}
-                                                >
-                                   
-                                                    <TableCell align="center">{item.x}</TableCell>
-                                                    <TableCell align="center">{item.y}</TableCell>
-                                                    <TableCell align="center">{item.diam}</TableCell>
-
-                                                </TableRow>
+        });
+    }
+    console.log(showHistory);
+    if (showHistory === true) {
 
 
 
-                                                ))}
-                                            {emptyRows > 0 && (
-                                                <TableRow
-                                                    style={{
-                                                        height: (dense ? 33 : 53) * emptyRows,
-                                                    }}
-                                                >
-
-                                                </TableRow>
-                                            )}
-
-                                        </TableBody> :
-                                        <TableBody>
-
-                                            <TableRow>
-
-                                                <TableCell align="center">aucun résultat</TableCell>
-                                                <TableCell align="center">aucun résultat</TableCell>
-                                                <TableCell align="center">aucun résultat</TableCell>
-
-                                            </TableRow>
-
-                                        </TableBody>}
-                                    <TableFooter>
-                                        <TableRow>
-
-                                            <TablePagination
-                                                rowsPerPageOptions={[7]}
-                                                colSpan={4}
-                                                count={JsonContent[nameFileRes].length}
-                                                rowsPerPage={rowsPerPage}
-                                                page={page}
-                                                onPageChange={handleChangePage}
-                                                onRowsPerPageChange={handleChangeRowsPerPage}
-                                            />
-
-                                        </TableRow>
-
-                                    </TableFooter>
-                                </Table>
-                            </TableContainer>
-                        </div>
-                    </div>
-                    <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
-                </div>
-                : resultAction === "localisation" ?
-                    <div>
-                        <div className="display-results">
-                            <img src={noCam} alt="resultats camera" className="no-cam-results" />
-                            <div className="table-results">
-
-                                <div className='header-results-diam'>
-
-                                </div>
-                                <TableContainer className='table-rows-results'>
-                                    <Table>
-                                        <TableHead>
-
-                                            <TableRow>
-                                                <TableCell className='table-cell-results' align="center">x</TableCell>
-                                                <TableCell className='table-cell-results' align="center">y</TableCell>
-                                                <TableCell className='table-cell-results' align="center">z </TableCell>
-                                                <TableCell className='table-cell-results' align="center">alpha</TableCell>
-                                                <TableCell className='table-cell-results' align="center">beta</TableCell>
-                                                <TableCell className='table-cell-results' align="center">gamma</TableCell>
-
-                                            </TableRow>
-
-                                        </TableHead>
-                                        {JsonContent[nameFileRes].length > 0 ?
-                                            <TableBody >
-
-                                                {JsonContent[nameFileRes].map((item, i) => (
-
-
-                                                    <TableRow
-                                                        key={i}
-
-                                                    >
-
-                                                        <TableCell align="center">{item.x}</TableCell>
-                                                        <TableCell align="center">{item.y}</TableCell>
-                                                        <TableCell align="center">{item.z}</TableCell>
-                                                        <TableCell align="center">{item.alpha}</TableCell>
-                                                        <TableCell align="center">{item.beta}</TableCell>
-                                                        <TableCell align="center">{item.gamma}</TableCell>
-                                                       
-                                                    </TableRow>
-
-
-
-                                                    ))}
-
-                                            </TableBody> :
-                                            <TableBody>
-
-                                                <TableRow>
-
-                                                    <TableCell align="center">aucun résultat</TableCell>
-                                                    <TableCell align="center">aucun résultat</TableCell>
-                                                    <TableCell align="center">aucun résultat</TableCell>
-                                                    <TableCell align="center">aucun résultat </TableCell>
-                                                    <TableCell align="center">aucun résultat </TableCell>
-                                                    <TableCell align="center">aucun résultat </TableCell>
-
-                                                </TableRow>
-                                                
-                                            </TableBody>}
-                                       
-                                    </Table>
-                                </TableContainer>
-                            </div>
-                        </div>
-                        <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
-                    </div> :
+        return (
+            <div className='middleResult-v2'>
+                <div className="box-return"><IconButton onClick={changePageToHist}><img src={returnArrow} alt="return button" className="return-icon-results" /></IconButton></div>
+                {resultAction === "identification" ?
                     <div>
                         <div className="display-results">
                             <img src={noCam} alt="resultats camera" className="no-cam-results" />
@@ -352,40 +290,30 @@ function MiddleResultScreen_v2({ changePage, setChangePage, nameFileCsv, setName
                                                 <TableCell className='table-cell-results' align="center">x</TableCell>
                                                 <TableCell className='table-cell-results' align="center">y</TableCell>
                                                 <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
-                                                <TableCell className='table-cell-results' align="center">Conforme</TableCell>
-                                                <TableCell className='table-cell-results' align="center">Raison</TableCell>
-                                                <TableCell className='table-cell-results' align="center">Voir le trou</TableCell>
+
                                             </TableRow>
 
                                         </TableHead>
                                         {JsonContent[nameFileRes].length > 0 ?
-                                            <TableBody >
+
+                                            <TableBody>
 
                                                 {(rowsPerPage > 0
                                                     ? JsonContent[nameFileRes].slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                                     : JsonContent[nameFileRes]).map((item, i) => (
 
+                                                        <TableRow
+                                                            key={i}
+                                                        >
+                                                            <TableCell align="center">{item.x}</TableCell>
+                                                            <TableCell align="center">{item.y}</TableCell>
+                                                            <TableCell align="center">{item.diam}</TableCell>
 
-                                                    <TableRow
-                                                        key={i}
-                                                    >
+                                                        </TableRow>
 
-                                                        {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.x}</TableCell> : <TableCell align="center">{item.x}</TableCell>}
-                                                        {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.y}</TableCell> : <TableCell align="center">{item.y}</TableCell>}
-                                                        {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.diam}</TableCell> : <TableCell align="center">{item.diam}</TableCell>}
-                                                        {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.conform}</TableCell> : <TableCell align="center">{item.conform}</TableCell>}
-                                                        {item.conform === "non" ? <TableCell className="non-conform-reason" align="center">{item.reason}</TableCell> : <TableCell align="center">{item.reason}</TableCell>}
-                                                        {item.conform === "non" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell>}
-                                                        {isOpen && <PopUpResult
-                                                            content={<>
-                                                                <h3 className="popup-title">id trou</h3>
-                                                            </>}
-                                                            handleClose={togglePopupResult}
-                                                        />}
 
-                                                    </TableRow>
 
-                                                ))}
+                                                    ))}
                                                 {emptyRows > 0 && (
                                                     <TableRow
                                                         style={{
@@ -395,6 +323,7 @@ function MiddleResultScreen_v2({ changePage, setChangePage, nameFileCsv, setName
 
                                                     </TableRow>
                                                 )}
+
                                             </TableBody> :
                                             <TableBody>
 
@@ -403,27 +332,16 @@ function MiddleResultScreen_v2({ changePage, setChangePage, nameFileCsv, setName
                                                     <TableCell align="center">aucun résultat</TableCell>
                                                     <TableCell align="center">aucun résultat</TableCell>
                                                     <TableCell align="center">aucun résultat</TableCell>
-                                                    <TableCell align="center">aucun résultat</TableCell>
-                                                    <TableCell align="center">aucun résultat </TableCell>
-                                                    <TableCell align="center">aucun résultat </TableCell>
 
                                                 </TableRow>
-                                                {emptyRows > 0 && (
-                                                    <TableRow
-                                                        style={{
-                                                            height: (dense ? 33 : 53) * emptyRows,
-                                                        }}
-                                                    >
 
-                                                    </TableRow>
-                                                )}
                                             </TableBody>}
                                         <TableFooter>
                                             <TableRow>
 
                                                 <TablePagination
                                                     rowsPerPageOptions={[7]}
-                                                    colSpan={5}
+                                                    colSpan={4}
                                                     count={JsonContent[nameFileRes].length}
                                                     rowsPerPage={rowsPerPage}
                                                     page={page}
@@ -436,16 +354,415 @@ function MiddleResultScreen_v2({ changePage, setChangePage, nameFileCsv, setName
                                         </TableFooter>
                                     </Table>
                                 </TableContainer>
-
                             </div>
                         </div>
                         <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
-                    </div>}
+                    </div>
+                    : resultAction === "localisation" ?
+                        <div>
+                            <div className="display-results">
+                                <img src={noCam} alt="resultats camera" className="no-cam-results" />
+                                <div className="table-results">
+
+                                    <div className='header-results-diam'>
+
+                                    </div>
+                                    <TableContainer className='table-rows-results'>
+                                        <Table>
+                                            <TableHead>
+
+                                                <TableRow>
+                                                    <TableCell className='table-cell-results' align="center">x</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">y</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">z </TableCell>
+                                                    <TableCell className='table-cell-results' align="center">alpha</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">beta</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">gamma</TableCell>
+
+                                                </TableRow>
+
+                                            </TableHead>
+                                            {JsonContent[nameFileRes].length > 0 ?
+                                                <TableBody >
+
+                                                    {JsonContent[nameFileRes].map((item, i) => (
+
+
+                                                        <TableRow
+                                                            key={i}
+
+                                                        >
+
+                                                            <TableCell align="center">{item.x}</TableCell>
+                                                            <TableCell align="center">{item.y}</TableCell>
+                                                            <TableCell align="center">{item.z}</TableCell>
+                                                            <TableCell align="center">{item.alpha}</TableCell>
+                                                            <TableCell align="center">{item.beta}</TableCell>
+                                                            <TableCell align="center">{item.gamma}</TableCell>
+
+                                                        </TableRow>
 
 
 
-        </div>
-    )
+                                                    ))}
+
+                                                </TableBody> :
+                                                <TableBody>
+
+                                                    <TableRow>
+
+                                                        <TableCell align="center">aucun résultat</TableCell>
+                                                        <TableCell align="center">aucun résultat</TableCell>
+                                                        <TableCell align="center">aucun résultat</TableCell>
+                                                        <TableCell align="center">aucun résultat </TableCell>
+                                                        <TableCell align="center">aucun résultat </TableCell>
+                                                        <TableCell align="center">aucun résultat </TableCell>
+
+                                                    </TableRow>
+
+                                                </TableBody>}
+
+                                        </Table>
+                                    </TableContainer>
+                                </div>
+                            </div>
+                            <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
+                        </div> :
+                        <div>
+                            <div className="display-results">
+                                <img src={noCam} alt="resultats camera" className="no-cam-results" />
+                                <div className="table-results">
+
+                                    <div className='header-results-diam'>
+
+                                    </div>
+                                    <TableContainer className='table-rows-results'>
+                                        <Table>
+                                            <TableHead>
+
+                                                <TableRow>
+                                                    <TableCell className='table-cell-results' align="center">x</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">y</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
+                                                    <TableCell className='table-cell-results' align="center">Conforme</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">Raison</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">Voir le trou</TableCell>
+                                                </TableRow>
+
+                                            </TableHead>
+                                            {JsonContent[nameFileRes].length > 0 ?
+                                                <TableBody >
+
+                                                    {(rowsPerPage > 0
+                                                        ? JsonContent[nameFileRes].slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                        : JsonContent[nameFileRes]).map((item, i) => (
+
+
+                                                            <TableRow
+                                                                key={i}
+                                                            >
+
+                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.x}</TableCell> : <TableCell align="center">{item.x}</TableCell>}
+                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.y}</TableCell> : <TableCell align="center">{item.y}</TableCell>}
+                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.diam}</TableCell> : <TableCell align="center">{item.diam}</TableCell>}
+                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.conform}</TableCell> : <TableCell align="center">{item.conform}</TableCell>}
+                                                                {item.conform === "non" ? <TableCell className="non-conform-reason" align="center">{item.reason}</TableCell> : <TableCell align="center">{item.reason}</TableCell>}
+                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell>}
+                                                                {isOpen && <PopUpResult
+                                                                    content={<>
+                                                                        <h3 className="popup-title">id trou</h3>
+                                                                    </>}
+                                                                    handleClose={togglePopupResult}
+                                                                />}
+
+                                                            </TableRow>
+
+                                                        ))}
+                                                    {emptyRows > 0 && (
+                                                        <TableRow
+                                                            style={{
+                                                                height: (dense ? 33 : 53) * emptyRows,
+                                                            }}
+                                                        >
+
+                                                        </TableRow>
+                                                    )}
+                                                </TableBody> :
+                                                <TableBody>
+
+                                                    <TableRow>
+
+                                                        <TableCell align="center">aucun résultat</TableCell>
+                                                        <TableCell align="center">aucun résultat</TableCell>
+                                                        <TableCell align="center">aucun résultat</TableCell>
+                                                        <TableCell align="center">aucun résultat</TableCell>
+                                                        <TableCell align="center">aucun résultat </TableCell>
+                                                        <TableCell align="center">aucun résultat </TableCell>
+
+                                                    </TableRow>
+                                                    {emptyRows > 0 && (
+                                                        <TableRow
+                                                            style={{
+                                                                height: (dense ? 33 : 53) * emptyRows,
+                                                            }}
+                                                        >
+
+                                                        </TableRow>
+                                                    )}
+                                                </TableBody>}
+                                            <TableFooter>
+                                                <TableRow>
+
+                                                    <TablePagination
+                                                        rowsPerPageOptions={[7]}
+                                                        colSpan={5}
+                                                        count={JsonContent[nameFileRes].length}
+                                                        rowsPerPage={rowsPerPage}
+                                                        page={page}
+                                                        onPageChange={handleChangePage}
+                                                        onRowsPerPageChange={handleChangeRowsPerPage}
+                                                    />
+
+                                                </TableRow>
+
+                                            </TableFooter>
+                                        </Table>
+                                    </TableContainer>
+
+                                </div>
+                            </div>
+                            <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
+                        </div>}
+            </div>)
+    } else {
+
+
+        return (
+            <div className='middleResult-v2'>
+                <div className="box-return"><IconButton onClick={changePageToHist}><img src={returnArrow} alt="return button" className="return-icon-results" /></IconButton></div>
+                {memAction === "Identifier" ?
+                    <div>
+                        <div className="display-results">
+                            <img src={noCam} alt="resultats camera" className="no-cam-results" />
+                            <div className="table-results">
+
+                                <div className='header-results-diam'></div>
+                                <TableContainer className='table-rows-results'>
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell className='table-cell-results' align="center">x</TableCell>
+                                                <TableCell className='table-cell-results' align="center">y</TableCell>
+                                                <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
+
+                                            </TableRow>
+                                        </TableHead>
+
+                                        {nbTrousIdentification > 0 ?
+
+                                            <TableBody>
+
+                                                {(rowsPerPage > 0
+                                                    ? trousIdentification.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                    : trousIdentification).map((item, i) => (
+
+                                                        <TableRow
+                                                            key={i}
+                                                        >
+                                                            <TableCell align="center">{item.x}</TableCell>
+                                                            <TableCell align="center">{item.y}</TableCell>
+                                                            <TableCell align="center">{item.diam}</TableCell>
+
+                                                        </TableRow>
+
+
+
+                                                    ))}
+                                                {emptyRows > 0 && (
+                                                    <TableRow
+                                                        style={{
+                                                            height: (dense ? 33 : 53) * emptyRows,
+                                                        }}
+                                                    >
+
+                                                    </TableRow>
+                                                )}
+
+                                            </TableBody> :
+                                            <TableBody>
+
+                                                <TableRow>
+
+                                                    <TableCell align="center">aucun résultat</TableCell>
+                                                    <TableCell align="center">aucun résultat</TableCell>
+                                                    <TableCell align="center">aucun résultat</TableCell>
+
+                                                </TableRow>
+
+                                            </TableBody>}
+                                        <TableFooter>
+                                            <TableRow>
+
+                                                <TablePagination
+                                                    rowsPerPageOptions={[7]}
+                                                    colSpan={4}
+                                                    count={nbTrousIdentification}
+                                                    rowsPerPage={rowsPerPage}
+                                                    page={page}
+                                                    onPageChange={handleChangePage}
+                                                    onRowsPerPageChange={handleChangeRowsPerPage}
+                                                />
+
+                                            </TableRow>
+
+                                        </TableFooter>
+                                    </Table>
+                                </TableContainer>
+                            </div>
+                        </div>
+                        <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
+                    </div>
+                    : memAction === "Localiser la plaque" ?
+                        <div>
+                            <div className="display-results">
+                                <img src={noCam} alt="resultats camera" className="no-cam-results" />
+                                <div className="table-results">
+
+                                    <div className='header-results-diam'></div>
+                                    <TableContainer className='table-rows-results'>
+                                        <Table>
+
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell className='table-cell-results' align="center">x</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">y</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">z </TableCell>
+                                                    <TableCell className='table-cell-results' align="center">alpha</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">beta</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">gamma</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+
+                                            <TableBody>
+                                                <TableRow>
+                                                    <TableCell align="center">{pos_x}</TableCell>
+                                                    <TableCell align="center">{pos_y}</TableCell>
+                                                    <TableCell align="center">{pos_z}</TableCell>
+                                                    <TableCell align="center">{pos_a}</TableCell>
+                                                    <TableCell align="center">{pos_b}</TableCell>
+                                                    <TableCell align="center">{pos_g}</TableCell>
+                                                </TableRow>
+                                            </TableBody>
+
+                                        </Table>
+                                    </TableContainer>
+                                </div>
+                            </div>
+                            <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
+                        </div> :
+                        <div>
+                            <div className="display-results">
+                                <img src={noCam} alt="resultats camera" className="no-cam-results" />
+                                <div className="table-results">
+
+                                    <div className='header-results-diam'></div>
+                                    <TableContainer className='table-rows-results'>
+                                        <Table>
+
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell className='table-cell-results' align="center">x</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">y</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
+                                                    <TableCell className='table-cell-results' align="center">Conforme</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">Raison</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">Voir le trou</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+
+                                            {nbTrousQualite > 0 ?
+                                                <TableBody >
+
+                                                    {(rowsPerPage > 0
+                                                        ? trousQualite.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                        : trousQualite).map((item, i) => (
+
+
+                                                            <TableRow
+                                                                key={i}
+                                                            >
+
+                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center">{item.x}</TableCell> : <TableCell align="center">{item.x}</TableCell>}
+                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center">{item.y}</TableCell> : <TableCell align="center">{item.y}</TableCell>}
+                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center">{item.diam}</TableCell> : <TableCell align="center">{item.diam}</TableCell>}
+                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center">{item.conforme}</TableCell> : <TableCell align="center">{item.conforme}</TableCell>}
+                                                                {item.conforme === "false" ? <TableCell className="non-conform-reason" align="center">{item.raison}</TableCell> : <TableCell align="center">{item.raison}</TableCell>}
+                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell>}
+                                                                {isOpen && <PopUpResult
+                                                                    content={<>
+                                                                        <h3 className="popup-title">Trou ({item.x} px,{item.y} px,{item.diam} mm)</h3>
+                                                                    </>}
+                                                                    handleClose={togglePopupResult}
+                                                                />}
+
+                                                            </TableRow>
+                                                        ))}
+                                                    {emptyRows > 0 && (
+                                                        <TableRow
+                                                            style={{
+                                                                height: (dense ? 33 : 53) * emptyRows,
+                                                            }}
+                                                        >
+
+                                                        </TableRow>
+                                                    )}
+                                                </TableBody> :
+                                                <TableBody>
+
+                                                    <TableRow>
+
+                                                        <TableCell align="center">aucun résultat</TableCell>
+                                                        <TableCell align="center">aucun résultat</TableCell>
+                                                        <TableCell align="center">aucun résultat</TableCell>
+                                                        <TableCell align="center">aucun résultat</TableCell>
+                                                        <TableCell align="center">aucun résultat </TableCell>
+                                                        <TableCell align="center">aucun résultat </TableCell>
+
+                                                    </TableRow>
+                                                    {emptyRows > 0 && (
+                                                        <TableRow
+                                                            style={{
+                                                                height: (dense ? 33 : 53) * emptyRows,
+                                                            }}
+                                                        >
+
+                                                        </TableRow>
+                                                    )}
+                                                </TableBody>}
+
+                                            <TableFooter>
+                                                <TableRow>
+                                                    <TablePagination
+                                                        rowsPerPageOptions={[7]}
+                                                        colSpan={5}
+                                                        count={nbTrousQualite}
+                                                        rowsPerPage={rowsPerPage}
+                                                        page={page}
+                                                        onPageChange={handleChangePage}
+                                                        onRowsPerPageChange={handleChangeRowsPerPage}
+                                                    />
+                                                </TableRow>
+                                            </TableFooter>
+
+                                        </Table>
+                                    </TableContainer>
+
+                                </div>
+                            </div>
+                            <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
+                        </div>}
+            </div>)
+    }
 
 }
 

@@ -1,7 +1,8 @@
-﻿.img-demonstrateur{
-    padding-top:13.5vh;
-    width:39vw;
-    align-self:center;
+﻿﻿.img-demonstrateur {
+    width: 55vw;
+    opacity: 0.5;
+    height: 85.395vh;
+    margin-left: -9vw;
 }
 
 .middle {
@@ -14,19 +15,19 @@
     display: flex;
     flex-direction: column;
     align-content: center;
-    justify-content:center;
-    padding-left:7.35vw;
+    justify-content: center;
+    padding-left: 7.35vw;
 }
 
 .run-buttons {
-    padding-left:6.2vw;
-    padding-top:10.6vh;
-    padding-bottom:5.3vh;
+    padding-left: 6.2vw;
+    padding-top: 10.6vh;
+    padding-bottom: 5.3vh;
 }
 
-.bouton-runmode{
-    width: 3.9vw;    
-    opacity:0.6;
+.bouton-runmode {
+    width: 3.9vw;
+    opacity: 0.6;
 }
 
 .bouton-runmode-disabled {
@@ -61,27 +62,27 @@
     width: 30.45vw;
     padding-top: 3.7vh;
     padding-bottom: 34.1vh;
-    border-style:solid;
-    border-width:5px;
-    border-color:black;
-    border-radius:4px;
+    border-style: solid;
+    border-width: 5px;
+    border-color: black;
+    border-radius: 4px;
 }
 
 .run-console-mtnc {
     background: black;
     color: #E7E6E6;
     width: 36.2vw;
-    margin-left:4.6vw;
-    padding-bottom: 31vh; 
+    margin-left: 4.6vw;
+    padding-bottom: 31vh;
     border-style: solid;
     border-width: 0.65vh;
     border-color: black;
     border-radius: 2px;
 }
 
-.run-console-text{
-    padding-left:3vw;
-    font-size:2.05vh;
+.run-console-text {
+    padding-left: 3vw;
+    font-size: 2.05vh;
 }
 
 .run-console-text-mtnc {
@@ -95,19 +96,19 @@
     width: 36.7vw;
 }
 
-.console-wrap-mtnc{
+.console-wrap-mtnc {
     display: flex;
     flex-direction: row;
 }
 
 .save-icon-mtnc {
-    width:65%;
-    opacity:0.8;
+    width: 65%;
+    opacity: 0.8;
 }
 
-.save-icon-mtnc:hover {
-    opacity: 1;
-}
+    .save-icon-mtnc:hover {
+        opacity: 1;
+    }
 
 .save-icon-mtnc-disabled {
     width: 65%;
@@ -116,7 +117,7 @@
 
 
 .wrap-save-icon-mtnc {
-    padding-top:30vh;
-    margin-left:1.4vw;
-    width:7%;
+    padding-top: 30vh;
+    margin-left: 1.4vw;
+    width: 7%;
 }

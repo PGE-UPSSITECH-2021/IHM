@@ -13,12 +13,14 @@ import { TablePagination } from '@material-ui/core'
 import loupe from '../assets/loupe.png'
 import { MdDeleteForever } from "react-icons/md";
 import { AiOutlineArrowUp } from "react-icons/ai";
-import JsonData from 'C:\\Users\\AnaisM\\Documents\\UPSSITECH\\3A\\PGE\\IHM\\IHM\\ReactIHM_PGE\\ReactIHM_PGE\\ClientApp\\src\\data\\files_results_history.json'
+//import JsonData from 'C:\\Users\\AnaisM\\Documents\\UPSSITECH\\3A\\PGE\\IHM\\IHM\\ReactIHM_PGE\\ReactIHM_PGE\\ClientApp\\src\\data\\files_results_history.json'
+import JsonData from '../data/files_results_history.json'
 import $ from 'jquery';
 
 
 
-function HistoryResults({ nameFileCsv, setNameFileCsv, setPageRes, nameFileRes, setNameFileRes, modeCo, setcsvArray, setCsvArray, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate }) {
+function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcsvArray, setCsvArray, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate, showHistory, setShowHistory, memAction, setMemAction }) {
+
 
     const [checked, setChecked] = useState({});
     const handleChange = (event, row) => {
@@ -29,6 +31,24 @@ function HistoryResults({ nameFileCsv, setNameFileCsv, setPageRes, nameFileRes, 
     const [rowsPerPage, setRowsPerPage] = React.useState(7);
     const [dense, setDense] = React.useState(false);
     const [open, setOpen] = React.useState(false);
+
+    const fs = require('browserify-fs');
+    function readFile(fileURL, mimeType) {
+        const pathToFile = fileURL.replace("file:\\", '');
+        console.log(pathToFile);
+        console.log(__dirname);
+        console.log(__filename);
+        fs.readFile(pathToFile, mimeType, (err, contents) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            console.log(contents);
+        })
+    }
+
+    readFile('../../../../Documents/UPSSITECH/3A/PGE/IHM/IHM/ReactIHM_PGE/ReactIHM_PGE/ClientApp/src/data/files_results_history.json', 'utf8');
+    
 
     /* Gestion des checkboxes */
 
@@ -126,10 +146,11 @@ function HistoryResults({ nameFileCsv, setNameFileCsv, setPageRes, nameFileRes, 
     }
 
 
+
     return (
         <div className='middle-results-history'>
             <div className='header-results-history'>
-                <h1 className='table-head'> Historique des résultats {nameFileCsv} </h1>
+                <h1 className='table-head'> Historique des résultats </h1>
                 {modeCo === 1 ? <span className="nb-select"> Nombre de fichiers sélectionnés :  {selected.length} </span> : <span></span>}
                 {modeCo === 1 ? <MdDeleteForever alt='Suppression des élements' className="button-remove" onClick={deleteRows} /> : <span className="button-remove" />}
 

@@ -6,7 +6,25 @@
             "action": "identification"
       },
       {
+            "FileName": "identification2",
+            "date": "28/01/2022",
+            "plaque": "tole epaisse",
+            "action": "identification"
+      },
+      {
+            "FileName": "identification3",
+            "date": "30/01/2022",
+            "plaque": "tole epaisse",
+            "action": "identification"
+      },
+      {
             "FileName": "localisation",
+            "date": "25/01/2022",
+            "plaque": " tole epaisse",
+            "action": "localisation"
+      },
+      {
+            "FileName": "localisation2",
             "date": "25/01/2022",
             "plaque": " tole epaisse",
             "action": "localisation"
@@ -14,12 +32,6 @@
       {
             "FileName": "qualite",
             "date": "22/01/2022",
-            "plaque": " tole plate",
-            "action": "qualite"
-      },
-      {
-            "FileName": "qualite2",
-            "date": "02/02/2022",
             "plaque": " tole plate",
             "action": "qualite"
       }
