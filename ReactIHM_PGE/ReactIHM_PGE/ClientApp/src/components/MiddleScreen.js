@@ -22,6 +22,7 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
         setDecoDisabled(false);
         setIsPaused(false);
         setShowHistory(false);
+        //alert("Action terminée.");  // Prévenir l'utilisateur que l'action est terminée avant de passer sur l'écran de résultats
         setCurrentPage(1);
         //}
     }
@@ -34,6 +35,24 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
     if (subscribed === false) {
         fin_action_listener.subscribe(callbackFinAction);
         setSubscribed(true);
+    }
+
+
+    const [subscribedAct, setSubscribedAct] = useState(false);
+    const [textConsole, setTextConsole] = useState("");
+    // ROS RECEPTION DEROULEMENT ACTION
+    function callbackEvolutionAction(message) {
+        setTextConsole(message.data);
+    }
+    // Création du listener ROS Resultats Identification
+    var evol_action_listener = new ROSLIB.Topic({
+        ros: ros,
+        name: '/production_state', // Choix du topic
+        messageType: 'std_msgs/String' // Type du message transmis
+    });
+    if (subscribedAct === false) {
+        evol_action_listener.subscribe(callbackEvolutionAction);
+        setSubscribedAct(true);
     }
 
     const [isPaused, setIsPaused] = useState(false);
@@ -114,9 +133,7 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
                             <img src={stop} alt='bouton stop' className='bouton-runmode-stop' onClick={stopAction} />
                         </div>
                         <div className='run-console'>
-                            <div className='run-console-text'>• Caméra calibrée...   OK</div>
-                            <br />
-                            <div className='run-console-text'>• Action en cours... </div>
+                            <div className='run-console-text'>{textConsole}</div>
                         </div>
                     </div>
                     : <img src={dispositif} alt="Image du dispositif" className="img-demonstrateur" />}

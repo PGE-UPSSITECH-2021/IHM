@@ -43,7 +43,11 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
         console.log("image : ", message.image);
         setTrousIdentification(message.trous);
         setNbTrousIdentification(message.nbTrous);
-        setImgIdentification(message.image);
+        // Récupération de l'image dans le message ROS (data) et conversion en image PNG 
+        var src_img_id = `data:image/jpeg;base64,${message.image}`;
+        console.log("var src_img_ig : ", src_img_id);
+        setImgIdentification(`data:image/jpeg;base64,${message.image}`);
+        console.log("img_id : ", imgIdentification);
         var msg = new ROSLIB.Message({
             data: true
         });
@@ -160,7 +164,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     ];
 
     function saveResult() {
-
+        alert("Sauvegarde effectuée !");
         /* csvFileCreator(nameFileRes, csv_data);
          const ctnt_action = csv_data[0][3];
          const ctnt_plaque = csv_data[0][4];
@@ -286,8 +290,8 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                         <TableHead>
 
                                             <TableRow>
-                                                <TableCell className='table-cell-results' align="center">x</TableCell>
-                                                <TableCell className='table-cell-results' align="center">y</TableCell>
+                                                <TableCell className='table-cell-results' align="center">x (px)</TableCell>
+                                                <TableCell className='table-cell-results' align="center">y (px)</TableCell>
                                                 <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
 
                                             </TableRow>
@@ -371,12 +375,12 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                             <TableHead>
 
                                                 <TableRow>
-                                                    <TableCell className='table-cell-results' align="center">x</TableCell>
-                                                    <TableCell className='table-cell-results' align="center">y</TableCell>
-                                                    <TableCell className='table-cell-results' align="center">z </TableCell>
-                                                    <TableCell className='table-cell-results' align="center">alpha</TableCell>
-                                                    <TableCell className='table-cell-results' align="center">beta</TableCell>
-                                                    <TableCell className='table-cell-results' align="center">gamma</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">x (m)</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">y (m)</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">z (m)</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">alpha (rad)</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">beta (rad)</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">gamma (rad)</TableCell>
 
                                                 </TableRow>
 
@@ -392,12 +396,12 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                                         >
 
-                                                            <TableCell align="center">{item.x}</TableCell>
-                                                            <TableCell align="center">{item.y}</TableCell>
-                                                            <TableCell align="center">{item.z}</TableCell>
-                                                            <TableCell align="center">{item.alpha}</TableCell>
-                                                            <TableCell align="center">{item.beta}</TableCell>
-                                                            <TableCell align="center">{item.gamma}</TableCell>
+                                                            <TableCell align="center">{Number.parseFloat(item.x).toFixed(2)}</TableCell>
+                                                            <TableCell align="center">{Number.parseFloat(item.y).toFixed(2)}</TableCell>
+                                                            <TableCell align="center">{Number.parseFloat(item.z).toFixed(2)}</TableCell>
+                                                            <TableCell align="center">{Number.parseFloat(item.alpha).toFixed(2)}</TableCell>
+                                                            <TableCell align="center">{Number.parseFloat(item.beta).toFixed(2)}</TableCell>
+                                                            <TableCell align="center">{Number.parseFloat(item.gamma).toFixed(2)}</TableCell>
 
                                                         </TableRow>
 
@@ -440,8 +444,8 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                             <TableHead>
 
                                                 <TableRow>
-                                                    <TableCell className='table-cell-results' align="center">x</TableCell>
-                                                    <TableCell className='table-cell-results' align="center">y</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">x (px)</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">y (px)</TableCell>
                                                     <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
                                                     <TableCell className='table-cell-results' align="center">Conforme</TableCell>
                                                     <TableCell className='table-cell-results' align="center">Raison</TableCell>
@@ -466,12 +470,16 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                                 {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.diam}</TableCell> : <TableCell align="center">{item.diam}</TableCell>}
                                                                 {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.conform}</TableCell> : <TableCell align="center">{item.conform}</TableCell>}
                                                                 {item.conform === "non" ? <TableCell className="non-conform-reason" align="center">{item.reason}</TableCell> : <TableCell align="center">{item.reason}</TableCell>}
-                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell>}
+                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"></TableCell>}
+
                                                                 {isOpen && <PopUpResult
                                                                     content={<>
-                                                                        <h3 className="popup-title">id trou</h3>
+                                                                        <h3 className="popup-title-conformity">Identifiant du trou</h3>
+                                                                        <img src={noCam} alt='image du trou' className='image-trou-conformity' />
+                                                                        <button className="forcer-conform" onClick={togglePopupResult}>Forcer conformite du trou</button>
+                                                                        <button className="annuler-result" onClick={togglePopupResult}>Annuler</button>
+
                                                                     </>}
-                                                                    handleClose={togglePopupResult}
                                                                 />}
 
                                                             </TableRow>
@@ -542,7 +550,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                     {memAction === "Identifier" ?
                         <div>
                             <div className="display-results">
-                                <img src={noCam} alt="resultats camera" className="no-cam-results" />
+                                <img src={imgIdentification} alt="resultats camera" className="no-cam-results" />
                                 <div className="table-results">
 
                                     <div className='header-results-diam'></div>
@@ -550,8 +558,8 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                         <Table>
                                             <TableHead>
                                                 <TableRow>
-                                                    <TableCell className='table-cell-results' align="center">x</TableCell>
-                                                    <TableCell className='table-cell-results' align="center">y</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">x (px)</TableCell>
+                                                    <TableCell className='table-cell-results' align="center">y (px)</TableCell>
                                                     <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
 
                                                 </TableRow>
@@ -561,9 +569,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                                 <TableBody>
 
-                                                    {(rowsPerPage > 0
-                                                        ? trousIdentification.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                                        : trousIdentification).map((item, i) => (
+                                                    {trousIdentification.map((item, i) => (
 
                                                             <TableRow
                                                                 key={i}
@@ -574,19 +580,8 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                                             </TableRow>
 
-
-
                                                         ))}
-                                                    {emptyRows > 0 && (
-                                                        <TableRow
-                                                            style={{
-                                                                height: (dense ? 33 : 53) * emptyRows,
-                                                            }}
-                                                        >
-
-                                                        </TableRow>
-                                                    )}
-
+                                                    
                                                 </TableBody> :
                                                 <TableBody>
 
@@ -599,22 +594,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                     </TableRow>
 
                                                 </TableBody>}
-                                            <TableFooter>
-                                                <TableRow>
-
-                                                    <TablePagination
-                                                        rowsPerPageOptions={[7]}
-                                                        colSpan={4}
-                                                        count={nbTrousIdentification}
-                                                        rowsPerPage={rowsPerPage}
-                                                        page={page}
-                                                        onPageChange={handleChangePage}
-                                                        onRowsPerPageChange={handleChangeRowsPerPage}
-                                                    />
-
-                                                </TableRow>
-
-                                            </TableFooter>
+                                            
                                         </Table>
                                     </TableContainer>
                                 </div>
@@ -633,23 +613,23 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                                 <TableHead>
                                                     <TableRow>
-                                                        <TableCell className='table-cell-results' align="center">x</TableCell>
-                                                        <TableCell className='table-cell-results' align="center">y</TableCell>
-                                                        <TableCell className='table-cell-results' align="center">z </TableCell>
-                                                        <TableCell className='table-cell-results' align="center">alpha</TableCell>
-                                                        <TableCell className='table-cell-results' align="center">beta</TableCell>
-                                                        <TableCell className='table-cell-results' align="center">gamma</TableCell>
+                                                        <TableCell className='table-cell-results' align="center">x (m)</TableCell>
+                                                        <TableCell className='table-cell-results' align="center">y (m)</TableCell>
+                                                        <TableCell className='table-cell-results' align="center">z (m)</TableCell>
+                                                        <TableCell className='table-cell-results' align="center">alpha (rad)</TableCell>
+                                                        <TableCell className='table-cell-results' align="center">beta (rad)</TableCell>
+                                                        <TableCell className='table-cell-results' align="center">gamma (rad)</TableCell>
                                                     </TableRow>
                                                 </TableHead>
                                                 
                                                 <TableBody>
                                                     <TableRow>
-                                                        <TableCell align="center">{pos_x}</TableCell>
-                                                        <TableCell align="center">{pos_y}</TableCell>
-                                                        <TableCell align="center">{pos_z}</TableCell>
-                                                        <TableCell align="center">{pos_a}</TableCell>
-                                                        <TableCell align="center">{pos_b}</TableCell>
-                                                        <TableCell align="center">{pos_g}</TableCell>
+                                                        <TableCell align="center">{Number.parseFloat(pos_x).toFixed(2)}</TableCell>
+                                                        <TableCell align="center">{Number.parseFloat(pos_y).toFixed(2)}</TableCell>
+                                                        <TableCell align="center">{Number.parseFloat(pos_z).toFixed(2)}</TableCell>
+                                                        <TableCell align="center">{Number.parseFloat(pos_a).toFixed(2)}</TableCell>
+                                                        <TableCell align="center">{Number.parseFloat(pos_b).toFixed(2)}</TableCell>
+                                                        <TableCell align="center">{Number.parseFloat(pos_g).toFixed(2)}</TableCell>
                                                     </TableRow>
                                                 </TableBody>
 
@@ -670,8 +650,8 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                                 <TableHead>
                                                     <TableRow>
-                                                        <TableCell className='table-cell-results' align="center">x</TableCell>
-                                                        <TableCell className='table-cell-results' align="center">y</TableCell>
+                                                        <TableCell className='table-cell-results' align="center">x (px)</TableCell>
+                                                        <TableCell className='table-cell-results' align="center">y (px)</TableCell>
                                                         <TableCell className='table-cell-results' align="center">Diamètre (mm) </TableCell>
                                                         <TableCell className='table-cell-results' align="center">Conforme</TableCell>
                                                         <TableCell className='table-cell-results' align="center">Raison</TableCell>
@@ -682,39 +662,33 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                 {nbTrousQualite > 0 ?
                                                 <TableBody >
 
-                                                    {(rowsPerPage > 0
-                                                        ? trousQualite.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                                        : trousQualite).map((item, i) => (
+                                                    {trousQualite.map((item, i) => (
 
 
                                                             <TableRow
                                                                 key={i}
                                                             >
 
-                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center">{item.x}</TableCell> : <TableCell align="center">{item.x}</TableCell>}
-                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center">{item.y}</TableCell> : <TableCell align="center">{item.y}</TableCell>}
-                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center">{item.diam}</TableCell> : <TableCell align="center">{item.diam}</TableCell>}
-                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center">{item.conforme}</TableCell> : <TableCell align="center">{item.conforme}</TableCell>}
-                                                                {item.conforme === "false" ? <TableCell className="non-conform-reason" align="center">{item.raison}</TableCell> : <TableCell align="center">{item.raison}</TableCell>}
-                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell>}
+                                                                {item.conforme === false ? <TableCell className="non-conform" align="center">{item.x}</TableCell> : <TableCell align="center">{item.x}</TableCell>}
+                                                                {item.conforme === false ? <TableCell className="non-conform" align="center">{item.y}</TableCell> : <TableCell align="center">{item.y}</TableCell>}
+                                                                {item.conforme === false ? <TableCell className="non-conform" align="center">{(item.diam) * 2}</TableCell> : <TableCell align="center">{(item.diam) * 2}</TableCell>}
+                                                                {item.conforme === false ? <TableCell className="non-conform" align="center">non</TableCell> : <TableCell align="center">oui</TableCell>}
+                                                                {item.conforme === false ? <TableCell className="non-conform-reason" align="center">{item.raison}</TableCell> : <TableCell align="center">{item.raison}</TableCell>}
+                                                                {item.conforme === false ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"></TableCell>}
+
                                                                 {isOpen && <PopUpResult
                                                                     content={<>
-                                                                        <h3 className="popup-title">Trou ({item.x} px,{item.y} px,{item.diam} mm)</h3>
+                                                                        <h3 className="popup-title-conformity">Trou ({item.x} px,{item.y} px,{(item.diam)*2} mm)</h3>
+                                                                        <img src={noCam} alt='image du trou' className='image-trou-conformity' />
+                                                                        <button className="forcer-conform" onClick={togglePopupResult}>Forcer conformite du trou</button>
+                                                                        <button className="annuler-result" onClick={togglePopupResult}>Annuler</button>
+
                                                                     </>}
-                                                                    handleClose={togglePopupResult}
                                                                 />}
 
                                                             </TableRow>
                                                         ))}
-                                                    {emptyRows > 0 && (
-                                                        <TableRow
-                                                            style={{
-                                                                height: (dense ? 33 : 53) * emptyRows,
-                                                            }}
-                                                        >
-
-                                                        </TableRow>
-                                                    )}
+                                                   
                                                 </TableBody> :
                                                 <TableBody>
 
@@ -728,30 +702,8 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                         <TableCell align="center">aucun résultat </TableCell>
 
                                                     </TableRow>
-                                                    {emptyRows > 0 && (
-                                                        <TableRow
-                                                            style={{
-                                                                height: (dense ? 33 : 53) * emptyRows,
-                                                            }}
-                                                        >
-
-                                                        </TableRow>
-                                                    )}
+                                                   
                                                 </TableBody>}
-
-                                                <TableFooter>
-                                                    <TableRow>
-                                                        <TablePagination
-                                                            rowsPerPageOptions={[7]}
-                                                            colSpan={5}
-                                                            count={nbTrousQualite}
-                                                            rowsPerPage={rowsPerPage}
-                                                            page={page}
-                                                            onPageChange={handleChangePage}
-                                                            onRowsPerPageChange={handleChangeRowsPerPage}
-                                                        />
-                                                    </TableRow>
-                                                </TableFooter>
 
                                             </Table>
                                         </TableContainer>
