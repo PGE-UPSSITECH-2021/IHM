@@ -33,11 +33,11 @@ function AppMainScreen({ modeCo }) { // main screen
             console.log('Connected to websocket server.');
             setIsConnectedROS(true);
         });
-        // Fonction appel�e en cas d'erreur de connexion
+        // Fonction appelee en cas d'erreur de connexion
         ros.on('error', function (error) {
             console.log('Error connecting to websocket server: ', error);
         });
-        // Fonction appel�e une fois la connexion ferm�
+        // Fonction appelee une fois la connexion fermee
         ros.on('close', function () {
             console.log('Connection to websocket server closed.');
             setIsConnectedROS(false);

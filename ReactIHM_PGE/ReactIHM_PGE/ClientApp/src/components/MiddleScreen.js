@@ -8,7 +8,7 @@ import '../styles/MiddleScreen.css';
 import 'eventemitter2';
 import * as ROSLIB from 'roslib';
 import noCam from '../assets/NoCamera.png';
-import dispositif from '../assets/dispositif.jpg'
+import dispositif from '../assets/dispositif_v2.jpg'
 import start from '../assets/start.png';
 import pause from '../assets/pause.png';
 import stop from '../assets/stop.png';

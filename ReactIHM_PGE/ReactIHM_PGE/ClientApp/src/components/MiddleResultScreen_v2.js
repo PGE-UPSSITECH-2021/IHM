@@ -21,7 +21,10 @@ import loupe from '../assets/loupe.png'
 import '../styles/bootstrapStyle.scss'
 import returnArrow from "../assets/arrow_back.png"
 import noCam from '../assets/NoCamera.png'
+<<<<<<< Updated upstream
 //import JsonContent from 'C:\\Users\\AnaisM\\Documents\\UPSSITECH\\3A\\PGE\\IHM\\IHM\\ReactIHM_PGE\\ReactIHM_PGE\\ClientApp\\src\\data\\files_results.json'
+=======
+>>>>>>> Stashed changes
 import JsonContent from '../data/files_results.json'
 import PopUpResult from './PopUpResult'
 import * as ROSLIB from 'roslib';
@@ -78,18 +81,18 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     // ROS RECEPTION RESULTATS LOCALISATION
     function callbackResultatsLocalisation(message) {
         console.log("Recuperation de resultats Localisation :");
-        console.log("x : ", message.x);
-        console.log("y : ", message.y);
-        console.log("z : ", message.z);
-        console.log("a : ", message.a);
-        console.log("b : ", message.b);
-        console.log("g : ", message.g);
-        setPos_x(message.x);
-        setPos_y(message.y);
-        setPos_z(message.z);
-        setPos_a(message.a);
-        setPos_b(message.b);
-        setPos_g(message.g);
+        console.log("x : ", message.x.toFixed(2));
+        console.log("y : ", message.y.toFixed(2));
+        console.log("z : ", message.z.toFixed(2));
+        console.log("a : ", message.a.toFixed(2));
+        console.log("b : ", message.b.toFixed(2));
+        console.log("g : ", message.g.toFixed(2));
+        setPos_x(message.x.toFixed(2));
+        setPos_y(message.y.toFixed(2));
+        setPos_z(message.z.toFixed(2));
+        setPos_a(message.a.toFixed(2));
+        setPos_b(message.b.toFixed(2));
+        setPos_g(message.g.toFixed(2));
         var msg = new ROSLIB.Message({
             data: true
         });
