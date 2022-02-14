@@ -15,7 +15,7 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
     const [subscribed, setSubscribed] = useState(false);
     // ROS RECEPTION FLAG FIN ACTION
     function callbackFinAction(message) {
-        console.log("callback - avant if");
+        //if (actionRunning) {
         console.log("ACTION FINIE");
         setActionRunning(false);
         setActionEnCours("Aucune action en cours");

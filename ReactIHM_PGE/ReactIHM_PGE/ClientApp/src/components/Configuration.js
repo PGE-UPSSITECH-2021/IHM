@@ -1,5 +1,6 @@
 ﻿import '../styles/Configuration.css'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Component } from 'react';
 import { AiFillSafetyCertificate, AiFillVideoCamera } from "react-icons/ai";
 import { GiRobotGrab, GiMetalPlate } from "react-icons/gi";
 import { useFilePicker } from 'use-file-picker'
@@ -16,11 +17,7 @@ import start from '../assets/start.png';
 import pause from '../assets/pause.png';
 import stop from '../assets/stop.png';
 
-var ros = new ROSLIB.Ros({
-    url: 'ws://192.168.1.63:9090'
-})
-
-function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo, selectedTest, setSelectedTest, testRunning, setTestRunning, memAction, setMemAction, ros }) {
+function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo, selectedTest, setSelectedTest, testRunning, setTestRunning, memAction, setMemAction, ros}) {
     const [msg_act_courante, setMsgActCourante] = useState("");
     const [etatRobotActuel, setEtatRobotActuel] = useState("LIBRE INIT"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE/ INITIALISATION
     const [etatCamActuel, setEtatCamActuel] = useState("EN MARCHE"); // Etats possibles : ETEINTE / EN MARCHE 
@@ -240,50 +237,11 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     }
 
     function saveConfigDefault() {
-
-        if (selectedAction === "Localiser la plaque") {
-            var csv_data = [
-                ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
-                [selectedAction, selectedPlaque, "", ""]
-            ];
-        } else if (selectedAction === "Deplacer le robot") {
-            var csv_data = [
-                ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
-                [selectedAction, selectedPlaque, selectedDiam, ""]
-            ];
-        } else {
-            var csv_data = [
-                ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
-                [selectedAction, selectedPlaque, selectedDiam, rangevalConf]
-            ];
-        }
-
-        //const { webContents } = require('electron');
-        //const electron = require('@electron/remote/main').enable(webContents.getFocusedWebContents());
-        //const path = require('path');
-        //const fs = require('browserify-fs');
-        //// Importing dialog module using remote
-        //const dialog = electron.remote.dialog;
-        //var saveConf = document.getElementById('saveConfDef');
-        //saveConf.addEventListener('click', (event) => {
-        //    dialog.showSaveDialog({
-        //        title: 'Sauvegarder comme Config Défaut',
-        //        defaultPath: path.join(__dirname, '../assets/default.csv'),
-        //        buttonLabel: 'Sauvegarder comme Config Défaut',
-        //    }).then(file => {
-        //        console.log(file.canceled);
-        //        if (!file.canceled) {
-        //            console.log(file.filePath.toString());
-        //            fs.writeFile(file.filePath.toString(), csv_data,
-        //                function (err) {
-        //                    if (err) throw err;
-        //                    console.log('Saved!');
-        //                });
-        //        }
-        //    }).catch(err => {
-        //        console.log(err)
-        //    });
-        //});
+        setDefaultAction(selectedAction);
+        setDefaultPlate(selectedPlaque);
+        setDefaultDiam(selectedDiam);
+        setCheckedDiam(selectedDiam);
+        setDefaultConf(rangevalConf);
     }
 
 
