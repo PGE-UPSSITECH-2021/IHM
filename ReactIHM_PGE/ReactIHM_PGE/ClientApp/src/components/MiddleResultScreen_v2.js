@@ -1,4 +1,4 @@
-﻿import '../styles/MiddleResultScreen_v2.css'
+import '../styles/MiddleResultScreen_v2.css'
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll'
 import Table from '@material-ui/core/Table'
@@ -15,7 +15,8 @@ import loupe from '../assets/loupe.png'
 import '../styles/bootstrapStyle.scss'
 import returnArrow from "../assets/arrow_back.png"
 import noCam from '../assets/NoCamera.png'
-import JsonContent from '../files_results.json'
+//import JsonContent from 'C:\\Users\\AnaisM\\Documents\\UPSSITECH\\3A\\PGE\\IHM\\IHM\\ReactIHM_PGE\\ReactIHM_PGE\\ClientApp\\src\\data\\files_results.json'
+import JsonContent from '../data/files_results.json'
 import PopUpResult from './PopUpResult'
 import * as ROSLIB from 'roslib';
 
@@ -264,12 +265,12 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
         });
     }
-
+    console.log(showHistory);
     if (showHistory === true) {
 
- 
 
-        return(
+
+        return (
             <div className='middleResult-v2'>
                 <div className="box-return"><IconButton onClick={changePageToHist}><img src={returnArrow} alt="return button" className="return-icon-results" /></IconButton></div>
                 {resultAction === "identification" ?
@@ -296,7 +297,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                         {JsonContent[nameFileRes].length > 0 ?
 
                                             <TableBody>
-                                                
+
                                                 {(rowsPerPage > 0
                                                     ? JsonContent[nameFileRes].slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                                     : JsonContent[nameFileRes]).map((item, i) => (
@@ -467,13 +468,16 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                                 {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.conform}</TableCell> : <TableCell align="center">{item.conform}</TableCell>}
                                                                 {item.conform === "non" ? <TableCell className="non-conform-reason" align="center">{item.reason}</TableCell> : <TableCell align="center">{item.reason}</TableCell>}
                                                                 {item.conform === "non" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell>}
+                                                                
                                                                 {isOpen && <PopUpResult
                                                                     content={<>
-                                                                        <h3 className="popup-title">id trou</h3>
+                                                                        <h3 className="popup-title-conformity">Identifiant du trou</h3>
+                                                                        <img src={noCam} alt='image du trou' className='image-trou-conformity'/>
+                                                                        <button className="forcer-conform" onClick={togglePopupResult}>Forcer conformite du trou</button>
+                                                                        <button className="annuler-result" onClick={togglePopupResult}>Annuler</button>
+                                   
                                                                     </>}
-                                                                    handleClose={togglePopupResult}
                                                                 />}
-
                                                             </TableRow>
 
                                                         ))}
@@ -577,15 +581,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
 
                                                         ))}
-                                                    {emptyRows > 0 && (
-                                                        <TableRow
-                                                            style={{
-                                                                height: (dense ? 33 : 53) * emptyRows,
-                                                            }}
-                                                        >
-
-                                                        </TableRow>
-                                                    )}
+                                                  
 
                                                 </TableBody> :
                                                 <TableBody>
@@ -696,25 +692,20 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                                 {item.conforme === "false" ? <TableCell className="non-conform" align="center">{item.diam}</TableCell> : <TableCell align="center">{item.diam}</TableCell>}
                                                                 {item.conforme === "false" ? <TableCell className="non-conform" align="center">{item.conforme}</TableCell> : <TableCell align="center">{item.conforme}</TableCell>}
                                                                 {item.conforme === "false" ? <TableCell className="non-conform-reason" align="center">{item.raison}</TableCell> : <TableCell align="center">{item.raison}</TableCell>}
-                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell>}
+                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={togglePopupResult} /></IconButton></TableCell> : <TableCell align="center"></TableCell>}
+                                                                
                                                                 {isOpen && <PopUpResult
                                                                     content={<>
-                                                                        <h3 className="popup-title">Trou ({item.x} px,{item.y} px,{item.diam} mm)</h3>
+                                                                        <h3 className="popup-title-conformity">Trou ({item.x} px,{item.y} px,{item.diam} mm)</h3>
+                                                                        <img src={noCam} alt='image du trou' className='image-trou-conformity' />
+                                                                        <button className="forcer-conform" onClick={togglePopupResult}>Forcer conformite du trou</button>
+                                                                        <button className="annuler-result" onClick={togglePopupResult}>Annuler</button>
+
                                                                     </>}
-                                                                    handleClose={togglePopupResult}
                                                                 />}
 
                                                             </TableRow>
                                                         ))}
-                                                    {emptyRows > 0 && (
-                                                        <TableRow
-                                                            style={{
-                                                                height: (dense ? 33 : 53) * emptyRows,
-                                                            }}
-                                                        >
-
-                                                        </TableRow>
-                                                    )}
                                                 </TableBody> :
                                                 <TableBody>
 
@@ -728,15 +719,6 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                         <TableCell align="center">aucun résultat </TableCell>
 
                                                     </TableRow>
-                                                    {emptyRows > 0 && (
-                                                        <TableRow
-                                                            style={{
-                                                                height: (dense ? 33 : 53) * emptyRows,
-                                                            }}
-                                                        >
-
-                                                        </TableRow>
-                                                    )}
                                                 </TableBody>}
 
                                                 <TableFooter>

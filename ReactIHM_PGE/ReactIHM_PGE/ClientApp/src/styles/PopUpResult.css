@@ -1,5 +1,5 @@
 /* Popup style */
-.popup-box-result {
+.popup-box-conformity {
     position: absolute;
     background: rgba(39,51,57,0.6);
     border-radius: 4px;
@@ -12,18 +12,13 @@
     margin-top: -9vh;
 }
 
-.cardImagePopUp {
-    width: 30vw;
-    align-content: center;
-    align-self: center;
-    margin-bottom: 2vh;
+.image-trou-conformity{
+    width: 65vh;
+    margin-left: 0.4vw;
+    margin-bottom: 0.5vw;
 }
 
-#imgPopUpResult {
-    /*width: 99.9%;*/
-}
-
-.box-result {
+.box-conformity {
     display: flex;
     flex-direction: column;
     border-radius: 4px;
@@ -66,7 +61,7 @@
         opacity: 0.2;
     }
 
-.popup-title {
+.popup-title-conformity {
     font-weight: bold;
     color: #273339;
     padding-bottom: 0px;
