@@ -1,6 +1,11 @@
-﻿import '../styles/ModifAccount.css'
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import '../styles/ModifAccount.css'
 import '../styles/bootstrapStyle.scss'
-import PasswordStrength from './PasswordStrength'
 import React, { useState } from "react";
 import CheckListPwd from './CheckListPwd';
 import Button from 'react-bootstrap/Button';

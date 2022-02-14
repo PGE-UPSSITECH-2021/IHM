@@ -1,3 +1,9 @@
+/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
 import '../styles/MiddleUserScreen.css'
 import React, { useState } from 'react'
 import ParamUSR from './ParamUSR'

@@ -1,4 +1,10 @@
-﻿import React from "react";
+﻿/* Project : DBRIF
+ * Authors : Kim GAUME
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import React from "react";
 import '../styles/PopUpHelp.css'
 
 

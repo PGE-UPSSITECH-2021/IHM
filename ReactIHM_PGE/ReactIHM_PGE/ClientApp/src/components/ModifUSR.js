@@ -1,4 +1,10 @@
-﻿import '../styles/ModifUSR.css'
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import '../styles/ModifUSR.css'
 import '../styles/bootstrapStyle.scss'
 import PasswordStrength from './PasswordStrength'
 import React, { useState } from "react";

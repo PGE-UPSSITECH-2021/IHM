@@ -1,4 +1,10 @@
-﻿import '../styles/MiddleHelpScreen.css'
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import '../styles/MiddleHelpScreen.css'
 import Card from 'react-bootstrap/Card'
 import React, { useState, useRef } from 'react'
 import '../styles/bootstrapStyle.scss'

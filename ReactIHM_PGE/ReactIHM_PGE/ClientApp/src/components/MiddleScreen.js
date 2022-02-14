@@ -1,4 +1,10 @@
-﻿import '../styles/MiddleScreen.css';
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import '../styles/MiddleScreen.css';
 import 'eventemitter2';
 import * as ROSLIB from 'roslib';
 import noCam from '../assets/NoCamera.png';

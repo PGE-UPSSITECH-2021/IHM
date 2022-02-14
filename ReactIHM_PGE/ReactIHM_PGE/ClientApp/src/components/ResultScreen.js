@@ -1,4 +1,10 @@
-﻿import '../styles/ResultScreen.css'
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import '../styles/ResultScreen.css'
 import React, { useState } from "react";
 import MenuBar from './MenuBar'
 import MiddleResultScreen_v2 from './MiddleResultScreen_v2'

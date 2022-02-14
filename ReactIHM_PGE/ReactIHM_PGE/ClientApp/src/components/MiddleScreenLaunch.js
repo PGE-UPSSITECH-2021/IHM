@@ -1,12 +1,12 @@
-﻿import '../styles/MainScreenUSR.css'
-import Configuration from './Configuration'
-import MenuBar from './MenuBar'
-import MiddleScreen from './MiddleScreen'
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import '../styles/MainScreenUSR.css'
 import React, { useState } from "react";
-import Popup from './PopUp'
-import PopUpConfirm from './PopUpConfirm'
 import PopUpEmergency from './PopUpEmergency'
-import PopUpLancement from './PopUpLancement'
 import stop from '../assets/stop.png'
 
 

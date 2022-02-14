@@ -1,7 +1,13 @@
+/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
 import '../styles/App.css';
 import AppLogin from './AppLogin'
 import AppMainScreen from './AppMainScreen'
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { AppContextAuth } from "../lib/contextLibAuth";
 
 function App() {

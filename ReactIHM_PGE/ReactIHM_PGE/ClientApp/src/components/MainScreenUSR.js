@@ -1,4 +1,10 @@
-﻿import '../styles/MainScreenUSR.css'
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import '../styles/MainScreenUSR.css'
 import Configuration from './Configuration'
 import MenuBar from './MenuBar'
 import MiddleScreen from './MiddleScreen'

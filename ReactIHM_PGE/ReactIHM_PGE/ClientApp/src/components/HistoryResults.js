@@ -1,4 +1,10 @@
-import React, { useState, useEffect } from 'react';
+/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import React, { useState } from 'react';
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -12,7 +18,6 @@ import '../styles/HistoryResults.css'
 import { TablePagination } from '@material-ui/core'
 import loupe from '../assets/loupe.png'
 import { MdDeleteForever } from "react-icons/md";
-import { AiOutlineArrowUp } from "react-icons/ai";
 //import JsonData from 'C:\\Users\\AnaisM\\Documents\\UPSSITECH\\3A\\PGE\\IHM\\IHM\\ReactIHM_PGE\\ReactIHM_PGE\\ClientApp\\src\\data\\files_results_history.json'
 import JsonData from '../data/files_results_history.json'
 import $ from 'jquery';

@@ -1,4 +1,10 @@
-﻿﻿.slider input {
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+﻿.slider input {
     width: 20.3vw; /* Full-width */
     height: 1vh; /* Specified height */
     background: #878787; /* Grey background */

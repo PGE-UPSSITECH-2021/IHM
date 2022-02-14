@@ -1,4 +1,10 @@
-﻿import React, { useState } from "react";
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import React, { useState } from "react";
 import '../styles/PasswordStrength.css'
 import CheckListPwd from './CheckListPwd';
 import Button from 'react-bootstrap/Button';

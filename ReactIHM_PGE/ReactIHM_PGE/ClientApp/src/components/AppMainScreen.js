@@ -1,3 +1,10 @@
+/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+
 import '../styles/AppMainScreen.css';
 import TopBanner from './TopBanner';
 import StateBannerUSR from './StateBannerUSR';

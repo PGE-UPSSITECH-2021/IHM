@@ -1,4 +1,10 @@
-﻿let { PythonShell } = require('python-shell')
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+let { PythonShell } = require('python-shell')
 var path = require("path")
 const electron = require('electron');
 const { app } = electron;

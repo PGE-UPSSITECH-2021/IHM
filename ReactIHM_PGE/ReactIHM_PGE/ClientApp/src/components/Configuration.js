@@ -1,6 +1,11 @@
-﻿import '../styles/Configuration.css'
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import '../styles/Configuration.css'
 import React, { useState, useEffect } from 'react';
-import { Component } from 'react';
 import { AiFillSafetyCertificate, AiFillVideoCamera } from "react-icons/ai";
 import { GiRobotGrab, GiMetalPlate } from "react-icons/gi";
 import { useFilePicker } from 'use-file-picker'
