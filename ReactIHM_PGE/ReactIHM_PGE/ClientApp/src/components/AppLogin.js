@@ -1,5 +1,5 @@
 /* Project : DBRIF
- * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Authors : Julie PIVIN-BACHLER & Anaï¿½s MONDIN
  * Date : 2021-2022
  * 3A SRI
  */
@@ -12,11 +12,10 @@ import { AppContextWrongID } from "../lib/contextLibWrongID";
 import React, { useState } from "react";
 
 
-
-function AppLogin({modeCo, setModeCo}) { // login screen
+function AppLogin({modeCo, setModeCo, ros}) { // login screen
     document.body.id = 'bodyLogin';
     const [wrongIdentification, userHasFailed] = useState(false);
-
+    
     return (
         <AppContextWrongID.Provider value={{ wrongIdentification, userHasFailed }}>
             {wrongIdentification ?

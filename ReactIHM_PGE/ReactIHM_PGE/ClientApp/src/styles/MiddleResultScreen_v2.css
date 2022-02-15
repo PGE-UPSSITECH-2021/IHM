@@ -36,7 +36,8 @@
 
 .table-head-results{
     font-size: larger;
-    position: absolute;
+    position:absolute;
+    position: sticky;
     padding-left: 2vw;
     color: white;
 }

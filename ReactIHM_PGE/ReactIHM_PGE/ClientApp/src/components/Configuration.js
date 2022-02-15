@@ -34,7 +34,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     var message_ihm_run = new ROSLIB.Topic({
         ros: ros,
         name: '/message_ihm_run',
-        messageType: 'motoman_hc10_moveit_config/IHM_msg'
+        messageType: 'deplacement_robot/IHM_msg'
     });
 
     // ROS ETAT ROBOT
@@ -412,13 +412,22 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     }
 
     function goToInitPos() {
-        var goToInit = new ROSLIB.Service({
+        /*var goToInit = new ROSLIB.Service({
             ros: ros,
             name: '/move_robot_init',
             serviceType: 'motoman_hc10_moveit_config/Robot_move_predef'
         });
         var request = null;
-        goToInit.callService(request, function (result) { });
+        goToInit.callService(request, function (result) { });*/
+
+        // Création du message à envoyer
+        var msg_init = new ROSLIB.Message({
+            action: String("Initialiser"),
+            plaque: String(""),
+            diametre: String(""),
+            confiance: String("")
+        });
+        message_ihm_run.publish(msg_init);
     }
 
 

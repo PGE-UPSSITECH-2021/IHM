@@ -17,32 +17,13 @@ import ParamADMScreen from './ParamADMScreen';
 import * as ROSLIB from 'roslib';
 
 
-var ros = new ROSLIB.Ros({
+/*var ros = new ROSLIB.Ros({
     url: 'ws://192.168.1.63:9090' // AIP
-    /*url: 'ws://192.168.137.80:9090' // Alexandre PC*/
-})
+    //url: 'ws://192.168.137.80:9090' // Alexandre PC
+})*/
 
-function AppMainScreen({ modeCo }) { // main screen
+function AppMainScreen({ modeCo, ros }) { // main screen
     document.body.id = 'bodyMain';
-
-    //MAIN CONNEXION RESEAU AIP ICI
-    const [isConnectedROS, setIsConnectedROS] = useState(false);
-    if (isConnectedROS === false) {
-        // Fonction appel�e une fois la connexion �tablie
-        ros.on('connection', function () {
-            console.log('Connected to websocket server.');
-            setIsConnectedROS(true);
-        });
-        // Fonction appelee en cas d'erreur de connexion
-        ros.on('error', function (error) {
-            console.log('Error connecting to websocket server: ', error);
-        });
-        // Fonction appelee une fois la connexion fermee
-        ros.on('close', function () {
-            console.log('Connection to websocket server closed.');
-            setIsConnectedROS(false);
-        });
-    }
 
     const [currentPage, setCurrentPage] = useState(0); //POUR MODE USR: MAIN:0, RESULTS:1, PARAM:2, UTILISATEUR:3, AIDE:4
     const [actionEnCours, setActionEnCours] = useState("Aucune action en cours");
