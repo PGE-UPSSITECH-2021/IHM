@@ -215,15 +215,15 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
     }
 
-    function change_conformity(item, reason) {
-        if (forcerConform === true) {
-            reason = "aucune";
-            item = "oui";
-            console.log(reason);
-            console.log(item);
-            setForceConform(false);
+    function change_conformity(itemX) {
+        if (popUpTrouX === itemX) {
+            setPopUpConform("oui");
+            var conform = popUpConform;
+            console.log(itemX);
+            console.log(popUpTrouX);
         }
-        return reason, item;
+
+        return conform;
     }
 
     /* Gestion de la pagination */
@@ -287,6 +287,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     const [popUpTrouX, setPopUpTrouX] = useState("");
     const [popUpTrouY, setPopUpTrouY] = useState("");
     const [popUpTrouDiam, setPopUpTrouDiam] = useState("");
+    const [popUpConform, setPopUpConform] = useState("");
 
     if (showHistory === true) {
 
@@ -477,27 +478,30 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                         ? JsonContent[nameFileRes].slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                                         : JsonContent[nameFileRes]).map((item, i) => (
 
-
+                                                            
                                                             <TableRow
                                                                 key={i}
                                                             >
-
+                                                                
                                                                 {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.x}</TableCell> : <TableCell align="center">{item.x}</TableCell>}
                                                                 {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.y}</TableCell> : <TableCell align="center">{item.y}</TableCell>}
-                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.diam}</TableCell> : <TableCell align="center">{item.diam}</TableCell>}
-                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.conform}</TableCell> : <TableCell align="center">{item.conform}</TableCell> }
+                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.diam} </TableCell> : <TableCell align="center">{item.diam}</TableCell>}
+                                                                
+                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.conform}</TableCell> : <TableCell align="center">{item.conform}</TableCell>}
                                                                 {item.conform === "non" ? <TableCell className="non-conform-reason" align="center">{item.reason}</TableCell> : <TableCell align="center">{item.reason}</TableCell>}
                                                                 {item.conform === "non" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={function (event) { setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); togglePopupResult(); }} /></IconButton></TableCell> : <TableCell align="center"></TableCell>}
                                                                 
+
                                                                 {isOpen && <PopUpResult
                                                                     content={<>
-                                                                        <h3 className="popup-title-conformity">Trou ({popUpTrouX} px,{popUpTrouY} px,({popUpTrouDiam}x2) mm)</h3>
+                                                                        <h3 className="popup-title-conformity">Trou ({popUpTrouX} px,{popUpTrouY} px, {popUpTrouDiam}) mm)</h3>
                                                                         <img src={noCam} alt='image du trou' className='image-trou-conformity' />
-                                                                        <button className="forcer-conform" onClick={function (event) { togglePopupResult(); setForceConform(true); setPopUpTrouX(""); setPopUpTrouY(""); setPopUpTrouDiam(""); }}>Forcer conformite du trou</button>
+                                                                        <button className="forcer-conform" onClick={function (event) { togglePopupResult(); setForceConform(true); setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); }} onChange={item.conform="oui"}>Forcer conformite du trou</button>
                                                                         <button className="annuler-result" onClick={function (event) { togglePopupResult(); setPopUpTrouX(""); setPopUpTrouY(""); setPopUpTrouDiam(""); }}>Annuler</button>
                                    
                                                                     </>}
                                                                 />}
+                                                                
                                                                
                                                             </TableRow>
 
