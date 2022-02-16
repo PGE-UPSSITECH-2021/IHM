@@ -231,7 +231,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     /* Gestion de la pagination */
 
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(7);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [dense, setDense] = React.useState(false);
 
     const emptyRows =
@@ -292,33 +292,37 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     const [popUpConform, setPopUpConform] = useState("");
     const [list, setList] = useState(trousQualite);
 
-    function handleToggleConformity(x) {
+    function handleToggleConformity(x,y) {
         const newList = list.map((item) => {
-            if (item.x === x) {
+
+            if (item.x === x && item.y === y) {
                 const updatedItem = {
                     ...item,
-                    conform: !item.conform,
+                    conform: "oui",
+                    reason: "aucune",
                 };
-
                 return updatedItem;
             }
 
+            console.log("Display item");
+            console.log(item);
             return item;
         });
 
         setList(newList);
+        console.log("Nouvelle list");
+        console.log(newList);
         
     }
 
     const [listSimulated, setListSimulated] = useState(JsonContent[nameFileRes]);
-    const [openDetails, setOpenDetails] = useState("");
+    const [openDetailsX, setOpenDetailsX] = useState("");
+    const [openDetailsY, setOpenDetailsY] = useState("");
 
-    function handleToggleConformitySimulated(x) {
-        
-        //const newList = listData.listSimulated.map((item) => {
+    function handleToggleConformitySimulated(x,y) {
         const newList = listSimulated.map((item) => {
             
-            if (item.x === x ) {
+            if (item.x === x && item.y === y) {
                     const updatedItem = {
                         ...item,
                         conform: "oui",
@@ -532,20 +536,20 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                                 key={item.x}
                                                             >
                                                                 
-                                                                {item.conform === "non" ? <TableCell key={item.x} className="non-conform" align="center">{item.x}</TableCell> : <TableCell key={item.x} align="center">{item.x}</TableCell>}
-                                                                {item.conform === "non" ? <TableCell key={item.x} className="non-conform" align="center">{item.y}</TableCell> : <TableCell key={item.x} align="center">{item.y}</TableCell>}
-                                                                {item.conform === "non" ? <TableCell key={item.x} className="non-conform" align="center">{item.diam} </TableCell> : <TableCell key={item.x} align="center">{item.diam}</TableCell>}
+                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.x}</TableCell> : <TableCell align="center">{item.x}</TableCell>}
+                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.y}</TableCell> : <TableCell align="center">{item.y}</TableCell>}
+                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.diam} </TableCell> : <TableCell align="center">{item.diam}</TableCell>}
                                                                 
-                                                                {item.conform === "non" ? <TableCell key={item.x} className="non-conform" align="center">{item.conform}</TableCell> : <TableCell key={item.x} align="center">{item.conform}</TableCell>}
-                                                                {item.conform === "non" ? <TableCell key={item.x} className="non-conform-reason" align="center">{item.reason}</TableCell> : <TableCell key={item.x} align="center">{item.reason}</TableCell>}
-                                                                {item.conform === "non" ? <TableCell key={item.x} className="non-conform" align="center"><IconButton key={item.x} className="details-history"><img key={item.x} src={loupe} alt='Voir plus' class="button-details" onClick={function (event) { setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); togglePopupResult(); setOpenDetails(item.x)}} /></IconButton></TableCell> : <TableCell align="center"></TableCell>}
+                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.conform}</TableCell> : <TableCell align="center">{item.conform}</TableCell>}
+                                                                {item.conform === "non" ? <TableCell className="non-conform-reason" align="center">{item.reason}</TableCell> : <TableCell align="center">{item.reason}</TableCell>}
+                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={function (event) { setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); togglePopupResult(); setOpenDetailsX(item.x); setOpenDetailsY(item.y);}} /></IconButton></TableCell> : <TableCell align="center"></TableCell>}
                                                                 
 
                                                                 {isOpen && <PopUpResult
                                                                     content={<>
                                                                         <h3 className="popup-title-conformity">Trou ({popUpTrouX} px,{popUpTrouY} px, {popUpTrouDiam}) mm)</h3>
                                                                         <img src={noCam} alt='image du trou' className='image-trou-conformity' />
-                                                                        <button className="forcer-conform" onClick={function (event) { togglePopupResult(); setForceConform(true); setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); handleToggleConformitySimulated(openDetails);}}>Forcer conformite du trou</button>
+                                                                        <button className="forcer-conform" onClick={function (event) { togglePopupResult(); setForceConform(true); setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); handleToggleConformitySimulated(openDetailsX, openDetailsY);}}>Forcer conformite du trou</button>
                                                                         <button className="annuler-result" onClick={function (event) { togglePopupResult(); setPopUpTrouX(""); setPopUpTrouY(""); setPopUpTrouDiam(""); }}>Annuler</button>
                                    
                                                                     </>}
@@ -571,22 +575,6 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                     </TableRow>
                                                     
                                                 </TableBody>}
-                                            <TableFooter>
-                                                <TableRow>
-
-                                                    <TablePagination
-                                                        rowsPerPageOptions={[7]}
-                                                        colSpan={5}
-                                                        count={JsonContent[nameFileRes].length}
-                                                        rowsPerPage={rowsPerPage}
-                                                        page={page}
-                                                        onPageChange={handleChangePage}
-                                                        onRowsPerPageChange={handleChangeRowsPerPage}
-                                                    />
-
-                                                </TableRow>
-
-                                            </TableFooter>
                                         </Table>
                                     </TableContainer>
 
@@ -724,22 +712,24 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                                 key={item.x}
                                                             >
 
-                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center">{item.x}</TableCell> : <TableCell align="center">{item.x}</TableCell>}
-                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center">{item.y}</TableCell> : <TableCell align="center">{item.y}</TableCell>}
-                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center">{item.diam}</TableCell> : <TableCell align="center">{item.diam}</TableCell>}
-                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center">{item.conforme}</TableCell> : <TableCell align="center">{item.conforme}</TableCell>}
-                                                                {item.conforme === "false" ? <TableCell className="non-conform-reason" align="center">{item.raison}</TableCell> : <TableCell align="center">{item.raison}</TableCell>}
-                                                                {item.conforme === "false" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={function (event) { setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); togglePopupResult(); }} /></IconButton></TableCell> : <TableCell align="center"></TableCell>}
-                                                                
-                                                                {isOpen && <PopUpResult
-                                                                    content={<>
-                                                                        <h3 className="popup-title-conformity">Trou ({popUpTrouX} px,{popUpTrouY} px,({popUpTrouDiam}x2) mm)</h3>
-                                                                        <img src={noCam} alt='image du trou' className='image-trou-conformity' />
-                                                                        <button className="forcer-conform" onClick={function (event) { togglePopupResult(); setForceConform(true); setPopUpTrouX(""); setPopUpTrouY(""); setPopUpTrouDiam(""); handleToggleConformity(item.x)}}>Forcer conformite du trou</button>
-                                                                        <button className="annuler-result" onClick={function (event) { togglePopupResult(); setPopUpTrouX(""); setPopUpTrouY(""); setPopUpTrouDiam(""); }}>Annuler</button>
+                                                            {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.x}</TableCell> : <TableCell align="center">{item.x}</TableCell>}
+                                                            {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.y}</TableCell> : <TableCell align="center">{item.y}</TableCell>}
+                                                            {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.diam} </TableCell> : <TableCell align="center">{item.diam}</TableCell>}
 
-                                                                    </>}
-                                                                />}
+                                                            {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.conform}</TableCell> : <TableCell align="center">{item.conform}</TableCell>}
+                                                            {item.conform === "non" ? <TableCell className="non-conform-reason" align="center">{item.reason}</TableCell> : <TableCell align="center">{item.reason}</TableCell>}
+                                                            {item.conform === "non" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={function (event) { setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); togglePopupResult(); setOpenDetailsX(item.x); setOpenDetailsY(item.y); }} /></IconButton></TableCell> : <TableCell align="center"></TableCell>}
+
+
+                                                            {isOpen && <PopUpResult
+                                                                content={<>
+                                                                    <h3 className="popup-title-conformity">Trou ({popUpTrouX} px,{popUpTrouY} px, {popUpTrouDiam}) mm)</h3>
+                                                                    <img src={noCam} alt='image du trou' className='image-trou-conformity' />
+                                                                    <button className="forcer-conform" onClick={function (event) { togglePopupResult(); setForceConform(true); setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); handleToggleConformity(openDetailsX, openDetailsY); }}>Forcer conformite du trou</button>
+                                                                    <button className="annuler-result" onClick={function (event) { togglePopupResult(); setPopUpTrouX(""); setPopUpTrouY(""); setPopUpTrouDiam(""); }}>Annuler</button>
+
+                                                                </>}
+                                                            />}
 
                                                             </TableRow>
                                                         ))}
