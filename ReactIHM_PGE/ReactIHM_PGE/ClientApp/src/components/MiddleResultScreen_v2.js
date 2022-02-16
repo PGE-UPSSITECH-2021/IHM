@@ -760,7 +760,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                                 {isOpen && <PopUpResult
                                                                     content={<>
                                                                         <h3 className="popup-title-conformity">Trou ({popUpTrouX} px,{popUpTrouY} px, {popUpTrouDiam*2} mm)</h3>
-                                                                        <img src={noCam} alt='image du trou' className='image-trou-conformity' />
+                                                                        <canvas id={allIDImgTrous[i]} width="800" height="500" className="no-cam-results"></canvas>
                                                                         <button className="forcer-conform" onClick={function (event) { togglePopupResult(); setForceConform(true); setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); handleToggleConformity(openDetailsX, openDetailsY); }}>Forcer conformite du trou</button>
                                                                         <button className="annuler-result" onClick={function (event) { togglePopupResult(); setPopUpTrouX(""); setPopUpTrouY(""); setPopUpTrouDiam(""); }}>Annuler</button>
 
