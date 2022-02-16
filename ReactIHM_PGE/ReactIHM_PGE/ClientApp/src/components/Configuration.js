@@ -1,6 +1,5 @@
 ﻿import '../styles/Configuration.css'
 import React, { useState, useEffect } from 'react';
-import { Component } from 'react';
 import { AiFillSafetyCertificate, AiFillVideoCamera } from "react-icons/ai";
 import { GiRobotGrab, GiMetalPlate} from "react-icons/gi";
 import { useFilePicker } from 'use-file-picker'
@@ -12,18 +11,15 @@ import defaultFile from '../assets/default.csv'
 import { readString } from 'react-papaparse';
 import 'eventemitter2';
 import * as ROSLIB from 'roslib';
-import { CSVLink, CSVDownload } from "react-csv";
 import start from '../assets/start.png';
 import pause from '../assets/pause.png';
 import stop from '../assets/stop.png';
-// import { moveFile } from 'move-file';
-//import * as RNFS from 'react-native-fs';
 
 function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo, selectedTest, setSelectedTest, testRunning, setTestRunning, memAction, setMemAction, ros}) {
     const [msg_act_courante, setMsgActCourante] = useState("");
-    const [etatRobotActuel, setEtatRobotActuel] = useState("LIBRE INIT"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE/ INITIALISATION
-    const [etatCamActuel, setEtatCamActuel] = useState("EN MARCHE"); // Etats possibles : ETEINTE / EN MARCHE 
-    const [etatSecuriteActuel, setEtatSecuriteActuel] = useState("OK"); // Etats possibles : NOK / OK
+    const [etatRobotActuel, setEtatRobotActuel] = useState("DECONNECTE"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE/ INITIALISATION/ DECONNECTE
+    const [etatCamActuel, setEtatCamActuel] = useState("ETEINTE"); // Etats possibles : ETEINTE / CALIBRATION / EN MARCHE 
+    const [etatSecuriteActuel, setEtatSecuriteActuel] = useState("NOK"); // Etats possibles : NOK / OK
     const [etatPlaqueActuel, setEtatPlaqueActuel] = useState("INCONNU"); // Etats possibles : INCONNU / NOK / OK
     const [subscribed, setSubscribed] = useState(false);
     // var RNFS = require("react-native-fs");
@@ -32,7 +28,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     var message_ihm_run = new ROSLIB.Topic({
         ros: ros,
         name: '/message_ihm_run',
-        messageType: 'motoman_hc10_moveit_config/IHM_msg'
+        messageType: 'deplacement_robot/IHM_msg'
     });
 
     // ROS ETAT ROBOT
@@ -407,13 +403,22 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     }
 
     function goToInitPos() {
-        var goToInit = new ROSLIB.Service({
+        /*var goToInit = new ROSLIB.Service({
             ros: ros,
             name: '/move_robot_init',
             serviceType: 'motoman_hc10_moveit_config/Robot_move_predef'
         });
         var request = null;
-        goToInit.callService(request, function (result) { });
+        goToInit.callService(request, function (result) { });*/
+
+        // Création du message à envoyer
+        var msg_init = new ROSLIB.Message({
+            action: String("Initialiser"),
+            plaque: String(""),
+            diametre: String(""),
+            confiance: String("")
+        });
+        message_ihm_run.publish(msg_init);
     }
 
 
@@ -551,7 +556,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                     : <button type="button" className="bouton-normal" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
                 }
                 <button type="button" className="bouton-normal" disabled={disableGeneral()} onClick={backToConfigDefault}>Configuration par défaut</button>
-                <button type="submit" className="bouton-run" onClick={togglePopup} disabled={disableRun()}>Run</button>
+                <button type="submit" className="bouton-run" onClick={togglePopup} disabled={disableRun()}>Lancer</button>
                 {isOpen && <Popup
                     content={<>
                         <h3 className="popup-title">Lancement de l'action</h3>
@@ -663,7 +668,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                         <div className='etat-import'>
                             <   AiFillVideoCamera className="icone" />
                             Etat caméra :
-                            {etatCamActuel === "EN MARCHE" ? <span className='rep'>{etatCamActuel}</span> : <span className='rep-stop'>{etatCamActuel}</span>}
+                            {etatCamActuel === "EN MARCHE" ? <span className='rep'>{etatCamActuel}</span> : etatCamActuel === "ETEINTE" ? <span className='rep-stop'>{etatCamActuel}</span> : <span className='rep-occ'>{etatCamActuel}</span> }
                         </div>
                         <div className='etat-import'>
                             <GiMetalPlate className="icone" />

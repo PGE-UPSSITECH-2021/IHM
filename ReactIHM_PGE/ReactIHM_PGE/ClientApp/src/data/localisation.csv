@@ -1,4 +1,4 @@
-FileName,date,plaque,action
-localisation,25/01/2022, tole epaisse,localisation
+FileName,date,plaque,action,,
+localisation,25/01/2022, tole epaisse,localisation,,
 x,y,z,alpha,beta,gamma
-1.01,1.192,2.168,3.14,1.27,2.98
+1.01,1.192,2.168,3.14,1.27,2.9812356

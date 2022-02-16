@@ -6,10 +6,10 @@ import { AppContextWrongID } from "../lib/contextLibWrongID";
 import React, { useState } from "react";
 
 
-function AppLogin({modeCo, setModeCo}) { // login screen
+function AppLogin({modeCo, setModeCo, ros}) { // login screen
     document.body.id = 'bodyLogin';
     const [wrongIdentification, userHasFailed] = useState(false);
-
+    
     return (
         <AppContextWrongID.Provider value={{ wrongIdentification, userHasFailed }}>
             {wrongIdentification ?

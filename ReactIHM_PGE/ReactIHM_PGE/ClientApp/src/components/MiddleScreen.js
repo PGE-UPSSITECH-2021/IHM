@@ -12,18 +12,20 @@ import save from '../assets/save.png';
 
 function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnCours, actionRunning, setActionRunning, setDecoDisabled, modeCo, testRunning, setTestRunning, selectedTest, showHistory, setShowHistory, ros }) {
 
+    var lst_textConsole = [];
+
     const [subscribed, setSubscribed] = useState(false);
     // ROS RECEPTION FLAG FIN ACTION
     function callbackFinAction(message) {
-        //if (actionRunning) {
         console.log("ACTION FINIE");
         setActionRunning(false);
         setActionEnCours("Aucune action en cours");
         setDecoDisabled(false);
         setIsPaused(false);
         setShowHistory(false);
+        lst_textConsole.length = 0;
+        setTextConsole(lst_textConsole); //réinitialisation texte console pour futurs déroulements d'actions
         setCurrentPage(1);
-        //}
     }
     // Création du listener ROS Resultats Identification
     var fin_action_listener = new ROSLIB.Topic({
@@ -34,6 +36,29 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
     if (subscribed === false) {
         fin_action_listener.subscribe(callbackFinAction);
         setSubscribed(true);
+    }
+
+
+    const [subscribedAct, setSubscribedAct] = useState(false);
+
+    const [textConsole, setTextConsole] = useState(lst_textConsole);
+
+    // ROS RECEPTION DEROULEMENT ACTION
+    function callbackEvolutionAction(message) {
+        lst_textConsole.push(String(message.data));
+        console.log("lst:  ", lst_textConsole);
+        setTextConsole(lst_textConsole);
+        console.log("textConsole : ", textConsole);
+    }
+    // Création du listener ROS Resultats Identification
+    var evol_action_listener = new ROSLIB.Topic({
+        ros: ros,
+        name: '/production_state', // Choix du topic
+        messageType: 'std_msgs/String' // Type du message transmis
+    });
+    if (subscribedAct === false) {
+        evol_action_listener.subscribe(callbackEvolutionAction);
+        setSubscribedAct(true);
     }
 
     const [isPaused, setIsPaused] = useState(false);
@@ -98,7 +123,13 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
         setCurrentPage(1);
     }
 
+    function getTextConsole() {
+        console.log("FONCTION GET TEXT CONSOLE");
+        return textConsole;
+    }
+
     if (modeCo !== 2) {
+
         return (
             
             <div className='middle'>
@@ -114,9 +145,17 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
                             <img src={stop} alt='bouton stop' className='bouton-runmode-stop' onClick={stopAction} />
                         </div>
                         <div className='run-console'>
-                            <div className='run-console-text'>• Caméra calibrée...   OK</div>
-                            <br />
-                            <div className='run-console-text'>• Action en cours... </div>
+                            <div className='run-console-text'>ACTION EN COURS D'EXECUTION</div>
+                            <div className='run-console-text'>--------------------------------------</div>
+                            {actionRunning ?
+                                {
+                                    while(actionRunning) {
+                                        getTextConsole().map((item, i) => (
+                                            <div className='run-console-text'>• {item}</div>
+                                        ))
+                                    }
+                                }
+                                : <div className='run-console-text'>{console.log("TEXT CONSOLE NOTHING")}--------------------------------------</div>}
                         </div>
                     </div>
                     : <img src={dispositif} alt="Image du dispositif" className="img-demonstrateur" />}

@@ -5,12 +5,6 @@
     margin-left: 2vw;
 }
 
-/*.scroll-bar {
-    scroll-behavior: smooth;
-    overflow-y: scroll;
-    height: 30vh;
-}*/
-
 .display-results {
     display: flex;
     flex-direction: row;
@@ -35,7 +29,7 @@
 
 .table-head-results{
     font-size: larger;
-    position: absolute;
+    position:absolute;
     padding-left: 2vw;
     color: white;
 }
@@ -52,6 +46,14 @@
     height: 44vh;
 }
 
+.table-header-results{
+    overflow-y:hidden;
+    color:white;
+}
+
+.table-body-results{
+    overflow-y:auto;
+}
 
 .non-conform {
     background-color: rgba(227,6,19,0.3) !important;
@@ -110,6 +112,7 @@
 
 .table-results .MuiTableCell-head {
     color: white;
+    position:sticky;
     font-weight: 550;
     line-height: 1.5rem;
 }
