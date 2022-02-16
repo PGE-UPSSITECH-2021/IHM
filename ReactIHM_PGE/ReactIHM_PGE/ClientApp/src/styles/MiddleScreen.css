@@ -85,6 +85,7 @@
 .run-console-text{
     padding-left:1.5vw;
     font-size:1.7vh;
+    white-space:pre;
 }
 
 .run-console-text-mtnc {

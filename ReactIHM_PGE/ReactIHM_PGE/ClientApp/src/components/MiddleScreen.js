@@ -12,8 +12,6 @@ import save from '../assets/save.png';
 
 function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnCours, actionRunning, setActionRunning, setDecoDisabled, modeCo, testRunning, setTestRunning, selectedTest, showHistory, setShowHistory, ros }) {
 
-    var lst_textConsole = [];
-
     const [subscribed, setSubscribed] = useState(false);
     // ROS RECEPTION FLAG FIN ACTION
     function callbackFinAction(message) {
@@ -23,8 +21,8 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
         setDecoDisabled(false);
         setIsPaused(false);
         setShowHistory(false);
-        lst_textConsole.length = 0;
-        setTextConsole(lst_textConsole); //réinitialisation texte console pour futurs déroulements d'actions
+        //lst_textConsole = "";
+        //setTextConsole(lst_textConsole); //réinitialisation texte console pour futurs déroulements d'actions
         setCurrentPage(1);
     }
     // Création du listener ROS Resultats Identification
@@ -41,13 +39,14 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
 
     const [subscribedAct, setSubscribedAct] = useState(false);
 
-    const [textConsole, setTextConsole] = useState(lst_textConsole);
+    var tmp_textConsole = "";
+    const [textConsole, setTextConsole] = useState(tmp_textConsole);
 
     // ROS RECEPTION DEROULEMENT ACTION
     function callbackEvolutionAction(message) {
-        lst_textConsole.push(String(message.data));
-        console.log("lst:  ", lst_textConsole);
-        setTextConsole(lst_textConsole);
+        tmp_textConsole = tmp_textConsole.concat('\r\n',String(message.data));
+        setTextConsole(tmp_textConsole);
+        console.log("tmp : ", tmp_textConsole);
         console.log("textConsole : ", textConsole);
     }
     // Création du listener ROS Resultats Identification
@@ -123,11 +122,6 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
         setCurrentPage(1);
     }
 
-    function getTextConsole() {
-        console.log("FONCTION GET TEXT CONSOLE");
-        return textConsole;
-    }
-
     if (modeCo !== 2) {
 
         return (
@@ -147,15 +141,7 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
                         <div className='run-console'>
                             <div className='run-console-text'>ACTION EN COURS D'EXECUTION</div>
                             <div className='run-console-text'>--------------------------------------</div>
-                            {actionRunning ?
-                                {
-                                    while(actionRunning) {
-                                        getTextConsole().map((item, i) => (
-                                            <div className='run-console-text'>• {item}</div>
-                                        ))
-                                    }
-                                }
-                                : <div className='run-console-text'>{console.log("TEXT CONSOLE NOTHING")}--------------------------------------</div>}
+                            <div className='run-console-text'>{textConsole}</div>
                         </div>
                     </div>
                     : <img src={dispositif} alt="Image du dispositif" className="img-demonstrateur" />}

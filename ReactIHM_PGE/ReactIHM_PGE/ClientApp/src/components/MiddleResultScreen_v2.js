@@ -137,19 +137,23 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     var trous_quali = [];
     var nb_trous_quali = 0;
     var lst_id_canvas = [];
-    const [trousQualite, setTrousQualite] = useState(trous_quali);
-    const [nbTrousQualite, setNbTrousQualite] = useState(nb_trous_quali);
+    const [trousQualite, setTrousQualite] = useState([]);
+    const [nbTrousQualite, setNbTrousQualite] = useState(0);
     const [subscribedQ, setSubscribedQ] = useState(false);
     const [allIDImgTrous, setAllIDImgTrous] = useState(lst_id_canvas);
     // ROS RECEPTION RESULTATS QUALITE
     function callbackResultatsQualite(message) {
-        console.log("Recuperation de resultats Qualite :");
-        console.log("Trous : ", message.trous);
-        console.log("nbTrous : ", message.nbTrous);
-        trous_quali = [...message.trous];
-        nb_trous_quali = message.nbTrous;
-        setTrousQualite(trous_quali);
-        setNbTrousQualite(nb_trous_quali);
+        console.log("Recuperation de resultats Qualite :"); 
+        console.log("Trous : ", message.trous); //OK
+        console.log("nbTrous : ", message.nbTrous); //OK
+        trous_quali = message.trous; 
+        nb_trous_quali = parseInt(message.nbTrous);
+        console.log("trou_quali : ", trous_quali); //OK
+        console.log("nb_trous_quali : ", nb_trous_quali); //OK
+        setTrousQualite(message.trous); 
+        setNbTrousQualite(message.nbTrous);
+        console.log("trousQualite : ", trousQualite);
+        console.log("nbTrousQualite : ", nbTrousQualite);
 
         //Récupération du canvas sur la page pour image globale qualité
         var canvas_q = document.getElementById('img_ROS_q');
@@ -171,13 +175,12 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
             console.log("CANVAS NULL");
         }
 
-        console.log("nbTrousQualite : ", nbTrousQualite);
-        for (var ind = 0; ind < nbTrousQualite; ind++) {
-            var item = trousQualite[ind];
-            console.log("item_q : ", item);
-            var canvas_q_i = document.getElementById('img_ROS_q_'.concat(String(ind)));
+        for (var ind = 0; ind < message.nbTrous; ind++) {
+            var item = message.trous[ind];
+            console.log("item_q : ", item); //OK
+            var canvas_q_i = document.getElementById(String('img_ROS_q_'.concat(String(ind))));
             lst_id_canvas.push('img_ROS_q_'.concat(String(ind)));
-            console.log("Canvas name : ", 'img_ROS_q_'.concat(String(ind)));
+            console.log("Canvas name : ", 'img_ROS_q_'.concat(String(ind))); //OK
             if (canvas_q_i !== null) {
                 var ctx_q_i = canvas_q_i.getContext('2d');
                 //Création de l'image
@@ -295,6 +298,11 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
     }
 
+    function getIDCanvas(i) {
+        console.log("allIDImgTrou canvas i : ", allIDImgTrous[i]);
+        return String(allIDImgTrous[i]);
+    }
+
     /* Gestion de la pagination */
 
     const [page, setPage] = React.useState(0);
@@ -360,7 +368,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     const [list, setList] = useState(trousQualite);
 
     function handleToggleConformity(x, y) {
-        const newList = list.map((item) => {
+        const newList = trousQualite.map((item) => {
 
             if (item.x === x && item.y === y) {
                 const updatedItem = {
@@ -376,7 +384,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
             return item;
         });
 
-        setList(newList);
+        setTrousQualite(newList);
         console.log("Nouvelle list");
         console.log(newList);
 
@@ -742,9 +750,8 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                 {nbTrousQualite > 0 ?
                                                 <TableBody >
 
-                                                    {list.map((item, i) => (
-
-
+                                                    {trousQualite.map((item, i) => (
+                                                            
                                                             <TableRow
                                                                 key={i}
                                                             >
@@ -756,11 +763,11 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                                 {item.conforme === false ? <TableCell className="non-conform-reason" align="center">{item.raison}</TableCell> : <TableCell align="center">{item.raison}</TableCell>}
                                                                 {item.conforme === false ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={function (event) { setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); togglePopupResult(); setOpenDetailsX(item.x); setOpenDetailsY(item.y); }} />
                                                                 </IconButton></TableCell> : <TableCell align="center"></TableCell>}
-
+                                                            
                                                                 {isOpen && <PopUpResult
                                                                     content={<>
                                                                         <h3 className="popup-title-conformity">Trou ({popUpTrouX} px,{popUpTrouY} px, {popUpTrouDiam*2} mm)</h3>
-                                                                        <canvas id={allIDImgTrous[i]} width="800" height="500" className="no-cam-results"></canvas>
+                                                                        <canvas id={getIDCanvas(i)} width="800" height="500" className="no-cam-results"></canvas>
                                                                         <button className="forcer-conform" onClick={function (event) { togglePopupResult(); setForceConform(true); setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); handleToggleConformity(openDetailsX, openDetailsY); }}>Forcer conformite du trou</button>
                                                                         <button className="annuler-result" onClick={function (event) { togglePopupResult(); setPopUpTrouX(""); setPopUpTrouY(""); setPopUpTrouDiam(""); }}>Annuler</button>
 
