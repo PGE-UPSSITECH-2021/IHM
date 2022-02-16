@@ -366,7 +366,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                 const updatedItem = {
                     ...item,
                     conform: true,
-                    reason: "aucune",
+                    reason: "",
                 };
                 return updatedItem;
             }
