@@ -12,16 +12,19 @@ import { FaList } from "react-icons/fa";
 import { FiHome } from "react-icons/fi";
 import { FaPowerOff } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
-import { BiCog } from "react-icons/bi";
-import { MdOutlineHelpOutline} from "react-icons/md"
+import { MdOutlineHelpOutline } from "react-icons/md"
+import { FiSettings } from "react-icons/fi"
 //import sidebar css from react-pro-sidebar module and our custom css 
 import "react-pro-sidebar/dist/css/styles.css";
 import "../styles/MenuBar.css";
 import { Button } from '@material-ui/core';
 import { useAppContextAuth } from "../lib/contextLibAuth";
-import { useAppContextPage } from "../lib/contextLibPage";
+import FireAuth from "./FireAuth";
 
-function Header() {
+
+var fireAuth = new FireAuth();
+
+function Header({ pageRes, setPageRes, isDecoDisabled, currentPage, setCurrentPage, modeCo, showHistory, setShowHistory }) {
 
     //create initial menuCollapse state using useState hook
     const [menuCollapse, setMenuCollapse] = useState(false)
@@ -33,19 +36,88 @@ function Header() {
     };
 
     const { userHasAuthenticated } = useAppContextAuth();
-    const { setCurrentPage }= useAppContextPage();
 
     function handleLogout() {
+        fireAuth.signOut().then((value)=>{
+            if (value) {
+                userHasAuthenticated(false);
+            }
+            else {
+                userHasAuthenticated(true);
+                //Affichage erreur
+
+
+            }
+        });
         userHasAuthenticated(false);
     }
 
     function changePageToMain() {
-        setCurrentPage(0);
+        if (!isDecoDisabled) {
+            if (currentPage === 1 && showHistory === false) {
+                alert("TODO: PROPOSER SAUVEGARDE");
+            }
+            setCurrentPage(0);
+        }
     }
     function changePageToResult() {
-        setCurrentPage(1);
+        if (!isDecoDisabled) {
+            if (currentPage === 1 && showHistory === false) {
+                alert("TODO: PROPOSER SAUVEGARDE");
+            }
+            setShowHistory(true);
+            setPageRes(0);
+            setCurrentPage(1);
+        }
+    }
+    function changePageToUser() {
+        if (!isDecoDisabled) {
+            if (currentPage === 1 && showHistory === false) {
+                alert("TODO: PROPOSER SAUVEGARDE");
+            }
+            setCurrentPage(2);
+        }
+    }
+    function changePageToHelp() {
+        if (!isDecoDisabled) {
+            if (currentPage === 1 && showHistory === false) {
+                alert("TODO: PROPOSER SAUVEGARDE");
+            }
+            setCurrentPage(3);
+        }
+    }
+    function changePageToParam() {
+        if (!isDecoDisabled) {
+            if (currentPage === 1 && showHistory === false) {
+                alert("TODO: PROPOSER SAUVEGARDE");
+            }
+            setCurrentPage(4);
+        }
     }
 
+    function isMainActive() {
+        return currentPage === 0;
+    }
+    function isResultsActive() {
+        return currentPage === 1;
+    }
+    function isUserActive() {
+        return currentPage === 2;
+    }
+    function isHelpActive() {
+        return currentPage === 3;
+    }
+    function isParamActive() {
+        return currentPage === 4;
+    }
+
+    function getMenuItemClass() {
+        if (!isDecoDisabled) {
+            return "menuItem";
+        } else {
+            return "menuItem-disabled";
+        }
+    }
 
     return (
         <div id="header">
@@ -59,12 +131,24 @@ function Header() {
                 </SidebarHeader>
                 <SidebarContent>
                     <Menu iconShape="square">
-                        <MenuItem active={true} icon={<FiHome />} onClick={changePageToMain} className="menuItem"><span className='textItem'>Accueil</span></MenuItem>
-                        <MenuItem active={false} icon={<FaList />} onClick={changePageToResult} className="menuItem"><span className='textItem'>Résultats</span></MenuItem>
-                        <MenuItem active={false} icon={<BiCog />} className="menuItem"><span className='textItem'>Paramètres</span></MenuItem>
-                        <MenuItem active={false} icon={<FaRegUser />} className="menuItem"><span className='textItem'>Utilisateur</span></MenuItem>
-                        <MenuItem active={false} icon={<MdOutlineHelpOutline />} className="menuItem"><span className='textItem'>Aide</span></MenuItem>
-                        <div className='space'><Button type="solid" startIcon={<FaPowerOff />} className="boutonDeconnexion" onClick={handleLogout}>Déconnexion</Button></div>
+                        <MenuItem active={isMainActive()} icon={<FiHome />} onClick={changePageToMain} className={getMenuItemClass()}><span className='textItem'>Accueil</span></MenuItem>
+                        {modeCo === 2 ? <span /> :
+                            <MenuItem active={isResultsActive()} icon={<FaList />} onClick={changePageToResult} className={getMenuItemClass()}><span className='textItem'>Résultats</span></MenuItem>
+                        }
+                        {modeCo === 1 ?
+                            <MenuItem active={isUserActive()} icon={<FaRegUser />} className={getMenuItemClass()} onClick={changePageToUser}><span className='textItem'>Admin</span></MenuItem>
+                            : modeCo === 0 ? <MenuItem active={isUserActive()} icon={<FaRegUser />} className={getMenuItemClass()} onClick={changePageToUser}><span className='textItem'>Utilisateur</span></MenuItem>
+                                : <MenuItem active={isUserActive()} icon={<FaRegUser />} className={getMenuItemClass()} onClick={changePageToUser}><span className='textItem'>Maintenance</span></MenuItem>
+                        }
+                        {modeCo === 1 ?
+                            <MenuItem active={isParamActive()} icon={<FiSettings />} className={getMenuItemClass()} onClick={changePageToParam}><span className='textItem'>+/- Comptes</span></MenuItem>
+                            : <span></span>}
+                        <MenuItem active={isHelpActive()} icon={<MdOutlineHelpOutline />} className={getMenuItemClass()} onClick={changePageToHelp}><span className='textItem'>Aide</span></MenuItem>
+                        {modeCo === 1 ?
+                            <div className='space-admin'><Button type="solid" startIcon={<FaPowerOff />} className="boutonDeconnexion" onClick={handleLogout} disabled={isDecoDisabled}>Déconnexion</Button></div>
+                            : modeCo === 0 ? <div className='space'><Button type="solid" startIcon={<FaPowerOff />} className="boutonDeconnexion" onClick={handleLogout} disabled={isDecoDisabled}>Déconnexion</Button></div>
+                                : <div className='space-maintenance'><Button type="solid" startIcon={<FaPowerOff />} className="boutonDeconnexion" onClick={handleLogout} disabled={isDecoDisabled}>Déconnexion</Button></div>
+                        }
                     </Menu>
                 </SidebarContent>
             </ProSidebar>

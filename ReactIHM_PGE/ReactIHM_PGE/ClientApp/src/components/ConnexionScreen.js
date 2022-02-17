@@ -5,11 +5,14 @@ import Button from 'react-bootstrap/Button';
 import { useAppContextWrongID } from "../lib/contextLibWrongID";
 import { useAppContextAuth } from "../lib/contextLibAuth";
 import logo_usr from '../assets/logo_usr.png'
-import { Text, Linking } from 'react-native'
-import Popup from './PopUpMDP'
+import { Text } from 'react-native'
+import Popup from './PopUpMDP';
+import FireAuth from './FireAuth';
 
-
-function ConnexionScreen(props) {
+var fireAuth = new FireAuth();
+var type = "user";
+var disableButton = false;
+function ConnexionScreen({ failed, modeCo, setModeCo }) {
 
     //Gestion de la pop-up MDP oublié
     const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +27,10 @@ function ConnexionScreen(props) {
     const { userHasFailed } = useAppContextWrongID();
     const [email, setEmail] = useState("");
 
-    function validateForm() { 
+    function validateForm() {
+        if (disableButton) {
+            return false;
+        }
         return userID.length > 0 && password.length > 0;
     }
 
@@ -33,14 +39,27 @@ function ConnexionScreen(props) {
     }
 
     function handleSubmit(event) {
+        disableButton = true;
         event.preventDefault();
-        if (userID === "user" && password === "eXcent") { //TODO à changer
-            userHasAuthenticated(true);
-        } else {
-            userHasFailed(true);
-        }
-        setUserID("");
-        setPassword("");
+        userHasAuthenticated(false);
+        userHasFailed(false);
+        //Lancer chargement en désactivant le bouton
+        fireAuth.signIn(userID, password).then((value) => {
+            type = value;
+            if (value == "Administrateur" || value == "Utilisateur" || value == "Maintenance") {
+                userHasAuthenticated(true);
+                setModeCo(type == "Utilisateur" ? 0 : type == "Administrateur" ? 1 : 2);
+                //Fin du chargement
+                disableButton = false;
+
+            }
+            else {
+                //Fin du chargement et affichage de l'erreur
+                disableButton = false;
+                userHasFailed(true);
+            }
+        });
+       
     }
 
     function handleSubmitMail(event) {
@@ -63,7 +82,7 @@ function ConnexionScreen(props) {
                         type="userID"
                         value={userID}
                         onChange={(e) => setUserID(e.target.value)}
-                        className={props.failed ? "input-box-fail" : "input-box"}
+                        className={failed ? "input-box-fail" : "input-box"}
                     />
                 </Form.Group>
                 <Form.Group size="lg" controlId="password">
@@ -72,7 +91,7 @@ function ConnexionScreen(props) {
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className={props.failed ? "input-box-fail" : "input-box"}
+                        className={failed ? "input-box-fail" : "input-box"}
                     />
                 </Form.Group>
                 <div className="lineCo">
@@ -102,8 +121,9 @@ function ConnexionScreen(props) {
                         Se connecter
                     </Button>
                 </div>
-                {props.failed ? 
-                    <div className='info-erreur'>Identifiant(s) erroné(s).</div> : <div></div>}
+                {failed ? 
+                        <div className='info-erreur'>{type == "auth/user-not-found" ? "Aucun utilisateur trouvé pour cette adresse mail."
+                            : type == "auth/wrong-password" ? "Mot de passe erroné." : type == "auth/invalid-email" ? "L'email n'est pas valide." : "Un problème de connexion est survenu. Veuillez réessayer." }</div> : <div></div>}
                     
             </Form>
         </div>
