@@ -15,21 +15,33 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
     const [subscribed, setSubscribed] = useState(false);
     // ROS RECEPTION FLAG FIN ACTION
     function callbackFinAction(message) {
-        console.log("ACTION FINIE");
-        setActionRunning(false);
-        setActionEnCours("Aucune action en cours");
-        setDecoDisabled(false);
-        setIsPaused(false);
-        setShowHistory(false);
-        //lst_textConsole = "";
-        //setTextConsole(lst_textConsole); //réinitialisation texte console pour futurs déroulements d'actions
-        setCurrentPage(1);
+        var actionOK = message.actionOK;
+        var infoErreur = message.erreur;
+        if (actionOK === true) {
+            console.log("ACTION FINIE SS ERREUR");
+            setActionRunning(false);
+            setActionEnCours("Aucune action en cours");
+            setDecoDisabled(false);
+            setIsPaused(false);
+            setShowHistory(false);
+            setCurrentPage(1);
+        } else {
+            console.log("ACTION FINIE AC ERREUR");
+            alert("ERREUR : ".concat('\n', infoErreur)); 
+            setActionRunning(false);
+            setActionEnCours("Aucune action en cours");
+            setDecoDisabled(false);
+            setIsPaused(false);
+            setShowHistory(false);
+            setCurrentPage(0);
+        }  
+       
     }
     // Création du listener ROS Resultats Identification
     var fin_action_listener = new ROSLIB.Topic({
         ros: ros,
         name: '/result', // Choix du topic
-        messageType: 'std_msgs/Bool' // Type du message transmis
+        messageType: 'deplacement_robot/Result' // Type du message transmis
     });
     if (subscribed === false) {
         fin_action_listener.subscribe(callbackFinAction);
@@ -46,8 +58,8 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
     function callbackEvolutionAction(message) {
         tmp_textConsole = tmp_textConsole.concat('\r\n',String(message.data));
         setTextConsole(tmp_textConsole);
-        console.log("tmp : ", tmp_textConsole);
-        console.log("textConsole : ", textConsole);
+        //console.log("tmp : ", tmp_textConsole);
+        //console.log("textConsole : ", textConsole);
     }
     // Création du listener ROS Resultats Identification
     var evol_action_listener = new ROSLIB.Topic({
