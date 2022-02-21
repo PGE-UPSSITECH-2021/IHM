@@ -7,7 +7,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser } from "firebase/auth";
 import { getFirestore } from "firebase/firestore"
-import { collection, addDoc, getDoc, doc, setDoc } from "firebase/firestore";
+import {  getDoc, doc, setDoc } from "firebase/firestore";
 
 export default class FireAuth {
 
