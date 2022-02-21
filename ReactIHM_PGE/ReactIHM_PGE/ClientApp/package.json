@@ -19,6 +19,7 @@
     "electron-is-dev": "^2.0.0",
     "electron-spawn": "^5.0.0",
     "eventemitter2": "^6.4.5",
+    "firebase": "^9.6.6",
     "http-proxy-middleware": "^0.19.1",
     "jquery": "^3.6.0",
     "jquery-csv": "^1.0.21",

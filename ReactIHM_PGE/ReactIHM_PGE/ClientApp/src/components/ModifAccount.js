@@ -6,13 +6,17 @@
 
 import '../styles/ModifAccount.css'
 import '../styles/bootstrapStyle.scss'
+import PasswordStrength from './PasswordStrength'
 import React, { useState } from "react";
 import CheckListPwd from './CheckListPwd';
 import Button from 'react-bootstrap/Button';
 import { BiShowAlt } from "react-icons/bi"
 import { BiHide } from "react-icons/bi"
+import FireAuth from "./FireAuth";
 
 
+var fireAuth = new FireAuth();
+var disableButtonEnregistrer = false;
 function ModifAccount() {
 
     const [email, setEmail] = useState("");
@@ -102,8 +106,10 @@ function ModifAccount() {
     }
 
     function validateDataAccount() {
-
-        return selectedAccount && containsUL && containsLL && containsN && containsSC && contains7C && passwordMatch && email.length > 0 && email.includes("@") && email.includes(".") && identifiant.length > 3;
+        if (disableButtonEnregistrer) {
+            return false;
+        }
+        return selectedAccount && containsUL && containsLL && containsN && containsSC && contains7C && passwordMatch && email.length > 0 && email.includes("@") && email.includes(".") /*&& identifiant.length > 3*/;
     }
 
     function validateDataAccountSupp() {
@@ -112,14 +118,51 @@ function ModifAccount() {
 
 
     function saveNewAccount() {
-        alert("Compte ajouté");
-        setEmail("");
-        setIdentifiant("");
-        setShowMust(false);
-        setNewPasswordAccount("");
-        setPasswordConfirmAccount("");
-        setContainsUL(false);
-        setSelectedAccount("");
+        disableButtonEnregistrer = true;
+        fireAuth.register(email, newPasswordAccount, selectedAccount).then((value) => {
+            switch (value) {
+                case "success":
+                    alert("Compte ajouté");
+                    setEmail("");
+                    setIdentifiant("");
+                    setShowMust(false);
+                    setNewPasswordAccount("");
+                    setPasswordConfirmAccount("");
+                    setContainsUL(false);
+                    setSelectedAccount("");
+                    break;
+
+                case "error-adding-doc":
+                    alert("Erreur lors de la création du compte. Veuillez réessayer.");
+                    break;
+
+                case "error-delete-user":
+                    alert("Une erreur est survenue. Veuillez supprimer le compte avant de le recréer.");
+                    setEmail("");
+                    setIdentifiant("");
+                    setShowMust(false);
+                    setNewPasswordAccount("");
+                    setPasswordConfirmAccount("");
+                    setContainsUL(false);
+                    setSelectedAccount("");
+                    break;
+
+                case "auth/weak-password":
+                    alert("Mot de passe trop faible.");//indiquer cette erreur au niveau du champ de donnée
+                    break;
+
+                case "auth/network-request-failed":
+                    alert("Un problème de connexion est survenu. Veuillez réessayer.");
+                    break;
+
+                case "auth/email-already-exists":
+                    alert("Un compte existe déjà pour l'email donné.");//indiquer cette erreur au niveau du champ de donnée
+                    break;
+            }
+            disableButtonEnregistrer = false;
+
+        });
+
     }
 
     function saveAccountSupp() {
@@ -142,85 +185,85 @@ function ModifAccount() {
         <div className='middle-screen-modif-account'>
             <div className='middle-modif-account'>
                 <div className='mdp-mail-area-add'>
-                <h3 className='add-account-title'> Ajouter un compte </h3>
-                
+                    <h3 className='add-account-title'> Ajouter un compte </h3>
+
                     <span className='label-identifiant'> Adresse e-mail : </span>
                     <input type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    <span className='label-identifiant'> Identifiant : </span>
-                    <input type="identifiant"
-                        value={identifiant}
-                        onChange={(e) => setIdentifiant(e.target.value)}
-                    />
+                    {/*<span className='label-identifiant'> Identifiant : </span>*/}
+                    {/*<input type="identifiant"*/}
+                    {/*    value={identifiant}*/}
+                    {/*    onChange={(e) => setIdentifiant(e.target.value)}*/}
+                    {/*/>*/}
                     <span className='label-identifiant'> Type du compte : </span>
                     <select value={selectedAccount} onChange={handleSelectAccount}>
                         <option selected disabled hidden value="">-----</option>
                         <option value="Utilisateur">Utilisateur</option>
                         <option value="Administrateur">Administrateur</option>
                         <option value="Maintenance">Maintenance</option>
-                        <option value="Qualite">Qualité</option>
+                        {/*<option value="Qualite">Qualité</option>*/}
                     </select>
-                <div className="mdp-area-modifAcc">
-                    <span className='label-identifiant'> Mot de passe : </span>
-                    <div className="mdp-area-2-modifAcc">
-                        <input
-                            className='pwd-new-confirm-modifAcc'
-                            type={passwordIsVisible ? 'text' : 'password'}
-                            value={newPasswordAccount}
-                            onChange={e => passwordModif(e)}
-                            onKeyUp={validatePassword}
-                        />
-                            <button className="icon-set-mdp-visible-acc" onClick={() => setPasswordIsVisible(!passwordIsVisible)}> {passwordIsVisible ? <BiShowAlt className="icon-eye-acc" /> : <BiHide className="icon-eye-acc"/>} </button>
+                    <div className="mdp-area-modifAcc">
+                        <span className='label-identifiant'> Mot de passe : </span>
+                        <div className="mdp-area-2-modifAcc">
+                            <input
+                                className='pwd-new-confirm-modifAcc'
+                                type={passwordIsVisible ? 'text' : 'password'}
+                                value={newPasswordAccount}
+                                onChange={e => passwordModif(e)}
+                                onKeyUp={validatePassword}
+                            />
+                            <button className="icon-set-mdp-visible-acc" onClick={() => setPasswordIsVisible(!passwordIsVisible)}> {passwordIsVisible ? <BiShowAlt className="icon-eye-acc" /> : <BiHide className="icon-eye-acc" />} </button>
+                        </div>
+                        <span className='label-identifiant'> Confirmation mot de passe : </span>
+                        <div className="mdp-area-2-modifAcc">
+                            <input
+                                className='pwd-new-confirm-modifAcc'
+                                type={passwordConfirmIsVisible ? 'text' : 'password'}
+                                value={passwordConfirmAccount}
+                                onChange={e => confirmPasswordModif(e)}
+                                onKeyUp={validatePassword}
+                            />
+                            <button className="icon-set-mdp-visible-acc" onClick={() => setPasswordConfirmIsVisible(!passwordConfirmIsVisible)}> {passwordConfirmIsVisible ? <BiShowAlt className="icon-eye-acc" /> : <BiHide className="icon-eye-acc" />} </button>
+                        </div>
+                        <br></br>
+                        {showMust ?
+                            <div className="must-container-modifAcc">
+                                {checkListData.map(data => <CheckListPwd data={data} />)}
+                            </div> : <div className="must-container-invisible-modifAcc"> </div>
+                        }
                     </div>
-                    <span className='label-identifiant'> Confirmation mot de passe : </span>
-                    <div className="mdp-area-2-modifAcc">
-                        <input
-                            className='pwd-new-confirm-modifAcc'
-                            type={passwordConfirmIsVisible ? 'text' : 'password'}
-                            value={passwordConfirmAccount}
-                            onChange={e => confirmPasswordModif(e)}
-                            onKeyUp={validatePassword}
-                        />
-                            <button className="icon-set-mdp-visible-acc" onClick={() => setPasswordConfirmIsVisible(!passwordConfirmIsVisible)}> {passwordConfirmIsVisible ? <BiShowAlt className="icon-eye-acc" /> : <BiHide className="icon-eye-acc"/>} </button>
-                    </div>
-                    <br></br>
-                    {showMust ?
-                        <div className="must-container-modifAcc">
-                            {checkListData.map(data => <CheckListPwd data={data} />)}
-                        </div> : <div className="must-container-invisible-modifAcc"> </div>
-                    }
-                </div>
 
                     <Button block size="lg" type="submit" disabled={!validateDataAccount()} className='sauvegarder-button-acc' onClick={saveNewAccount}>
-                    Enregistrer
-                </Button>
+                        Enregistrer
+                    </Button>
                 </div>
                 <div className='mdp-mail-area-supp'>
                     <div className='mdp-mail-area-supp-two'>
-                    <h3 className='add-account-title'> Supprimer un compte </h3>
+                        <h3 className='add-account-title'> Supprimer un compte </h3>
 
-                    <span className='label-identifiant'> Adresse e-mail : </span>
-                    <input type="email"
-                        value={emailSupp}
-                        onChange={(e) => setEmailSupp(e.target.value)}
-                    />
-                    <span className='label-identifiant'> Type du compte : </span>
-                    <select value={selectedAccountSupp} onChange={handleSelectAccountSupp}>
-                        <option selected disabled hidden value="">-----</option>
-                        <option value="Utilisateur">Utilisateur</option>
-                        <option value="Administrateur">Administrateur</option>
-                        <option value="Maintenance">Maintenance</option>
-                        <option value="Qualite">Qualité</option>
-                    </select>
+                        <span className='label-identifiant'> Adresse e-mail : </span>
+                        <input type="email"
+                            value={emailSupp}
+                            onChange={(e) => setEmailSupp(e.target.value)}
+                        />
+                        <span className='label-identifiant'> Type du compte : </span>
+                        <select value={selectedAccountSupp} onChange={handleSelectAccountSupp}>
+                            <option selected disabled hidden value="">-----</option>
+                            <option value="Utilisateur">Utilisateur</option>
+                            <option value="Administrateur">Administrateur</option>
+                            <option value="Maintenance">Maintenance</option>
+                            <option value="Qualite">Qualité</option>
+                        </select>
 
-                    <Button block size="lg" type="submit" disabled={!validateDataAccountSupp()} className='supprimer-button' onClick={saveAccountSupp}>
-                        Supprimer
+                        <Button block size="lg" type="submit" disabled={!validateDataAccountSupp()} className='supprimer-button' onClick={saveAccountSupp}>
+                            Supprimer
                         </Button>
-                        </div>
+                    </div>
                 </div>
-        </div>
+            </div>
         </div >
     )
 }

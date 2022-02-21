@@ -273,56 +273,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
         setIsOpen(!isOpen);
     }
 
-    function chanegConformity() {
-        setIsOpen(!isOpen);
-        JsonContent[nameFileRes].sort(function (a, b) {
-            var a1st = -1; //negative value means left item should appear first
-            var b1st = 1; //positive value means right item should appear first
-            var equal = 0; //zero means objects are equal
-            //compare your object's property values and determine their order
-            if (JsonContent[nameFileRes].action === "identification")
-                if (b.diam < a.diam) {
-                    return b1st;
-                }
-                else if (a.diam < b.diam) {
-                    return a1st;
-                }
-                else {
-                    return equal;
-                }
-            else {
-                if (b.conform < a.conform) {
-                    return b1st;
-                }
-                else if (a.conform < b.conform) {
-                    return a1st;
-                }
-                else {
-                    return equal;
-                }
-            }
-        });
-
-    }
-
-    /* Gestion de la pagination */
-
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(7);
-    const [dense, setDense] = React.useState(false);
-
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - JsonContent[nameFileRes].length) : 0;
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
-
+   
     if (showHistory === true) {
 
         JsonContent[nameFileRes].sort(function (a, b) {
@@ -366,7 +317,6 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     const [popUpTrouX, setPopUpTrouX] = useState("");
     const [popUpTrouY, setPopUpTrouY] = useState("");
     const [popUpTrouDiam, setPopUpTrouDiam] = useState("");
-    const [popUpConform, setPopUpConform] = useState("");
     const [list, setList] = useState(trousQualite);
 
     function handleToggleConformity(x, y) {

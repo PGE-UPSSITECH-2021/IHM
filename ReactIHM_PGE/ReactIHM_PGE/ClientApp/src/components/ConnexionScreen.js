@@ -12,14 +12,13 @@ import { useAppContextWrongID } from "../lib/contextLibWrongID";
 import { useAppContextAuth } from "../lib/contextLibAuth";
 import logo_usr from '../assets/logo_usr.png'
 import { Text } from 'react-native'
-import Popup from './PopUpMDP'
-import script from '../python/result.py'
-import $ from 'jquery';
+import Popup from './PopUpMDP';
+import FireAuth from './FireAuth';
 
-
-
+var fireAuth = new FireAuth();
+var type = "user";
+var disableButton = false;
 function ConnexionScreen({ failed, modeCo, setModeCo }) {
-
 
     //Gestion de la pop-up MDP oublié
     const [isOpen, setIsOpen] = useState(false);
@@ -34,7 +33,10 @@ function ConnexionScreen({ failed, modeCo, setModeCo }) {
     const { userHasFailed } = useAppContextWrongID();
     const [email, setEmail] = useState("");
 
-    function validateForm() { 
+    function validateForm() {
+        if (disableButton) {
+            return false;
+        }
         return userID.length > 0 && password.length > 0;
     }
 
@@ -43,21 +45,27 @@ function ConnexionScreen({ failed, modeCo, setModeCo }) {
     }
 
     function handleSubmit(event) {
+        disableButton = true;
         event.preventDefault();
-        if (userID === "user" && password === "eXcent") { //TODO à changer
-            userHasAuthenticated(true);
-            setModeCo(0);
-        } else if (userID === "admin" && password === "eXcent") { //TODO à changer
-            userHasAuthenticated(true);
-            setModeCo(1);
-        } else if (userID === "maintenance" && password === "eXcent") { //TODO à changer
-            userHasAuthenticated(true);
-            setModeCo(2);
-        } else {
-            userHasFailed(true);
-        }
-        setUserID("");
-        setPassword("");
+        userHasAuthenticated(false);
+        userHasFailed(false);
+        //Lancer chargement en désactivant le bouton
+        fireAuth.signIn(userID, password).then((value) => {
+            type = value;
+            if (value == "Administrateur" || value == "Utilisateur" || value == "Maintenance") {
+                userHasAuthenticated(true);
+                setModeCo(type == "Utilisateur" ? 0 : type == "Administrateur" ? 1 : 2);
+                //Fin du chargement
+                disableButton = false;
+
+            }
+            else {
+                //Fin du chargement et affichage de l'erreur
+                disableButton = false;
+                userHasFailed(true);
+            }
+        });
+
     }
 
     function handleSubmitMail(event) {
@@ -67,54 +75,33 @@ function ConnexionScreen({ failed, modeCo, setModeCo }) {
     }
 
 
-   /* const main = async (code) => {
-        let pyodide_pkg = await import("pyodide/pyodide.js");
-        let pyodide = await pyodide_pkg.loadPyodide({
-            indexURL: "https://cdn.jsdelivr.net/pyodide/v0.19.0/full/"
-        });
-        return await pyodide.runPythonAsync(code);
-    }
-
-    const [output, setOutput] = useState("(loading...)");
-
-    useEffect(() => {
-        const run = async () => {
-            const scriptText = await (await fetch(script)).text();
-            const out = await main(scriptText);
-            setOutput(out);
-        }
-        run();
-
-    }, []);*/
-
-
     return (
-    <div>
-        <img src={logo_usr} alt='logo utilisateur' className='logo-usr' />
+        <div>
+            <img src={logo_usr} alt='logo utilisateur' className='logo-usr' />
             <h2 className='pge-id-title'>Identification</h2>
-        <div className='pge-id-champ'>
+            <div className='pge-id-champ'>
                 <Form onSubmit={handleSubmit} className="login" autocomplete="off">
-                <Form.Group size="lg" controlId="userID">
-                    <Form.Label className="label">Nom d'utilisateur :</Form.Label>
-                    <Form.Control
-                        autoFocus
-                        type="userID"
-                        value={userID}
-                        onChange={(e) => setUserID(e.target.value)}
-                        className={failed ? "input-box-fail" : "input-box"}
-                    />
-                </Form.Group>
-                <Form.Group size="lg" controlId="password">
-                    <Form.Label className="label">Mot de passe :</Form.Label>
-                    <Form.Control
-                        type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className={failed ? "input-box-fail" : "input-box"}
-                    />
-                </Form.Group>
-                <div className="lineCo">
-                    <span className='forgotten-mdp'><Text style={{ color: 'blue' }} onPress={togglePopup}>Mot de passe oublié ?</Text></span>
+                    <Form.Group size="lg" controlId="userID">
+                        <Form.Label className="label">Nom d'utilisateur :</Form.Label>
+                        <Form.Control
+                            autoFocus
+                            type="userID"
+                            value={userID}
+                            onChange={(e) => setUserID(e.target.value)}
+                            className={failed ? "input-box-fail" : "input-box"}
+                        />
+                    </Form.Group>
+                    <Form.Group size="lg" controlId="password">
+                        <Form.Label className="label">Mot de passe :</Form.Label>
+                        <Form.Control
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className={failed ? "input-box-fail" : "input-box"}
+                        />
+                    </Form.Group>
+                    <div className="lineCo">
+                        <span className='forgotten-mdp'><Text style={{ color: 'blue' }} onPress={togglePopup}>Mot de passe oublié ?</Text></span>
                         {isOpen && <Popup
                             content={<>
                                 <h3 className="popup-title">Mot de passe oublié</h3>
@@ -136,17 +123,18 @@ function ConnexionScreen({ failed, modeCo, setModeCo }) {
                             </>}
                             handleClose={togglePopup}
                         />}
-                    <Button block size="lg" type="submit" disabled={!validateForm()} className="input-button">
-                        Se connecter
-                    </Button>
-                </div>
-                {failed ? 
-                    <div className='info-erreur'>Identifiant(s) erroné(s).</div> : <div></div>}
-                    
-            </Form>
+                        <Button block size="lg" type="submit" disabled={!validateForm()} className="input-button">
+                            Se connecter
+                        </Button>
+                    </div>
+                    {failed ?
+                        <div className='info-erreur'>{type == "auth/user-not-found" ? "Aucun utilisateur trouvé pour cette adresse mail."
+                            : type == "auth/wrong-password" ? "Mot de passe erroné." : type == "auth/invalid-email" ? "L'email n'est pas valide." : "Un problème de connexion est survenu. Veuillez réessayer."}</div> : <div></div>}
+
+                </Form>
+            </div>
+
         </div>
-        
-    </div>
     )
 }
 
