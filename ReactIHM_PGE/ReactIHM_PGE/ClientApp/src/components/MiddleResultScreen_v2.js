@@ -1,5 +1,5 @@
 ﻿import '../styles/MiddleResultScreen_v2.css'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -26,6 +26,12 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
         messageType: 'std_msgs/Bool'
     });
 
+    // Récupération du topic sur lequel on veut publier pour dire qu'on force une conformité
+    var message_ihm_forcer_conformite = new ROSLIB.Topic({
+        ros: ros,
+        name: '/forcer_conformite',
+        messageType: 'deplacement_robot/Forcer_conforme'
+    });
 
     // Identification
     const [trousIdentification, setTrousIdentification] = useState([]);
@@ -136,20 +142,25 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     // Qualité
     var trous_quali = [];
     var nb_trous_quali = 0;
-    var lst_id_canvas = [];
-    const [trousQualite, setTrousQualite] = useState(trous_quali);
-    const [nbTrousQualite, setNbTrousQualite] = useState(nb_trous_quali);
+    const [trousQualite, setTrousQualite] = useState([]);
+    const [nbTrousQualite, setNbTrousQualite] = useState(0);
     const [subscribedQ, setSubscribedQ] = useState(false);
-    const [allIDImgTrous, setAllIDImgTrous] = useState(lst_id_canvas);
+    var lst_img_trous = [];
+    const [allImgTrous, setAllImgTrous] = useState(lst_img_trous);
     // ROS RECEPTION RESULTATS QUALITE
     function callbackResultatsQualite(message) {
-        console.log("Recuperation de resultats Qualite :");
+        console.log("Recuperation de resultats Qualite :"); 
         console.log("Trous : ", message.trous);
-        console.log("nbTrous : ", message.nbTrous);
-        trous_quali = [...message.trous];
-        nb_trous_quali = message.nbTrous;
-        setTrousQualite(trous_quali);
-        setNbTrousQualite(nb_trous_quali);
+        console.log("nbTrous : ", message.nbTrous); 
+        trous_quali = message.trous; 
+        nb_trous_quali = parseInt(message.nbTrous);
+        console.log("trou_quali : ", trous_quali); 
+        console.log("nb_trous_quali : ", nb_trous_quali); 
+        initIsOpen(nb_trous_quali);
+        setTrousQualite(message.trous); 
+        setNbTrousQualite(message.nbTrous);
+        console.log("trousQualite : ", trousQualite);
+        console.log("nbTrousQualite : ", nbTrousQualite);
 
         //Récupération du canvas sur la page pour image globale qualité
         var canvas_q = document.getElementById('img_ROS_q');
@@ -171,36 +182,15 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
             console.log("CANVAS NULL");
         }
 
-        console.log("nbTrousQualite : ", nbTrousQualite);
-        for (var ind = 0; ind < nbTrousQualite; ind++) {
-            var item = trousQualite[ind];
-            console.log("item_q : ", item);
-            var canvas_q_i = document.getElementById('img_ROS_q_'.concat(String(ind)));
-            lst_id_canvas.push('img_ROS_q_'.concat(String(ind)));
-            console.log("Canvas name : ", 'img_ROS_q_'.concat(String(ind)));
-            if (canvas_q_i !== null) {
-                var ctx_q_i = canvas_q_i.getContext('2d');
-                //Création de l'image
-                var img_q_i = new Image();
-                //Fonction pour dessiner l'image sur le canvas dès son chargement
-                img_q_i.onload = function () {
-                    console.log("IMG TROU ONLOAD");
-                    ctx_q_i.drawImage(img_q_i, 0, 0, 800, 500);
-                };
-                img_q_i.onerror = function () {
-                    console.log("IMG TROU ERROR");
-                }
-                // Récupération de l'image dans le message ROS (image) et conversion en image jpg
-                img_q_i.src = `data:image/png;base64,${item.image.data}`;
-            } else {
-                console.log("CANVAS NULL");
+        for (var ind = 0; ind < message.nbTrous; ind++) {
+            var item = message.trous[ind];
+            if (!lst_img_trous.includes(`data:image/png;base64,${item.image.data}`)) {
+                lst_img_trous.push(`data:image/png;base64,${item.image.data}`);
             }
         }
 
-        // ID IMG DE CHAQUE TROU
-        console.log("ALL CANVAS NAMES : ", lst_id_canvas);
-        setAllIDImgTrous(lst_id_canvas);
-        console.log("AllIDImgTrous : ", allIDImgTrous);
+        setAllImgTrous(lst_img_trous);
+        console.log("allImgTrous : ", allImgTrous);
 
         var msg = new ROSLIB.Message({
             data: true
@@ -232,86 +222,36 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     var now = new Date();
     const moment = require('moment');
 
-    const dateSaveResult = moment(now).format('DD/MM/YYYY');
-
-    var csv_data = [
-        ['FileName', 'date', 'plaque', 'action'],
-        ['identification_2', dateSaveResult, 'tole plate', 'identification'],
-        ['x', 'y', 'diam'],
-        [1, 2, 3],
-        [4, 5, 6],
-        [7, 8, 9],
-        [2, 2, 3],
-        [5, 8, 3],
-        [1, 9, 3]
-    ];
-
     function saveResult() {
         alert("Sauvegarde effectuée !");
-        /* csvFileCreator(nameFileRes, csv_data);
-         const ctnt_action = csv_data[0][3];
-         const ctnt_plaque = csv_data[0][4];
-         const ctnt_date = csv_data[0][5];
-         setResultAction(ctnt_action);
-         setResultPlaque(ctnt_plaque);
-         setResultDate(ctnt_date);*/
     }
 
     //PopUp details result
-    const [isOpen, setIsOpen] = useState(false);
-    const togglePopupResult = () => {
-        setIsOpen(!isOpen);
-    }
+    const [isOpen, setIsOpen] = useState([]);
 
-    function chanegConformity() {
-        setIsOpen(!isOpen);
-        JsonContent[nameFileRes].sort(function (a, b) {
-            var a1st = -1; //negative value means left item should appear first
-            var b1st = 1; //positive value means right item should appear first
-            var equal = 0; //zero means objects are equal
-            //compare your object's property values and determine their order
-            if (JsonContent[nameFileRes].action === "identification")
-                if (b.diam < a.diam) {
-                    return b1st;
-                }
-                else if (a.diam < b.diam) {
-                    return a1st;
-                }
-                else {
-                    return equal;
-                }
-            else {
-                if (b.conform < a.conform) {
-                    return b1st;
-                }
-                else if (a.conform < b.conform) {
-                    return a1st;
-                }
-                else {
-                    return equal;
-                }
+    const togglePopupResult = (i) => {
+        console.log("FONCTION TOGGLE");
+        var tmp = [];
+        for (var k = 0; k < isOpen.length; k++) {
+            if (k === i) {
+                tmp[k] = !isOpen[k];
+            } else {
+                tmp[k] = isOpen[k];
             }
-        });
-
+        }
+        setIsOpen(tmp);
+        console.log("TOGGLED : ", isOpen);
     }
 
-    /* Gestion de la pagination */
-
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(7);
-    const [dense, setDense] = React.useState(false);
-
-    const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - JsonContent[nameFileRes].length) : 0;
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
+    function initIsOpen(taille) {
+        console.log("FONCTION INIT IS OPEN");
+        var tmp = [];
+        for (var k = 0; k < taille; k++) {
+            tmp[k] = false;
+        }
+        setIsOpen(tmp);
+        console.log("INITIATED : ", isOpen);
+    }
 
     if (showHistory === true) {
 
@@ -356,17 +296,17 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     const [popUpTrouX, setPopUpTrouX] = useState("");
     const [popUpTrouY, setPopUpTrouY] = useState("");
     const [popUpTrouDiam, setPopUpTrouDiam] = useState("");
-    const [popUpConform, setPopUpConform] = useState("");
-    const [list, setList] = useState(trousQualite);
 
     function handleToggleConformity(x, y) {
-        const newList = list.map((item) => {
+        var diam_conform = 0;
+        const newList = trousQualite.map((item) => {
 
             if (item.x === x && item.y === y) {
+                diam_conform = item.diam;
                 const updatedItem = {
                     ...item,
-                    conform: true,
-                    reason: "aucune",
+                    conforme: true,
+                    raison: '',
                 };
                 return updatedItem;
             }
@@ -376,9 +316,17 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
             return item;
         });
 
-        setList(newList);
+        setTrousQualite(newList);
         console.log("Nouvelle list");
         console.log(newList);
+        // Création du message à envoyer
+        var msg = new ROSLIB.Message({
+            x: x,
+            y: y,
+            diametre: diam_conform,
+            conformite: true
+        });
+        message_ihm_forcer_conformite.publish(msg);
 
     }
 
@@ -407,6 +355,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
         console.log("Nouvelle list");
         console.log(newList);
 
+
     }
 
     if (showHistory === true) {
@@ -424,7 +373,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                 <div className='header-results-diam'></div>
                                 <TableContainer className='table-rows-results'>
-                                    <Table>
+                                    <Table stickyHeader>
                                         <TableHead className='table-header-results'>
 
                                             <TableRow>
@@ -471,7 +420,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                 </TableContainer>
                             </div>
                         </div>
-                        <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
+                        <button className="button-save-result" disabled={isOpen.includes(true)} onClick={saveResult}> Sauvegarder les résultats </button>
                     </div>
                     : resultAction === "localisation" ?
                         <div>
@@ -483,7 +432,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                     </div>
                                     <TableContainer className='table-rows-results'>
-                                        <Table>
+                                        <Table stickyHeader>
                                             <TableHead>
 
                                                 <TableRow>
@@ -541,7 +490,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                     </TableContainer>
                                 </div>
                             </div>
-                            <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
+                            <button className="button-save-result" disabled={isOpen.includes(true)} onClick={saveResult}> Sauvegarder les résultats </button>
                         </div> :
                         <div>
                             <div className="display-results">
@@ -552,7 +501,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                     </div>
                                     <TableContainer className='table-rows-results'>
-                                        <Table>
+                                        <Table stickyHeader>
                                             <TableHead>
 
                                                 <TableRow>
@@ -567,7 +516,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                             </TableHead>
                                             {listSimulated.length > 0 ?
                                                 <TableBody >
-
+                                                    {isOpen.length === 0 ? initIsOpen(listSimulated.length) : console.log("deja init")}
                                                     {listSimulated.map((item, i) => (
 
 
@@ -580,15 +529,15 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                                 {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.diam}</TableCell> : <TableCell align="center">{item.diam}</TableCell>}
                                                                 {item.conform === "non" ? <TableCell className="non-conform" align="center">{item.conform}</TableCell> : <TableCell align="center">{item.conform}</TableCell>}
                                                                 {item.conform === "non" ? <TableCell className="non-conform-reason" align="center">{item.reason}</TableCell> : <TableCell align="center">{item.reason}</TableCell>}
-                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={function (event) { setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); togglePopupResult(); setOpenDetailsX(item.x); setOpenDetailsY(item.y); }} />
+                                                                {item.conform === "non" ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={function (event) { setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); togglePopupResult(i); setOpenDetailsX(item.x); setOpenDetailsY(item.y); }} />
                                                                 </IconButton></TableCell> : <TableCell align="center"></TableCell>}
 
-                                                                {isOpen && <PopUpResult
+                                                                {isOpen[i] && <PopUpResult
                                                                     content={<>
-                                                                        <h3 className="popup-title-conformity">Trou ({popUpTrouX} px,{popUpTrouY} px, {popUpTrouDiam} mm)</h3>
+                                                                    <h3 className="popup-title-conformity">Trou ({popUpTrouX} px,{popUpTrouY} px, {popUpTrouDiam} mm, index {i})</h3>
                                                                         <img src={noCam} alt='image du trou' className='image-trou-conformity' />
-                                                                        <button className="forcer-conform" onClick={function (event) { togglePopupResult(); setForceConform(true); setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); handleToggleConformitySimulated(openDetailsX, openDetailsY); }}>Forcer conformite du trou</button>
-                                                                        <button className="annuler-result" onClick={function (event) { togglePopupResult(); setPopUpTrouX(""); setPopUpTrouY(""); setPopUpTrouDiam(""); }}>Annuler</button>
+                                                                        <button className="forcer-conform" onClick={function (event) { togglePopupResult(i); setForceConform(true); setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); handleToggleConformitySimulated(openDetailsX, openDetailsY); }}>Forcer conformite du trou</button>
+                                                                        <button className="annuler-result" onClick={function (event) { togglePopupResult(i); setPopUpTrouX(""); setPopUpTrouY(""); setPopUpTrouDiam(""); }}>Annuler</button>
 
                                                                     </>}
                                                                 />}
@@ -618,7 +567,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                 </div>
                             </div>
-                            <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
+                            <button className="button-save-result" disabled={isOpen.includes(true)} onClick={saveResult}> Sauvegarder les résultats </button>
                         </div>}
             </div>)
     } else {
@@ -635,7 +584,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                     <div className='header-results-diam'></div>
                                     <TableContainer className='table-rows-results'>
-                                        <Table>
+                                        <Table stickyHeader>
                                             <TableHead>
                                                 <TableRow>
                                                     <TableCell className='table-cell-results' align="center">x (px)</TableCell>
@@ -679,7 +628,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                     </TableContainer>
                                 </div>
                             </div>
-                            <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
+                            <button className="button-save-result" disabled={isOpen.includes(true)} onClick={saveResult}> Sauvegarder les résultats </button>
                         </div>
                         : memAction === "Localiser la plaque" ?
                             <div>
@@ -689,7 +638,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                         <div className='header-results-diam'></div>
                                         <TableContainer className='table-rows-results'>
-                                            <Table>
+                                            <Table stickyHeader>
 
                                                 <TableHead>
                                                     <TableRow>
@@ -717,8 +666,15 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                         </TableContainer>
                                     </div>
                                 </div>
-                                <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
-                            </div> :
+                                <button className="button-save-result" disabled={isOpen.includes(true)} onClick={saveResult}> Sauvegarder les résultats </button>
+                            </div>
+                            : memAction === "Deplacer le robot" ?
+                            <div>
+                                <div className="display-results">
+                                    Déplacement du robot sur les trous jugés conformes terminé. 
+                                </div>
+                            </div>
+                            :
                             <div>
                                 <div className="display-results">
                                     <canvas id="img_ROS_q" width="800" height="500" className="no-cam-results"></canvas>
@@ -726,7 +682,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                         <div className='header-results-diam'></div>
                                         <TableContainer className='table-rows-results'>
-                                            <Table>
+                                            <Table stickyHeader>
 
                                                 <TableHead>
                                                     <TableRow>
@@ -740,11 +696,10 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                 </TableHead>
                                                 
                                                 {nbTrousQualite > 0 ?
+                                                
                                                 <TableBody >
-
-                                                    {list.map((item, i) => (
-
-
+                                                    {trousQualite.map((item, i) => (
+                                                            
                                                             <TableRow
                                                                 key={i}
                                                             >
@@ -754,18 +709,18 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                                                                 {item.conforme === false ? <TableCell className="non-conform" align="center">{(item.diam) * 2}</TableCell> : <TableCell align="center">{(item.diam) * 2}</TableCell>}
                                                                 {item.conforme === false ? <TableCell className="non-conform" align="center">non</TableCell> : <TableCell align="center">oui</TableCell>}
                                                                 {item.conforme === false ? <TableCell className="non-conform-reason" align="center">{item.raison}</TableCell> : <TableCell align="center">{item.raison}</TableCell>}
-                                                                {item.conforme === false ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={function (event) { setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); togglePopupResult(); setOpenDetailsX(item.x); setOpenDetailsY(item.y); }} />
+                                                                {item.conforme === false ? <TableCell className="non-conform" align="center"><IconButton className="details-history"><img src={loupe} alt='Voir plus' class="button-details" onClick={function (event) { setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); togglePopupResult(i); setOpenDetailsX(item.x); setOpenDetailsY(item.y); }} />
                                                                 </IconButton></TableCell> : <TableCell align="center"></TableCell>}
-
-                                                                {isOpen && <PopUpResult
+                                                            
+                                                            {isOpen[i] && <PopUpResult id="popup-trou" allImgTrous={allImgTrous} indice={i}
                                                                     content={<>
-                                                                        <h3 className="popup-title-conformity">Trou ({popUpTrouX} px,{popUpTrouY} px, {popUpTrouDiam*2} mm)</h3>
-                                                                        <img src={noCam} alt='image du trou' className='image-trou-conformity' />
-                                                                        <button className="forcer-conform" onClick={function (event) { togglePopupResult(); setForceConform(true); setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); handleToggleConformity(openDetailsX, openDetailsY); }}>Forcer conformite du trou</button>
-                                                                        <button className="annuler-result" onClick={function (event) { togglePopupResult(); setPopUpTrouX(""); setPopUpTrouY(""); setPopUpTrouDiam(""); }}>Annuler</button>
+                                                                        <h3 className="popup-title-conformity">Trou ({Number.parseFloat(popUpTrouX).toFixed(2)} m,{Number.parseFloat(popUpTrouY).toFixed(2)} m, {popUpTrouDiam * 2} mm)</h3>
+                                                                        <img src={allImgTrous[i]} alt="Img Trou" className="trou-results"/>
+                                                                        <button className="forcer-conform" onClick={function (event) { togglePopupResult(i); setForceConform(true); setPopUpTrouX(item.x); setPopUpTrouY(item.y); setPopUpTrouDiam(item.diam); handleToggleConformity(openDetailsX, openDetailsY); }}>Forcer conformite du trou</button>
+                                                                        <button className="annuler-result" onClick={function (event) { togglePopupResult(i); setPopUpTrouX(""); setPopUpTrouY(""); setPopUpTrouDiam(""); }}>Annuler</button>
 
-                                                                    </>}
-                                                                />}
+                                                                </>}
+                                                            >{console.log("index : ", i), console.log("allImgTrous[i] : ", allImgTrous[i])}</PopUpResult>}
 
                                                             </TableRow>
                                                         ))}
@@ -791,7 +746,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
                                     </div>
                                 </div>
-                                <button className="button-save-result" disabled={isOpen} onClick={saveResult}> Sauvegarder les résultats </button>
+                                <button className="button-save-result" disabled={isOpen.includes(true)} onClick={saveResult}> Sauvegarder les résultats </button>
                             </div>}
             </div>)
     }

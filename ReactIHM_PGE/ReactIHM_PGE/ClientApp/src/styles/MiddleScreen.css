@@ -67,6 +67,7 @@
     border-color: black;
     border-radius: 4px;
     overflow-y: auto;
+    scroll-behavior:smooth;
     height: 42vh;
 }
 
@@ -85,6 +86,7 @@
 .run-console-text{
     padding-left:1.5vw;
     font-size:1.7vh;
+    white-space:pre;
 }
 
 .run-console-text-mtnc {

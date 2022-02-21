@@ -18,7 +18,7 @@ import stop from '../assets/stop.png';
 function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo, selectedTest, setSelectedTest, testRunning, setTestRunning, memAction, setMemAction, ros}) {
     const [msg_act_courante, setMsgActCourante] = useState("");
     const [etatRobotActuel, setEtatRobotActuel] = useState("DECONNECTE"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE/ INITIALISATION/ DECONNECTE
-    const [etatCamActuel, setEtatCamActuel] = useState("ETEINTE"); // Etats possibles : ETEINTE / CALIBRATION / EN MARCHE 
+    const [etatCamActuel, setEtatCamActuel] = useState("DECONNECTEE"); // Etats possibles : DECONNECTEE / CALIBRATION / EN MARCHE 
     const [etatSecuriteActuel, setEtatSecuriteActuel] = useState("NOK"); // Etats possibles : NOK / OK
     const [etatPlaqueActuel, setEtatPlaqueActuel] = useState("INCONNU"); // Etats possibles : INCONNU / NOK / OK
     const [subscribed, setSubscribed] = useState(false);
@@ -220,7 +220,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                 ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
                 [selectedAction, selectedPlaque, "", ""]
             ];
-        } else if (selectedAction === "Déplacer le robot") {
+        } else if (selectedAction === "Deplacer le robot") {
             var csv_data = [
                 ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
                 [selectedAction, selectedPlaque, selectedDiam, ""]

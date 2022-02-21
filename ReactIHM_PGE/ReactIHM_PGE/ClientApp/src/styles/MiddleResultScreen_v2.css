@@ -78,6 +78,11 @@
     height: 45vh;
 }
 
+.trou-results {
+    width: 34.5vw;
+    height: 45vh;
+}
+
 .button-save-result {
     border-radius: 5px;
     width: 28vw;
@@ -115,6 +120,7 @@
     position:sticky;
     font-weight: 550;
     line-height: 1.5rem;
+    background: #273339;
 }
 
 .MuiTableCell-root {

@@ -12,26 +12,36 @@ import save from '../assets/save.png';
 
 function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnCours, actionRunning, setActionRunning, setDecoDisabled, modeCo, testRunning, setTestRunning, selectedTest, showHistory, setShowHistory, ros }) {
 
-    var lst_textConsole = [];
-
     const [subscribed, setSubscribed] = useState(false);
     // ROS RECEPTION FLAG FIN ACTION
     function callbackFinAction(message) {
-        console.log("ACTION FINIE");
-        setActionRunning(false);
-        setActionEnCours("Aucune action en cours");
-        setDecoDisabled(false);
-        setIsPaused(false);
-        setShowHistory(false);
-        lst_textConsole.length = 0;
-        setTextConsole(lst_textConsole); //réinitialisation texte console pour futurs déroulements d'actions
-        setCurrentPage(1);
+        var actionOK = message.actionOK;
+        var infoErreur = message.erreur;
+        if (actionOK === true) {
+            console.log("ACTION FINIE SS ERREUR");
+            setActionRunning(false);
+            setActionEnCours("Aucune action en cours");
+            setDecoDisabled(false);
+            setIsPaused(false);
+            setShowHistory(false);
+            setCurrentPage(1);
+        } else {
+            console.log("ACTION FINIE AC ERREUR");
+            alert("ERREUR : ".concat('\n', infoErreur)); 
+            setActionRunning(false);
+            setActionEnCours("Aucune action en cours");
+            setDecoDisabled(false);
+            setIsPaused(false);
+            setShowHistory(false);
+            setCurrentPage(0);
+        }  
+       
     }
     // Création du listener ROS Resultats Identification
     var fin_action_listener = new ROSLIB.Topic({
         ros: ros,
         name: '/result', // Choix du topic
-        messageType: 'std_msgs/Bool' // Type du message transmis
+        messageType: 'deplacement_robot/Result' // Type du message transmis
     });
     if (subscribed === false) {
         fin_action_listener.subscribe(callbackFinAction);
@@ -41,14 +51,15 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
 
     const [subscribedAct, setSubscribedAct] = useState(false);
 
-    const [textConsole, setTextConsole] = useState(lst_textConsole);
+    var tmp_textConsole = "";
+    const [textConsole, setTextConsole] = useState(tmp_textConsole);
 
     // ROS RECEPTION DEROULEMENT ACTION
     function callbackEvolutionAction(message) {
-        lst_textConsole.push(String(message.data));
-        console.log("lst:  ", lst_textConsole);
-        setTextConsole(lst_textConsole);
-        console.log("textConsole : ", textConsole);
+        tmp_textConsole = tmp_textConsole.concat('\r\n',String(message.data));
+        setTextConsole(tmp_textConsole);
+        //console.log("tmp : ", tmp_textConsole);
+        //console.log("textConsole : ", textConsole);
     }
     // Création du listener ROS Resultats Identification
     var evol_action_listener = new ROSLIB.Topic({
@@ -123,11 +134,6 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
         setCurrentPage(1);
     }
 
-    function getTextConsole() {
-        console.log("FONCTION GET TEXT CONSOLE");
-        return textConsole;
-    }
-
     if (modeCo !== 2) {
 
         return (
@@ -147,15 +153,7 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
                         <div className='run-console'>
                             <div className='run-console-text'>ACTION EN COURS D'EXECUTION</div>
                             <div className='run-console-text'>--------------------------------------</div>
-                            {actionRunning ?
-                                {
-                                    while(actionRunning) {
-                                        getTextConsole().map((item, i) => (
-                                            <div className='run-console-text'>• {item}</div>
-                                        ))
-                                    }
-                                }
-                                : <div className='run-console-text'>{console.log("TEXT CONSOLE NOTHING")}--------------------------------------</div>}
+                            <div className='run-console-text'>{textConsole}</div>
                         </div>
                     </div>
                     : <img src={dispositif} alt="Image du dispositif" className="img-demonstrateur" />}
