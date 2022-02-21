@@ -1,4 +1,10 @@
-﻿import { initializeApp } from 'firebase/app';
+﻿/* Project : DBRIF
+ * Authors : Enzo CORRADI
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser } from "firebase/auth";
 import { getFirestore } from "firebase/firestore"
 import { collection, addDoc, getDoc, doc, setDoc } from "firebase/firestore";

@@ -1,5 +1,5 @@
 /* Project : DBRIF
- * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN & Enzo CORRADI
  * Date : 2021-2022
  * 3A SRI
  */
