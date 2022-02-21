@@ -1,4 +1,10 @@
-﻿import '../styles/HelpScreen.css'
+﻿/* Project : DBRIF
+ * Authors : Kim GAUME, Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import '../styles/HelpScreen.css'
 import MenuBar from './MenuBar'
 import MiddleHelpScreen from './MiddleHelpScreen'
 

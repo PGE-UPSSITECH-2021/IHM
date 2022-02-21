@@ -1,4 +1,10 @@
-﻿.middleResult-v2 {
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+.middleResult-v2 {
     display: flex;
     flex-direction: column;
     padding-top: 2vh;
@@ -41,8 +47,6 @@
 
 .table-rows-results {
     background-color: #E7E6E6;
-    /*scroll-behavior: smooth;*/
-    /*overflow-y: scroll;*/
     height: 44vh;
 }
 

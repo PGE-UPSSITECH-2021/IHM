@@ -1,6 +1,12 @@
+/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
 import '../styles/StateBannerUSR.css'
 
-function StateBannerUSR({ actionEnCours, modeCo, selectedTest }) {
+function StateBannerUSR({ actionEnCours, modeCo, selectedTest }) { // Barre d'état pour tous les écrans sauf écran de connexion
     var now = new Date();
     const moment = require('moment');
 

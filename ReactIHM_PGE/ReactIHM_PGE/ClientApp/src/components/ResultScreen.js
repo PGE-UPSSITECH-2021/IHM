@@ -1,4 +1,10 @@
-﻿import '../styles/ResultScreen.css'
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import '../styles/ResultScreen.css'
 import React, { useState } from "react";
 import MenuBar from './MenuBar'
 import MiddleResultScreen_v2 from './MiddleResultScreen_v2'
@@ -13,7 +19,7 @@ function ResultScreen({ pageRes, setPageRes, currentPage, setCurrentPage, modeCo
     const [resultDate, setResultDate] = useState("");
     const [csvArray, setCsvArray] = useState([]);
 
-
+    // Selon si on arrive de l'historique ou de la fin d'une action lancée, on affiche différemment
     return (
         <div className='mainResult'>
             <span className='menu-bar'><MenuBar pageRes={pageRes} setPageRes={setPageRes} currentPage={currentPage} setCurrentPage={setCurrentPage} modeCo={modeCo} showHistory={showHistory} setShowHistory={setShowHistory}/></span>

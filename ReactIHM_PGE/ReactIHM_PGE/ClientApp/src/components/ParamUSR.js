@@ -1,7 +1,12 @@
-﻿import '../styles/ParamUSR.css'
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import '../styles/ParamUSR.css'
 import '../styles/bootstrapStyle.scss'
-import MenuBarParamUser from './MenuBarParamUser'
-import React, { useState } from "react";
+import React from "react";
 import logo_usr_param from '../assets/logo_usr.png';
 
 

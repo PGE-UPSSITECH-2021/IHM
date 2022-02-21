@@ -1,4 +1,10 @@
-﻿import '../styles/MiddleScreen.css';
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import '../styles/MiddleScreen.css';
 import 'eventemitter2';
 import * as ROSLIB from 'roslib';
 import noCam from '../assets/NoCamera.png';
@@ -37,7 +43,7 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
         }  
        
     }
-    // Création du listener ROS Resultats Identification
+    // Création du listener ROS Resultats 
     var fin_action_listener = new ROSLIB.Topic({
         ros: ros,
         name: '/result', // Choix du topic
@@ -48,9 +54,8 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
         setSubscribed(true);
     }
 
-
+    // Pour affichage déroulement action sur la console
     const [subscribedAct, setSubscribedAct] = useState(false);
-
     var tmp_textConsole = "";
     const [textConsole, setTextConsole] = useState(tmp_textConsole);
 
@@ -58,8 +63,6 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
     function callbackEvolutionAction(message) {
         tmp_textConsole = tmp_textConsole.concat('\r\n',String(message.data));
         setTextConsole(tmp_textConsole);
-        //console.log("tmp : ", tmp_textConsole);
-        //console.log("textConsole : ", textConsole);
     }
     // Création du listener ROS Resultats Identification
     var evol_action_listener = new ROSLIB.Topic({
@@ -74,19 +77,18 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
 
     const [isPaused, setIsPaused] = useState(false);
 
+    // Fonctions pour (re)lancer, pauser ou stopper l'action
     function startAction() {
         if (isPaused) {
             setIsPaused(!isPaused);
         }
     }
-
     function pauseAction() {
         if (!isPaused) {
             setIsPaused(!isPaused);
             delay();
         }
     }
-
     function stopAction() {
         setActionRunning(false);
         setActionEnCours("Aucune action en cours");
@@ -94,6 +96,7 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
         setIsPaused(false);
     }
 
+    // Fonctions pour déterminer le style à appliquer aux boutons run, pause et stop selon si ils sont désactivés ou non
     function getClassNameStartButton() {
         if (actionRunning && !isPaused) {
             return 'bouton-runmode-disabled';
@@ -101,7 +104,6 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
             return 'bouton-runmode';
         }
     }
-
     function getClassNamePauseButton() {
         if (isPaused) {
             return 'bouton-runmode-disabled';
@@ -109,7 +111,6 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
             return 'bouton-runmode';
         }
     }
-
     function getClassNameSaveButton() {
         if (selectedTest==="") {
             return 'save-icon-mtnc-disabled';
@@ -122,7 +123,7 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
         alert("Sauvegarde Rapport de test TODO");
     }
 
-    function delay() {
+    function delay() { // simulation lancement et fin d'une action
         alert("Action Running");
         setTimeout(function () {}, 3000);
         alert("Action Done");
@@ -134,7 +135,7 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
         setCurrentPage(1);
     }
 
-    if (modeCo !== 2) {
+    if (modeCo !== 2) { // modes utilisateur et administrateur
 
         return (
             
@@ -159,7 +160,7 @@ function MiddleScreen({ currentPage, setCurrentPage, actionEnCours, setActionEnC
                     : <img src={dispositif} alt="Image du dispositif" className="img-demonstrateur" />}
             </div>
         )
-    } else {
+    } else { // mode maintenance
         return (
             <div>
                 <img src={noCam} alt="No available image" className="flux-video" />

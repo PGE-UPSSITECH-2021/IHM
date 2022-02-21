@@ -1,6 +1,11 @@
-﻿import '../styles/ModifAccount.css'
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import '../styles/ModifAccount.css'
 import '../styles/bootstrapStyle.scss'
-import PasswordStrength from './PasswordStrength'
 import React, { useState } from "react";
 import CheckListPwd from './CheckListPwd';
 import Button from 'react-bootstrap/Button';
@@ -17,20 +22,17 @@ function ModifAccount() {
     const [newPasswordAccount, setNewPasswordAccount] = useState("");
     const [passwordConfirmAccount, setPasswordConfirmAccount] = useState("");
 
+    // Variables pour la checklist à vérifier pour le changement d'un mot de passe
     const [containsUL, setContainsUL] = useState(false);
     const [containsLL, setContainsLL] = useState(false);
     const [containsN, setContainsN] = useState(false);
     const [containsSC, setContainsSC] = useState(false);
     const [contains7C, setContains7C] = useState(false);
     const [passwordMatch, setPasswordMatch] = useState(false);
-
     const [checkListValid, setCheckListValid] = useState(false);
-
-    const [showMust, setShowMust] = useState(false);
-
+    const [showMust, setShowMust] = useState(false); 
     const [selectedAccount, setSelectedAccount] = useState("");
     const [selectedAccountSupp, setSelectedAccountSupp] = useState("");
-
     const checkListData = [
         ["Une lettre minuscule (a-z)", containsLL],
         ["Une lettre majuscule (A-Z)", containsUL],
@@ -40,10 +42,11 @@ function ModifAccount() {
         ["Mot de passe match", passwordMatch]
     ]
 
+    // Montrer ou non le mot de passe tapé
     const [passwordIsVisible, setPasswordIsVisible] = useState(false);
     const [passwordConfirmIsVisible, setPasswordConfirmIsVisible] = useState(false);
 
-    function validatePassword() {
+    function validatePassword() { // Fonction pour vérifier validité du mot de passe choisi
 
         if (newPasswordAccount.toLowerCase() !== newPasswordAccount) {
             setContainsUL(true);
@@ -82,11 +85,6 @@ function ModifAccount() {
         }
     }
 
-
-    function enableSave() {
-        return checkListValid;
-    }
-
     function passwordModif(event) {
         setShowMust(true);
         setNewPasswordAccount(event.target.value);
@@ -97,7 +95,6 @@ function ModifAccount() {
     }
 
     function validateDataAccount() {
-
         return selectedAccount && containsUL && containsLL && containsN && containsSC && contains7C && passwordMatch && email.length > 0 && email.includes("@") && email.includes(".") && identifiant.length > 3;
     }
 
