@@ -1,4 +1,10 @@
-﻿import '../styles/MainScreenUSR.css'
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import '../styles/MainScreenUSR.css'
 import Configuration from './Configuration'
 import MenuBar from './MenuBar'
 import MiddleScreen from './MiddleScreen'
@@ -7,8 +13,8 @@ import React, { useState } from "react";
 
 function MainScreenUSR({ pageRes, setPageRes, actionEnCours, setActionEnCours, currentPage, setCurrentPage, modeCo, testRunning, setTestRunning, selectedTest, setSelectedTest, showHistory, setShowHistory, memAction, setMemAction, ros }) {
         
-    const [isDecoDisabled, setDecoDisabled] = useState(false);
-    const [actionRunning, setActionRunning] = useState(false);
+    const [isDecoDisabled, setDecoDisabled] = useState(false); // Vérifie si le bouton de déconnexion du Menu doit être désactivé ou non 
+    const [actionRunning, setActionRunning] = useState(false); // Vérifie si une action est en cours
 
     return (
         <div className='main-usr'>

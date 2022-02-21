@@ -1,4 +1,10 @@
-﻿import '../styles/MiddleResultScreen_v2.css'
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import '../styles/MiddleResultScreen_v2.css'
 import React, { useState } from 'react'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -39,10 +45,6 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     const [subscribedI, setSubscribedI] = useState(false);
     // ROS RECEPTION RESULTATS IDENTIFICATION
     function callbackResultatsIdentification(message) {
-        console.log("Recuperation de resultats Identification :");
-        console.log("Trous : ", message.trous);
-        console.log("nbTrous : ", message.nbTrous);
-        console.log("image : ", message.image);
         setTrousIdentification(message.trous);
         setNbTrousIdentification(message.nbTrous);
         //Récupération du canvas sur la page
@@ -90,14 +92,6 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     const [subscribedL, setSubscribedL] = useState(false);
     // ROS RECEPTION RESULTATS LOCALISATION
     function callbackResultatsLocalisation(message) {
-        console.log("Recuperation de resultats Localisation :");
-        console.log("x : ", message.x);
-        console.log("y : ", message.y);
-        console.log("z : ", message.z);
-        console.log("a : ", message.a);
-        console.log("b : ", message.b);
-        console.log("g : ", message.g);
-        console.log("image : ", message.image);
         setPos_x(message.x);
         setPos_y(message.y);
         setPos_z(message.z);
@@ -149,19 +143,11 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     const [allImgTrous, setAllImgTrous] = useState(lst_img_trous);
     // ROS RECEPTION RESULTATS QUALITE
     function callbackResultatsQualite(message) {
-        console.log("Recuperation de resultats Qualite :"); 
-        console.log("Trous : ", message.trous);
-        console.log("nbTrous : ", message.nbTrous); 
         trous_quali = message.trous; 
         nb_trous_quali = parseInt(message.nbTrous);
-        console.log("trou_quali : ", trous_quali); 
-        console.log("nb_trous_quali : ", nb_trous_quali); 
         initIsOpen(nb_trous_quali);
         setTrousQualite(message.trous); 
         setNbTrousQualite(message.nbTrous);
-        console.log("trousQualite : ", trousQualite);
-        console.log("nbTrousQualite : ", nbTrousQualite);
-
         //Récupération du canvas sur la page pour image globale qualité
         var canvas_q = document.getElementById('img_ROS_q');
         if (canvas_q !== null) {
@@ -190,7 +176,6 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
         }
 
         setAllImgTrous(lst_img_trous);
-        console.log("allImgTrous : ", allImgTrous);
 
         var msg = new ROSLIB.Message({
             data: true
@@ -208,7 +193,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
         setSubscribedQ(true);
     }
 
-    function changePageToHist() {
+    function changePageToHist() { // Fonction retour à l'historique
         if (showHistory === false) {
             alert("TODO: PROPOSER SAUVEGARDE");
         }
@@ -216,21 +201,13 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
         setShowHistory(true);
     }
 
-    //Import/Export fichier.csv
-    const csvFileCreator = require('csv-file-creator');
-
-    var now = new Date();
-    const moment = require('moment');
-
     function saveResult() {
-        alert("Sauvegarde effectuée !");
+        alert("Sauvegarde effectuée !"); //TODO
     }
 
     //PopUp details result
     const [isOpen, setIsOpen] = useState([]);
-
-    const togglePopupResult = (i) => {
-        console.log("FONCTION TOGGLE");
+    const togglePopupResult = (i) => { 
         var tmp = [];
         for (var k = 0; k < isOpen.length; k++) {
             if (k === i) {
@@ -240,17 +217,14 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
             }
         }
         setIsOpen(tmp);
-        console.log("TOGGLED : ", isOpen);
     }
 
     function initIsOpen(taille) {
-        console.log("FONCTION INIT IS OPEN");
         var tmp = [];
         for (var k = 0; k < taille; k++) {
             tmp[k] = false;
         }
         setIsOpen(tmp);
-        console.log("INITIATED : ", isOpen);
     }
 
     if (showHistory === true) {
@@ -297,7 +271,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
     const [popUpTrouY, setPopUpTrouY] = useState("");
     const [popUpTrouDiam, setPopUpTrouDiam] = useState("");
 
-    function handleToggleConformity(x, y) {
+    function handleToggleConformity(x, y) { //Fonction forcer conformité
         var diam_conform = 0;
         const newList = trousQualite.map((item) => {
 
@@ -330,6 +304,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
     }
 
+    // Variables et fonction pour forcer la conformité sur résultats simulés
     const [listSimulated, setListSimulated] = useState(JsonContent[nameFileRes]);
     const [openDetailsX, setOpenDetailsX] = useState("");
     const [openDetailsY, setOpenDetailsY] = useState("");
@@ -358,9 +333,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
 
     }
 
-    if (showHistory === true) {
-
- 
+    if (showHistory === true) { // Résultats simulés
 
         return(
             <div className='middleResult-v2'>
@@ -570,7 +543,7 @@ function MiddleResultScreen_v2({ setPageRes, nameFileRes, setNameFileRes, csvArr
                             <button className="button-save-result" disabled={isOpen.includes(true)} onClick={saveResult}> Sauvegarder les résultats </button>
                         </div>}
             </div>)
-    } else {
+    } else { // Résultats réels
 
 
             return(

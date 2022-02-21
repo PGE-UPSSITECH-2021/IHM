@@ -1,6 +1,12 @@
-﻿import '../styles/ParamADMScreen.css'
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+import '../styles/ParamADMScreen.css'
 import '../styles/bootstrapStyle.scss'
-import React, { useState } from "react";
+import React from "react";
 import MenuBar from './MenuBar'
 import ModifAccount from './ModifAccount'
 

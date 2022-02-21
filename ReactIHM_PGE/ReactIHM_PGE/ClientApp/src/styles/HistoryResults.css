@@ -1,3 +1,9 @@
+/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
 .middle-results-history {
     position: absolute;
     width: 70vw;
@@ -19,10 +25,10 @@
 
 .button-remove {
     width: 50vw;
-    margin-bottom: 1.3vh; /*10px*/
-    margin-top: 1.3vh; /*10px*/
+    margin-bottom: 1.3vh;
+    margin-top: 1.3vh; 
     padding-left: 66.5vw;
-    height: 4vh; /*30px*/
+    height: 4vh; 
     opacity: 0.75;
     color: #FAB62B;
 }
@@ -36,7 +42,7 @@
     }
 
 .button-details {
-    height: 1.6vw; /*25px*/
+    height: 1.6vw; 
 }
 
 .details-history {

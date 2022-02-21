@@ -1,3 +1,9 @@
+/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
 import '../styles/AppMainScreen.css';
 import TopBanner from './TopBanner';
 import StateBannerUSR from './StateBannerUSR';
@@ -7,28 +13,22 @@ import ResultScreen from './ResultScreen';
 import UserScreen from './UserScreen';
 import HelpScreen from './HelpScreen';
 import ParamADMScreen from './ParamADMScreen';
-import * as ROSLIB from 'roslib';
 
 
-/*var ros = new ROSLIB.Ros({
-    url: 'ws://192.168.1.63:9090' // AIP
-    //url: 'ws://192.168.137.80:9090' // Alexandre PC
-})*/
-
-function AppMainScreen({ modeCo, ros }) { // main screen
+function AppMainScreen({ modeCo, ros }) { // Ecran principal
     document.body.id = 'bodyMain';
 
-    const [currentPage, setCurrentPage] = useState(0); //POUR MODE USR: MAIN:0, RESULTS:1, PARAM:2, UTILISATEUR:3, AIDE:4
-    const [actionEnCours, setActionEnCours] = useState("Aucune action en cours");
+    const [currentPage, setCurrentPage] = useState(0); //Stocke le numéro de la page à afficher : ex pour Utilisateur : MAIN:0, RESULTS:1,  UTILISATEUR:2, AIDE:3
+    const [actionEnCours, setActionEnCours] = useState("Aucune action en cours"); 
     const [testRunning, setTestRunning] = useState(false);
-    const [selectedTest, setSelectedTest] = useState("");
-    const [showHistory, setShowHistory] = useState(true);
-    const [pageRes, setPageRes] = useState(0);
-    const [memAction, setMemAction] = useState("")
+    const [selectedTest, setSelectedTest] = useState(""); //Mémorise le test réalisé (mode maintenance)
+    const [showHistory, setShowHistory] = useState(true); //Permet de savoir si on passe par l'historique ou si on est directement redirigé vers les résultats suite à la fin d'une action
+    const [pageRes, setPageRes] = useState(0); //Mémorise la page de résultats à afficher (Historique ou Résultats)
+    const [memAction, setMemAction] = useState("") //Mémorise l'action réalisée
 
 
-    if (modeCo === 0) { // USER
-        if (currentPage === 0) {
+    if (modeCo === 0) { // Mode utilisateur
+        if (currentPage === 0) { // Page accueil
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
@@ -38,7 +38,7 @@ function AppMainScreen({ modeCo, ros }) { // main screen
                         memAction={memAction} setMemAction={setMemAction} ros={ros} /></div>
                 </div>
             )
-        } else if (currentPage === 1) {
+        } else if (currentPage === 1) { // Page résultats
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
@@ -47,7 +47,7 @@ function AppMainScreen({ modeCo, ros }) { // main screen
                         memAction={memAction} setMemAction={setMemAction} ros={ros} /></div>
                 </div>
             )
-        } else if (currentPage === 2) {
+        } else if (currentPage === 2) { // Page profil utilisateur
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
@@ -56,7 +56,7 @@ function AppMainScreen({ modeCo, ros }) { // main screen
                         memAction={memAction} setMemAction={setMemAction}/></div>
                 </div>
             )
-        } else if (currentPage === 3) {
+        } else if (currentPage === 3) { // Page d'aide
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
@@ -66,8 +66,8 @@ function AppMainScreen({ modeCo, ros }) { // main screen
                 </div>
             )
         }
-    } else if (modeCo === 1) { // ADMIN
-        if (currentPage === 0) {
+    } else if (modeCo === 1) { // Mode administrateur
+        if (currentPage === 0) { // Page accueil
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
@@ -77,7 +77,7 @@ function AppMainScreen({ modeCo, ros }) { // main screen
                         memAction={memAction} setMemAction={setMemAction} ros={ros} /></div>
                 </div>
             )
-        } else if (currentPage === 1) {
+        } else if (currentPage === 1) { // Page résultats
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
@@ -86,7 +86,7 @@ function AppMainScreen({ modeCo, ros }) { // main screen
                         memAction={memAction} setMemAction={setMemAction} ros={ros} /></div>
                 </div>
             )
-        } else if (currentPage === 2) {
+        } else if (currentPage === 2) { // Page profil administrateur
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
@@ -95,7 +95,7 @@ function AppMainScreen({ modeCo, ros }) { // main screen
                         showHistory={showHistory} setShowHistory={setShowHistory} memAction={memAction} setMemAction={setMemAction}/></div>
                 </div>
             )
-        } else if (currentPage === 3) {
+        } else if (currentPage === 3) { // Page d'aide
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
@@ -104,7 +104,7 @@ function AppMainScreen({ modeCo, ros }) { // main screen
                         memAction={memAction} setMemAction={setMemAction} /></div>
                 </div>
             )
-        } else if (currentPage === 4) { 
+        } else if (currentPage === 4) { // Page ajout/suppression comptes
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
@@ -115,8 +115,8 @@ function AppMainScreen({ modeCo, ros }) { // main screen
             )
         }
 
-    } else if (modeCo === 2) {
-        if (currentPage === 0) {
+    } else if (modeCo === 2) { // Mode maintenance
+        if (currentPage === 0) { // Page accueil
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
@@ -126,7 +126,7 @@ function AppMainScreen({ modeCo, ros }) { // main screen
                         memAction={memAction} setMemAction={setMemAction} ros={ros} /></div>
                 </div>
             )
-        } else if (currentPage === 2) {
+        } else if (currentPage === 2) { // Page profil maintenance
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>
@@ -135,7 +135,7 @@ function AppMainScreen({ modeCo, ros }) { // main screen
                         memAction={memAction} setMemAction={setMemAction}/></div>
                 </div>
             )
-        } else if (currentPage === 3) {
+        } else if (currentPage === 3) { // Page d'aide
             return (
                 <div className='bodyMain'>
                     <div className='topBanner'><TopBanner /></div>

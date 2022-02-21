@@ -1,3 +1,9 @@
+/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
 import '../styles/App.css';
 import AppLogin from './AppLogin'
 import AppMainScreen from './AppMainScreen'
@@ -7,15 +13,15 @@ import * as ROSLIB from 'roslib';
 
 
 var ros = new ROSLIB.Ros({
-    url: 'ws://192.168.1.63:9090' // AIP
-    //url: 'ws://192.168.137.80:9090' // Alexandre PC
+    url: 'ws://192.168.1.63:9090' // Connexion Réseau AIP
 })
 
 function App() {
-    const [isAuthenticated, userHasAuthenticated] = useState(false);
-    const [modeCo, setModeCo] = useState(0);
 
-    //MAIN CONNEXION RESEAU AIP ICI
+    const [isAuthenticated, userHasAuthenticated] = useState(false); // Vérifie si l'opérateur a réussi à se connecter ou non
+    const [modeCo, setModeCo] = useState(0); // Mode de connexion de l'opérateur : 0 - Utilisateur Lambda | 1 - Administrateur | 2 - Maintenance
+
+    //MAIN CONNEXION RESEAU AIP ROS
     const [isConnectedROS, setIsConnectedROS] = useState(false);
     if (isConnectedROS === false) {
         // Fonction appelée une fois la connexion établie
@@ -27,19 +33,14 @@ function App() {
         ros.on('error', function (error) {
             console.log('Error connecting to websocket server: ', error);
         });
-        // Fonction appelée une fois la connexion fermé
+        // Fonction appelée une fois la connexion fermée
         ros.on('close', function () {
             console.log('Connection to websocket server closed.');
             setIsConnectedROS(false);
         });
     }
 
-    /*const { remote } = require('electron');
-    remote.getCurrentWindow().on('close', (e) => {
-        alert("DISCONNECTING FROM ROS");
-        ros.close();
-    });*/
-
+    // Si l'opérateur est connecté on affiche l'écran d'accueil correspondant à son mode de connexion, sinon on affiche l'écran de connexion
     return (
         <AppContextAuth.Provider value={{ isAuthenticated, userHasAuthenticated}}>
             {isAuthenticated ?

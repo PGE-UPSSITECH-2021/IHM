@@ -1,3 +1,9 @@
+/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
 import React, { useState } from 'react';
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -16,17 +22,11 @@ import JsonData from '../files_results_history.json'
 
 
 function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcsvArray, setCsvArray, setResultAction, resultAction, setResultPlaque, resultPlaque, setResultDate, resultDate, showHistory, setShowHistory, memAction, setMemAction}) {
-
-
-    const [checked, setChecked] = useState({});
-    const handleChange = (event, row) => {
-        setChecked({ id: row.id, check: event.target.checked });
-    };
+    
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(7);
     const [dense, setDense] = React.useState(false);
-    const [open, setOpen] = React.useState(false);
 
     /* Gestion des checkboxes */
 
@@ -103,25 +103,6 @@ function HistoryResults({ setPageRes, nameFileRes, setNameFileRes, modeCo, setcs
             return equal;
         }
     });
-
-    /*function sortByAction() {
-        JsonData.sort(function (a, b) {
-            var a1st = -1; //negative value means left item should appear first
-            var b1st = 1; //positive value means right item should appear first
-            var equal = 0; //zero means objects are equal
-            //compare your object's property values and determine their order
-            if (b.action < a.action) {
-                return b1st;
-            }
-            else if (a.action < b.action) {
-                return a1st;
-            }
-            else {
-                return equal;
-            }
-        });
-    }*/
-
 
     return (
         <div className='middle-results-history'>

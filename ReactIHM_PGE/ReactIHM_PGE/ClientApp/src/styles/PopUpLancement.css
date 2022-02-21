@@ -1,4 +1,10 @@
-﻿.popup-box-lancement {
+﻿/* Project : DBRIF
+ * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Date : 2021-2022
+ * 3A SRI
+ */
+
+.popup-box-lancement {
     position: absolute;
     background: rgba(39,51,57,0.6);
     border-radius: 4px;
