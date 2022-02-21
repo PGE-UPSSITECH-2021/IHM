@@ -5,7 +5,6 @@
  */
 
 import React, { useState } from "react";
-//import react pro sidebar components
 import {
     ProSidebar,
     Menu,
@@ -13,13 +12,10 @@ import {
     SidebarHeader,
     SidebarContent
 } from "react-pro-sidebar";
-//import icons from react icons
 import { FaKey } from "react-icons/fa";
 import { FiHome } from "react-icons/fi";
-//import sidebar css from react-pro-sidebar module and our custom css 
 import "react-pro-sidebar/dist/css/styles.css";
 import "../styles/MenuBarParamUser.css";
-
 
 
 function MenuBarParamUser({ currentPageParam, setCurrentPageParam }) {
@@ -33,14 +29,15 @@ function MenuBarParamUser({ currentPageParam, setCurrentPageParam }) {
         menuCollapse ? setMenuCollapse(false) : setMenuCollapse(true);
     };
 
+    // Fonctions qui permettent un changement de page correct selon l'item choisi dans la barre de menu
     function changePageToParam() {
         setCurrentPageParam(0);
     }
-
     function changePageToModif() {
         setCurrentPageParam(1);
     }
 
+    // Fonctions qui permettent de savoir quel élément du menu est actif
     function isParamActive() {
         return currentPageParam === 0;
     }

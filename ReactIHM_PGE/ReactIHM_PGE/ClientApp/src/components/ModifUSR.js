@@ -14,13 +14,11 @@ import Button from 'react-bootstrap/Button';
 function ModifUSR() {
 
     const [email, setEmail] = useState("");
-
     function validateMailParam() {
         return email.length > 0 && email.includes("@") && email.includes(".");
     }
 
     function saveNewMail() {
-        //alert("Adresse email modifiée à " + email);
         setEmail("");
     }
 

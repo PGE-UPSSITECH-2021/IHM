@@ -1,5 +1,5 @@
 ﻿/* Project : DBRIF
- * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Authors : Kim GAUME
  * Date : 2021-2022
  * 3A SRI
  */
@@ -13,7 +13,6 @@ import PopUpHelp from './PopUpHelp'
 
 function MiddleHelpScreen({modeCo}) {
 
-    const inputRef = useRef();
     const [nameTitle, setNameTitle] = useState("Title");
     const [descText, setDescText] = useState("Text");
     //PopUp details result
@@ -22,9 +21,7 @@ function MiddleHelpScreen({modeCo}) {
         setIsOpen(!isOpen);
     }
 
-
-
-    if (modeCo == 0) {
+    if (modeCo == 0) { // Mode utilisateur
         return (
             <div className='middleHelp'>
 
@@ -90,7 +87,7 @@ function MiddleHelpScreen({modeCo}) {
                 />}
             </div>
         )
-    } else if (modeCo == 1) {
+    } else if (modeCo == 1) { // Mode administrateur
         return (
             <div className='middleHelp'>
 
@@ -179,7 +176,7 @@ function MiddleHelpScreen({modeCo}) {
                 />}
             </div>
         )
-    } else {
+    } else { // Mode maintenance
         return (
             <div className='middleHelp'>
 

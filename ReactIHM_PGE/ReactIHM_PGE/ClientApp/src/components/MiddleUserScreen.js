@@ -13,7 +13,7 @@ import MenuBarParamUser from './MenuBarParamUser'
 function MiddleUserScreen({modeCo}) {
 
 
-    const [currentPageParam, setCurrentPageParam] = useState(0); // Accueil:0, Modifications:1
+    const [currentPageParam, setCurrentPageParam] = useState(0); // Page résultats active : 0 : Accueil | 1 : Modifications compte
 
     return (
         <div className="whole-middle-user">

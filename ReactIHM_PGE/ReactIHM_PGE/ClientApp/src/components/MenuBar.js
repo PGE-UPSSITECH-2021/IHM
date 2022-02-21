@@ -5,7 +5,6 @@
  */
 
 import React, { useState } from "react";
-//import react pro sidebar components
 import {
     ProSidebar,
     Menu,
@@ -13,14 +12,12 @@ import {
     SidebarHeader,
     SidebarContent
 } from "react-pro-sidebar";
-//import icons from react icons
 import { FaList } from "react-icons/fa";
 import { FiHome } from "react-icons/fi";
 import { FaPowerOff } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
 import { MdOutlineHelpOutline } from "react-icons/md"
 import { FiSettings } from "react-icons/fi"
-//import sidebar css from react-pro-sidebar module and our custom css 
 import "react-pro-sidebar/dist/css/styles.css";
 import "../styles/MenuBar.css";
 import { Button } from '@material-ui/core';
@@ -45,6 +42,7 @@ function Header({ pageRes, setPageRes, isDecoDisabled, currentPage, setCurrentPa
         userHasAuthenticated(false);
     }
 
+    // Fonctions qui permettent un changement de page correct selon l'item choisi dans la barre de menu
     function changePageToMain() {
         if (!isDecoDisabled) {
             if (currentPage === 1 && showHistory === false) {
@@ -88,6 +86,7 @@ function Header({ pageRes, setPageRes, isDecoDisabled, currentPage, setCurrentPa
         }
     }
 
+    // Fonctions qui permettent de savoir quel élément du menu est actif
     function isMainActive() {
         return currentPage === 0;
     }
@@ -104,7 +103,8 @@ function Header({ pageRes, setPageRes, isDecoDisabled, currentPage, setCurrentPa
         return currentPage === 4;
     }
 
-    function getMenuItemClass() {
+    // Fonction pour déterminer le style à appliquer au menu selon si il est actif ou non
+    function getMenuItemClass() { 
         if (!isDecoDisabled) {
             return "menuItem";
         } else {

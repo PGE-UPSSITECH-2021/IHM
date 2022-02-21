@@ -4,7 +4,7 @@
  * 3A SRI
  */
 
-﻿.middleResult-v2 {
+.middleResult-v2 {
     display: flex;
     flex-direction: column;
     padding-top: 2vh;
@@ -35,7 +35,7 @@
 
 .table-head-results {
     font-size: larger;
-    position: absolute;
+    position:absolute;
     padding-left: 2vw;
     color: white;
 }
@@ -47,18 +47,16 @@
 
 .table-rows-results {
     background-color: #E7E6E6;
-    /*scroll-behavior: smooth;*/
-    /*overflow-y: scroll;*/
     height: 44vh;
 }
 
-.table-header-results {
-    overflow-y: hidden;
-    color: white;
+.table-header-results{
+    overflow-y:hidden;
+    color:white;
 }
 
-.table-body-results {
-    overflow-y: auto;
+.table-body-results{
+    overflow-y:auto;
 }
 
 .non-conform {
@@ -81,6 +79,11 @@
 
 .no-cam-results {
     width: 38vw;
+    height: 45vh;
+}
+
+.trou-results {
+    width: 34.5vw;
     height: 45vh;
 }
 
@@ -118,7 +121,7 @@
 
 .table-results .MuiTableCell-head {
     color: white;
-    position: sticky;
+    position:sticky;
     font-weight: 550;
     line-height: 1.5rem;
     background: #273339;

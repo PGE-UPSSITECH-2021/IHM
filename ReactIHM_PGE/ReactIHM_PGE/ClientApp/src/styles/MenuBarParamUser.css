@@ -84,7 +84,6 @@
 }
 
 #menu-bar-settings .pro-sidebar-inner .pro-sidebar-layout .active {
-    /*background-color: #273339;*/
     background-color : rgba(0,0,0,0.4);
     box-shadow: 1px 0.866px 2px 0px rgba(0, 0, 0, 1);
 }
@@ -102,6 +101,6 @@
 }
 
 #menu-bar-settings .pro-sidebar-inner .pro-sidebar-layout .space {
-    padding-top: 86%; /*180px*/
-    padding-left: 14.5%; /*30px*/
+    padding-top: 86%; 
+    padding-left: 14.5%;
 }

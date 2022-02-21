@@ -4,7 +4,7 @@
  * 3A SRI
  */
 
-﻿.slider input {
+.slider input {
     width: 20.3vw; /* Full-width */
     height: 1vh; /* Specified height */
     background: #878787; /* Grey background */
@@ -128,8 +128,8 @@ select {
     }
 
 .labels {
-    padding-left: 0.35vw; /*5px*/
-    padding-right: 0.65vw; /*10px*/
+    padding-left: 0.35vw; 
+    padding-right: 0.65vw; 
     font-size: 2vh;
 }
 
@@ -155,8 +155,8 @@ select {
         opacity: 0.4;
     }
 
-.champ {
-    padding-top: 2.55vh; /*20px*/
+.champ{
+    padding-top:2.55vh;
 }
 
 .champ-mtnc {
@@ -165,9 +165,9 @@ select {
 }
 
 .champ-slider {
-    padding-top: 2.5vh; /*20px*/
-    padding-bottom: 2.55vh; /*20px*/
-    padding-right: 4.6vw; /*70px*/
+    padding-top: 2.5vh;
+    padding-bottom: 2.55vh; 
+    padding-right: 4.6vw; 
 }
 
 .etat-courant {
@@ -196,18 +196,18 @@ select {
     width: 19.8vw;
 }
 
-.etat {
-    padding-bottom: 1%; /*20px*/
-    padding-left: 5%; /*5px*/
+.etat{
+    padding-bottom:1%;
+    padding-left:5%;
 }
 
 .etat-import {
-    padding-bottom: 1.3vh; /*20px*/
-    padding-left: 0.05vw; /*5px*/
+    padding-bottom: 1.3vh;
+    padding-left: 0.05vw; 
 }
 
 .rep {
-    padding-left: 0.1vw; /*15px*/
+    padding-left: 0.1vw;
     font-weight: bold;
     font-size: 2.1vh;
     color: #7ABD6A

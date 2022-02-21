@@ -5,7 +5,7 @@
  */
 
 import '../styles/Configuration.css'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { AiFillSafetyCertificate, AiFillVideoCamera } from "react-icons/ai";
 import { GiRobotGrab, GiMetalPlate } from "react-icons/gi";
 import { useFilePicker } from 'use-file-picker'
@@ -17,20 +17,20 @@ import defaultFile from '../assets/default.csv'
 //import { readString } from 'react-papaparse';
 import 'eventemitter2';
 import * as ROSLIB from 'roslib';
-import { CSVLink, CSVDownload } from "react-csv";
 import start from '../assets/start.png';
 import pause from '../assets/pause.png';
 import stop from '../assets/stop.png';
 
 function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActionEnCours, actionRunning, setActionRunning, modeCo, selectedTest, setSelectedTest, testRunning, setTestRunning, memAction, setMemAction, ros}) {
+
     const [msg_act_courante, setMsgActCourante] = useState("");
-    const [etatRobotActuel, setEtatRobotActuel] = useState("LIBRE INIT"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE/ INITIALISATION
-    const [etatCamActuel, setEtatCamActuel] = useState("EN MARCHE"); // Etats possibles : ETEINTE / EN MARCHE 
-    const [etatSecuriteActuel, setEtatSecuriteActuel] = useState("OK"); // Etats possibles : NOK / OK
+    const [etatRobotActuel, setEtatRobotActuel] = useState("DECONNECTE"); // Etats possibles : LIBRE INIT/ LIBRE NON INIT/ EN PRODUCTION / STOPPE/ INITIALISATION/ DECONNECTE
+    const [etatCamActuel, setEtatCamActuel] = useState("DECONNECTEE"); // Etats possibles : DECONNECTEE / CALIBRATION / EN MARCHE 
+    const [etatSecuriteActuel, setEtatSecuriteActuel] = useState("NOK"); // Etats possibles : NOK / OK
     const [etatPlaqueActuel, setEtatPlaqueActuel] = useState("INCONNU"); // Etats possibles : INCONNU / NOK / OK
     const [subscribed, setSubscribed] = useState(false);
-    // var RNFS = require("react-native-fs");
-    // Récupération du topic sur lequel on veut publier
+            
+    // Récupération du topic sur lequel on veut publier pour le lancement d'actions
     var message_ihm_run = new ROSLIB.Topic({
         ros: ros,
         name: '/message_ihm_run',
@@ -39,12 +39,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
 
     // ROS ETAT ROBOT
     function callbackEtatRobot(message) {
-        // Log console
-        //console.log('Received message on ' + robot_state_listener.name);
-        // Récupération de la valeur de l'état du robot
-        //console.log(message.data);
         setEtatRobotActuel(message.data);
-
     }
     // Création du listener ROS Etat Robot
     var robot_state_listener = new ROSLIB.Topic({
@@ -59,10 +54,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
 
     // ROS ETAT CAMERA
     function callbackEtatCam(message) {
-        // Log console
-        //console.log(message.data);
         setEtatCamActuel(message.data);
-
     }
     // Création du listener ROS Etat Camera
     var cam_state_listener = new ROSLIB.Topic({
@@ -75,12 +67,9 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         setSubscribed(true);
     }
 
-    //ROS ETAT SECURITE
+    // ROS ETAT SECURITE
     function callbackEtatSecurite(message) {
-        // Log console
-        //console.log(message.data);
         setEtatSecuriteActuel(message.data);
-
     }
     // Création du listener ROS Etat Securite
     var securite_state_listener = new ROSLIB.Topic({
@@ -93,12 +82,9 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         setSubscribed(true);
     }
 
-    //ROS ETAT PLAQUE
+    // ROS ETAT PLAQUE
     function callbackEtatPlaque(message) {
-        // Log console
-        //console.log(message.data);
         setEtatPlaqueActuel(message.data);
-
     }
     // Création du listener ROS Etat Plaque
     var plaque_state_listener = new ROSLIB.Topic({
@@ -110,25 +96,24 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         plaque_state_listener.subscribe(callbackEtatPlaque);
         setSubscribed(true);
     }
-    //}
+    
 
-    const [openFileSelector, { filesContent, loading, errors, plainFiles, clear }] = useFilePicker({ multiple: false, accept: ['.csv'] })
+    const [openFileSelector, { filesContent, loading, errors, plainFiles, clear }] = useFilePicker({ multiple: false, accept: ['.csv'] }); //Utile pour l'import de fichiers csv
 
-    //Gestion séléction configuration
+    // Gestion séléction de l'action et des paramètres associés dans la configuration (modes utilisateur et administrateur)
     const [selectedAction, setSelectedAction] = useState("");
     const [selectedPlaque, setSelectedPlaque] = useState("");
     const [selectedDiam, setSelectedDiam] = useState("");
-    const [rangevalConf, setRangevalConf] = useState(0);
-    const [cpt, setCpt] = useState(0);
-    const [nameFileImp, setNameFileImp] = useState("default");
+    const [rangevalConf, setRangevalConf] = useState(0); // taux de confiance sélectionnée sur le slider
+    const [cpt, setCpt] = useState(0); // permet de savoir si un fichier a été importé ou non 
+    const [nameFileImp, setNameFileImp] = useState("default"); // nom du fichier csv importé lors de l'import d'une configuration
     // Gestion sélection test (maintenance)
     const [selectedTestList, setSelectedTestList] = useState("");
     const [testPaused, setTestPaused] = useState(false);
 
-    //Gestion des POPUPS
+    // Gestion de la popup lancement d'action
     const [isOpen, setIsOpen] = useState(false);
-
-    const togglePopup = () => {
+    const togglePopup = () => { 
         if (isOpen === true || actionRunning === false) {
             setActionEnCours("Aucune action en cours");
         }
@@ -137,17 +122,18 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         setDecoDisabled(!isDecoDisabled);
     }
 
-    const [isOpenAnnuler, setIsOpenAnnuler] = useState(false);
+    // Gestion de la popup annuler action
+    const [isOpenAnnuler, setIsOpenAnnuler] = useState(false); 
     const togglePopupAnnuler = () => {
         setIsOpenAnnuler(!isOpenAnnuler);
     }
 
-    //Default configuration file
+    // Default configuration file
     const [defaultAction, setDefaultAction] = useState("");
     const [defaultPlate, setDefaultPlate] = useState("");
     const [defaultDiam, setDefaultDiam] = useState("");
     const [defaultConf, setDefaultConf] = useState("");
-    const [readOnce, setReadOnce] = useState(false);
+    const [readOnce, setReadOnce] = useState(false); // pour ne lire qu'une fois la configuration par défaut
     function readDefaultFile() {
         if (readOnce === false) {
             const papaConfig = {
@@ -164,7 +150,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                 },
                 download: true,
                 error: (error, file) => {
-                    //console.log('Error while parsing:', error, file);
+                    console.log('Error while parsing:', error, file);
                 },
             };
            // readString(defaultFile, papaConfig);
@@ -174,7 +160,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     //Import/Export fichier .csv
     const csvFileCreator = require('csv-file-creator');
     // Import fichier
-    function importFile() {
+    function importFile() { // Fonction qui ouvre une fenêtre pour parcourir les fichiers et sélectionner le fichier à importer
         setCpt(0);
         setSelectedAction(defaultAction);
         setSelectedPlaque(defaultPlate);
@@ -183,7 +169,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         setNameFileImp("default");
         openFileSelector();
     }
-    function getImportedFileContent() {
+    function getImportedFileContent() { // Fonction qui lit le contenu d'un fichier de configuration importé
         const tmp = filesContent[0].content;
         const tmp_split = tmp.split("\n");
         const ctnt = tmp_split[1].split(",");
@@ -203,13 +189,14 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         } else if (ctnt_action === "Deplacer le robot") {
             setRangevalConf(defaultConf);
         }
-        // file name
+        
+        // Nom du fichier
         setNameFileImp(plainFiles[0].name);
         setCpt(1);
         clear();
     }
 
-    function backToConfigDefault() {
+    function backToConfigDefault() { // Fonction pour revenir à la configuration par défaut
         setCpt(0);
         setSelectedAction(defaultAction);
         setSelectedPlaque(defaultPlate);
@@ -220,12 +207,13 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
 
 
     function saveConfig() {
+        // Stockage organisé la configuration choisie
         if (selectedAction === "Localiser la plaque") {
             var csv_data = [
                 ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
                 [selectedAction, selectedPlaque, "", ""]
             ];
-        } else if (selectedAction === "Déplacer le robot") {
+        } else if (selectedAction === "Deplacer le robot") {
             var csv_data = [
                 ['Action', 'TypePlaque', 'Diam', 'TauxConf'],
                 [selectedAction, selectedPlaque, selectedDiam, ""]
@@ -236,12 +224,12 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                 [selectedAction, selectedPlaque, selectedDiam, rangevalConf]
             ];
         }
-
+        // Création et sauvegarde d'un fichier csv contenant la configuration choisie 
         csvFileCreator('config.csv', csv_data);
 
     }
 
-    function saveConfigDefault() {
+    function saveConfigDefault() { // Sauvegarde d'une nouvelle configuration par défaut (mode administrateur)
         setDefaultAction(selectedAction);
         setDefaultPlate(selectedPlaque);
         setDefaultDiam(selectedDiam);
@@ -249,8 +237,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         setDefaultConf(rangevalConf);
     }
 
-
-    function selectAll() {
+    function selectAll() { // Fonction permettant de sélectionner/déselectionner toutes les checkboxes de diamètres
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
         var allAlreadySelected = true;
         for (var checkbox of checkboxes) {
@@ -270,7 +257,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         setCheckedDiam("");
     }
 
-    function setCheckedDiam(ctnt) {
+    function setCheckedDiam(ctnt) { // Fonction permettant de cocher les bonnes cases de diamètre à partir d'un String '5-7-12-18' par exemple
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
         try {
             if (ctnt != "") {
@@ -315,7 +302,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         }
     }
 
-    function configValid() {
+    function configValid() { // Fonction qui vérifie la validité d'une configuration (informations manquantes ou non)
         if (isOpen || selectedAction === "" || actionRunning) {
             return false;
         } else if (selectedAction === "Localiser la plaque") {
@@ -330,40 +317,45 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
     }
 
     function disableRun() {
+        // Bouton "Lancer" désactivé si configuration non valide ou état NOK
         return !configValid() || !(etatRobotActuel === "LIBRE INIT" && etatCamActuel === "EN MARCHE" && etatSecuriteActuel === "OK");
     }
 
-    function handleSelectAction(event) {
+    function handleSelectAction(event) { // Fonction concernant la sélection d'une action dans la liste déroulante
         event.preventDefault();
         setSelectedAction(event.target.value);
         setNameFileImp("new config");
     }
 
-    function handleSelectPlaque(event) {
+    function handleSelectPlaque(event) { // Fonction concernant la sélection du type de plaque dans la liste déroulante
         event.preventDefault();
         setSelectedPlaque(event.target.value);
         setNameFileImp("new config");
     }
 
-    function handleSelectTest(event) {
+    function handleSelectTest(event) { // Fonction concernant la sélection du pôle à évaluer dans la liste déroulante (mode maintenance)
         event.preventDefault();
         setSelectedTestList(event.target.value);
     }
 
     function disableGeneral() {
+        // Fonction de désactivation générale quand popup confirmation action ou action lancée
         return isOpen || actionRunning;
     }
     function disableDiam() {
+        // Désactivation de la sélection de diamètre si action sélectionnée = Localisation (englobe désactivation générale)
         return selectedAction === "Localiser la plaque" || isOpen || actionRunning;
     }
     function disableConf() {
+        // Désactivation de la sélection du taux de confiance si action sélectionnée = Localisation ou Déplacement (englobe désactivation générale)
         return selectedAction === "Localiser la plaque" || selectedAction === "Deplacer le robot" || isOpen || actionRunning;
     }
     function disableTest() {
+        // Fonction de désactivation générale quand un test est lancé (mode maintenance)
         return testRunning;
     }
 
-    function getClassNameDisConf() {
+    function getClassNameDisConf() { // Fonction pour déterminer le style à appliquer selon si taux de confiance désactivé ou non 
         if (selectedAction === "Localiser la plaque" || selectedAction === "Deplacer le robot" || isOpen || actionRunning) {
             return 'value-conf-disabled';
         } else {
@@ -371,7 +363,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         }
     }
 
-    function getClassNameDisDiam() {
+    function getClassNameDisDiam() { // Fonction pour déterminer le style à appliquer selon si choix diamètres désactivé ou non
         if (selectedAction === "Localiser la plaque" || isOpen || actionRunning) {
             return 'value-diam-disabled';
         } else {
@@ -379,7 +371,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         }
     }
 
-    function runAction() {
+    function runAction() { // Fonction qui gère le lancement d'une action (envoi d'un message ROS)
         togglePopup();
         if (selectedAction === "Deplacer le robot") {
             setActionEnCours("Déplacement du robot en cours...");
@@ -398,7 +390,6 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
             setMsgActCourante("Localisation de la plaque en cours...");
             setMemAction("Localiser la plaque");
         }
-
         // Création du message à envoyer
         var msg = new ROSLIB.Message({
             action: String(selectedAction),
@@ -411,15 +402,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         setDecoDisabled(true);
     }
 
-    function goToInitPos() {
-        /*var goToInit = new ROSLIB.Service({
-            ros: ros,
-            name: '/move_robot_init',
-            serviceType: 'motoman_hc10_moveit_config/Robot_move_predef'
-        });
-        var request = null;
-        goToInit.callService(request, function (result) { });*/
-
+    function goToInitPos() { // Fonction pour remettre le robot en position initiale si il ne l'est pas (envoi message ROS)
         // Création du message à envoyer
         var msg_init = new ROSLIB.Message({
             action: String("Initialiser"),
@@ -430,10 +413,9 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         message_ihm_run.publish(msg_init);
     }
 
+    function nothing() {}
 
-    function nothing() { }
-
-    function launchCalibration() {
+    function launchCalibration() { 
         alert("TODO : prompt calibration camera");
     }
 
@@ -442,6 +424,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         setNameFileImp("new config");
     }
 
+    // Fonctions pour lancer, pauser ou stopper un test (mode maintenance)
     function startTest() {
         if (selectedTestList !== "") {
             setTestRunning(true);
@@ -452,7 +435,6 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
             setSelectedTest(selectedTestList);
         }
     }
-
     function pauseTest() {
         if (selectedTestList !== "") {
             if (!testPaused) {
@@ -460,7 +442,6 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
             }
         }
     }
-
     function stopTest() {
         if (selectedTestList !== "") {
             setTestRunning(false);
@@ -470,6 +451,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         }
     }
 
+    // Fonctions pour déterminer le style à appliquer aux boutons run, pause et stop (mode maintenance) selon si ils sont désactivés ou non
     function getClassNameStart() {
         if ((testRunning && !testPaused) || selectedTestList === "") {
             return 'bouton-start-mtnc-disabled';
@@ -477,7 +459,6 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
             return 'bouton-start-mtnc';
         }
     }
-
     function getClassNamePause() {
         if ((testRunning && testPaused) || selectedTestList === "" || !testRunning) {
             return 'bouton-pause-mtnc-disabled';
@@ -485,7 +466,6 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
             return 'bouton-pause-mtnc';
         }
     }
-
     function getClassNameStop() {
         if (selectedTestList === "" || !testRunning) {
             return 'bouton-stop-mtnc-disabled';
@@ -502,7 +482,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
         }
     }
 
-    if (modeCo !== 2) {
+    if (modeCo !== 2) { // modes utilisateur et administrateur
 
         return (
             <div className="config">
@@ -565,7 +545,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                     : <button type="button" className="bouton-normal" onClick={saveConfig} disabled={!configValid()}>Sauvegarder</button>
                 }
                 <button type="button" className="bouton-normal" disabled={disableGeneral()} onClick={backToConfigDefault}>Configuration par défaut</button>
-                <button type="submit" className="bouton-run" onClick={togglePopup} disabled={disableRun()}>Run</button>
+                <button type="submit" className="bouton-run" onClick={togglePopup} disabled={disableRun()}>Lancer</button>
                 {isOpen && <Popup
                     content={<>
                         <h3 className="popup-title">Lancement de l'action</h3>
@@ -625,7 +605,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
             </div>
         )
     } else {
-        // MAINTENANCE MODE ---------------------------------------------------------------------------------------------------
+        // mode maintenance ---------------------------------------------------------------------------------------------------
 
         return (
             <div className="config">
@@ -676,7 +656,7 @@ function Configuration({ isDecoDisabled, setDecoDisabled, actionEnCours, setActi
                         <div className='etat-import'>
                             <   AiFillVideoCamera className="icone" />
                             Etat caméra :
-                            {etatCamActuel === "EN MARCHE" ? <span className='rep'>{etatCamActuel}</span> : <span className='rep-stop'>{etatCamActuel}</span>}
+                            {etatCamActuel === "EN MARCHE" ? <span className='rep'>{etatCamActuel}</span> : etatCamActuel === "ETEINTE" ? <span className='rep-stop'>{etatCamActuel}</span> : <span className='rep-occ'>{etatCamActuel}</span> }
                         </div>
                         <div className='etat-import'>
                             <GiMetalPlate className="icone" />

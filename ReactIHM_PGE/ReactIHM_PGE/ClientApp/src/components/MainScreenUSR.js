@@ -12,8 +12,9 @@ import React, { useState } from "react";
 
 
 function MainScreenUSR({ pageRes, setPageRes, actionEnCours, setActionEnCours, currentPage, setCurrentPage, modeCo, testRunning, setTestRunning, selectedTest, setSelectedTest, showHistory, setShowHistory, memAction, setMemAction, ros }) {
-    const [isDecoDisabled, setDecoDisabled] = useState(false);
-    const [actionRunning, setActionRunning] = useState(false);
+        
+    const [isDecoDisabled, setDecoDisabled] = useState(false); // Vérifie si le bouton de déconnexion du Menu doit être désactivé ou non 
+    const [actionRunning, setActionRunning] = useState(false); // Vérifie si une action est en cours
 
     return (
         <div className='main-usr'>

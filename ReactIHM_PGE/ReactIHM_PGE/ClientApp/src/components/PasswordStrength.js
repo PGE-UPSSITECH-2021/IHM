@@ -11,7 +11,7 @@ import Button from 'react-bootstrap/Button';
 import { BiShowAlt } from "react-icons/bi";
 import { BiHide } from "react-icons/bi";
 
-function PasswordStrength() {
+function PasswordStrength() { // Composant permettant de vérifier la validité d'un mot de passe selon différents criètres
 
     const [newPassword, setNewPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
@@ -78,11 +78,6 @@ function PasswordStrength() {
         }
     }
 
-
-    function enableSave() {
-        return checkListValid;
-    }
-
     function passwordModif(event) {
         setShowMust(true);
         setNewPassword(event.target.value);
@@ -97,7 +92,6 @@ function PasswordStrength() {
         setNewPassword("");
         setPasswordConfirm("");
         setContainsUL(false);
-        //alert("Mot de passe modifié !");
     }
 
     return (

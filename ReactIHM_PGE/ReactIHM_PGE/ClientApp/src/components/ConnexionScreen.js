@@ -33,14 +33,11 @@ function ConnexionScreen({ failed, modeCo, setModeCo }) {
     const { userHasFailed } = useAppContextWrongID();
     const [email, setEmail] = useState("");
 
-    function validateForm() {
-        if (disableButton) {
-            return false;
-        }
+    function validateForm() { // Champs valides si nom d'utilisateur et mot de passe contenant au moins un caractère
         return userID.length > 0 && password.length > 0;
     }
 
-    function validateMail() {
+    function validateMail() { // Email valide si il contient au moins un @ et un .
         return email.length > 0 && email.includes("@") && email.includes(".");
     }
 

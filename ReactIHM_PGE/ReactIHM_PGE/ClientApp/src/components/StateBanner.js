@@ -6,7 +6,7 @@
 
 import '../styles/StateBanner.css'
 
-function StateBanner() {
+function StateBanner() { // Barre d'état pour écran de connexion
     var now = new Date();
     const moment = require('moment');
 

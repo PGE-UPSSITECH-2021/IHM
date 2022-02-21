@@ -1,5 +1,5 @@
 /* Project : DBRIF
- * Authors : Julie PIVIN-BACHLER & Anaïs MONDIN
+ * Authors : Julie PIVIN-BACHLER & Anaï¿½s MONDIN
  * Date : 2021-2022
  * 3A SRI
  */
@@ -8,7 +8,7 @@ import logo from '../assets/logo.png'
 import logo_upssi from '../assets/logoDBRIF.png'
 
 
-function TopBanner() {
+function TopBanner() { // Top Banner commune ï¿½ tous les ï¿½crans
 	return (<div className='pge-topbanner'>
         <h1 className='pge-title'>Dispositif Sauron</h1>
         <img src={logo} alt='logo eXcent' className='pge-logo-eXcent' />
