@@ -17,58 +17,118 @@ import FireAuth from './FireAuth';
 
 var fireAuth = new FireAuth();
 var type = "user";
-var disableButton = false;
+var error = "";
+var submitMode = false;
 function ConnexionScreen({ failed, modeCo, setModeCo }) {
 
     //Gestion de la pop-up MDP oublié
+    const [disableButton, setDisableButton] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const togglePopup = () => {
         setIsOpen(!isOpen);
+        submitMode = !submitMode;
         setEmail("");
+        setEmailReset("");
+        userHasFailed(false);
+        userHasFailedReset(false);
+
     }
 
     const [userID, setUserID] = useState("");
     const [password, setPassword] = useState("");
     const { userHasAuthenticated } = useAppContextAuth();
     const { userHasFailed } = useAppContextWrongID();
+    const [failedReset, userHasFailedReset] = useState(false);
     const [email, setEmail] = useState("");
+    const [emailReset, setEmailReset] = useState("");
 
-    function validateForm() { // Champs valides si nom d'utilisateur et mot de passe contenant au moins un caractère
-        return userID.length > 0 && password.length > 0;
-    }
 
-    function validateMail() { // Email valide si il contient au moins un @ et un .
-        return email.length > 0 && email.includes("@") && email.includes(".");
-    }
-
-    function handleSubmit(event) {
-        disableButton = true;
-        event.preventDefault();
-        userHasAuthenticated(false);
+    function resetPassword() {
+        setDisableButton(true);
         userHasFailed(false);
-        //Lancer chargement en désactivant le bouton
-        fireAuth.signIn(userID, password).then((value) => {
-            type = value;
-            if (value == "Administrateur" || value == "Utilisateur" || value == "Maintenance") {
-                userHasAuthenticated(true);
-                setModeCo(type == "Utilisateur" ? 0 : type == "Administrateur" ? 1 : 2);
-                //Fin du chargement
-                disableButton = false;
+        userHasFailedReset(false);
+        fireAuth.resetPassword(emailReset).then((value) => {
+            error = value;
+            switch (value) {
+                case "success":
+                    togglePopup();
+                    setEmailReset("");
+                    userHasFailedReset(false);
+                    alert("Un mail de réinitialisation du mot de passe vient de vous être envoyé à l'adresse email fournie.");
+                    break;
 
+                case "error":
+                    alert("Une erreur est survenue dans l'envoi du mail de réinitialisation. Veuillez réessayer.");
+
+                    break;
+
+                case "auth/user-not-found":
+
+                    userHasFailedReset(true);
+                    break;
+
+                default:
+                    alert("Une erreur inconnue est survenue. Veuillez réessayer.");
+                    break;
             }
-            else {
-                //Fin du chargement et affichage de l'erreur
-                disableButton = false;
-                userHasFailed(true);
-            }
+
+            setDisableButton(false);
         });
 
     }
 
+    function validateForm() {
+        if (disableButton) {
+            return false;
+        }
+        return userID.length > 0 && password.length > 0;
+    }
+
+    function validateMail() {
+        return email.length > 0 && email.includes("@") && email.includes(".");
+    }
+    function validateMailReset() {
+        if (disableButton) {
+            return false;
+        }
+        return emailReset.length > 0 && emailReset.includes("@") && emailReset.includes(".");
+    }
+
+    function handleSubmit(event) {
+        if (!submitMode) {
+            setDisableButton(true);
+            event.preventDefault();
+            userHasAuthenticated(false);
+            userHasFailed(false);
+            userHasFailedReset(false);
+            //Lancer chargement en désactivant le bouton
+            fireAuth.signIn(userID, password).then((value) => {
+                type = value;
+                if (value === "Administrateur" || value === "Utilisateur" || value === "Maintenance") {
+                    userHasAuthenticated(true);
+                    setModeCo(type === "Utilisateur" ? 0 : type === "Administrateur" ? 1 : 2);
+                    //Fin du chargement
+
+                }
+                else {
+                    //Fin du chargement et affichage de l'erreur
+                    userHasFailed(true);
+                }
+                setDisableButton(false);
+            });
+        }
+        else {
+            handleSubmitMail(event);
+        }
+
+
+
+    }
+
     function handleSubmitMail(event) {
+        console.log("SUBMIIIT3");
         event.preventDefault();
-        userHasFailed(false);
-        userHasAuthenticated(false);
+        resetPassword();
     }
 
 
@@ -102,19 +162,23 @@ function ConnexionScreen({ failed, modeCo, setModeCo }) {
                         {isOpen && <Popup
                             content={<>
                                 <h3 className="popup-title">Mot de passe oublié</h3>
-                                <Form onSubmit={handleSubmitMail} className="mail-form" autocomplete="off">
+                                <Form onSubmit={handleSubmit} className="mail-form" autocomplete="off">
                                     <Form.Group size="lg" controlId="email">
                                         <Form.Label className="label-mail">Adresse e-mail :</Form.Label>
                                         <Form.Control
                                             autoFocus
                                             type="email"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            className="textZone"
+                                            value={emailReset}
+                                            onChange={(e) => setEmailReset(e.target.value)}
+                                            className={failedReset ? "input-box-fail" : "input-box"}
                                         />
                                     </Form.Group>
                                 </Form>
-                                <Button block size="lg" type="submit" disabled={!validateMail()} className="valider-button" onClick={togglePopup}>
+                                {failedReset ?
+                                    <div className='info-erreur'>{error === "auth/user-not-found" ? "Aucun utilisateur trouvé pour cette adresse mail."
+                                        : "Un problème de connexion est survenu. Veuillez réessayer."}</div> : <div></div>}
+
+                                <Button block size="lg" type="submit" disabled={!validateMailReset()} className="valider-button">
                                     Confirmer
                                 </Button>
                             </>}
@@ -125,8 +189,8 @@ function ConnexionScreen({ failed, modeCo, setModeCo }) {
                         </Button>
                     </div>
                     {failed ?
-                        <div className='info-erreur'>{type == "auth/user-not-found" ? "Aucun utilisateur trouvé pour cette adresse mail."
-                            : type == "auth/wrong-password" ? "Mot de passe erroné." : type == "auth/invalid-email" ? "L'email n'est pas valide." : "Un problème de connexion est survenu. Veuillez réessayer."}</div> : <div></div>}
+                        <div className='info-erreur'>{type === "auth/user-not-found" ? "Aucun utilisateur trouvé pour cette adresse mail."
+                            : type === "auth/wrong-password" ? "Mot de passe erroné." : type === "auth/invalid-email" ? "L'email n'est pas valide." : "Un problème de connexion est survenu. Veuillez réessayer."}</div> : <div></div>}
 
                 </Form>
             </div>

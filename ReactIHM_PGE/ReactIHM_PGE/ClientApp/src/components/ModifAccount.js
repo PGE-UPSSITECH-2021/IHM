@@ -16,9 +16,8 @@ import FireAuth from "./FireAuth";
 
 
 var fireAuth = new FireAuth();
-var disableButtonEnregistrer = false;
 function ModifAccount() {
-
+    const [disableButton, setDisableButton] = useState(false);
     const [email, setEmail] = useState("");
     const [emailSupp, setEmailSupp] = useState("");
     const [identifiant, setIdentifiant] = useState("");
@@ -106,19 +105,22 @@ function ModifAccount() {
     }
 
     function validateDataAccount() {
-        if (disableButtonEnregistrer) {
+        if (disableButton) {
             return false;
         }
         return selectedAccount && containsUL && containsLL && containsN && containsSC && contains7C && passwordMatch && email.length > 0 && email.includes("@") && email.includes(".") /*&& identifiant.length > 3*/;
     }
 
     function validateDataAccountSupp() {
+        if (disableButton) {
+            return false;
+        }
         return selectedAccountSupp && emailSupp.length > 0 && emailSupp.includes("@") && emailSupp.includes(".");
     }
 
 
     function saveNewAccount() {
-        disableButtonEnregistrer = true;
+        setDisableButton(true);
         fireAuth.register(email, newPasswordAccount, selectedAccount).then((value) => {
             switch (value) {
                 case "success":
@@ -156,19 +158,48 @@ function ModifAccount() {
                     break;
 
                 case "auth/email-already-exists":
-                    alert("Un compte existe déjà pour l'email donné.");//indiquer cette erreur au niveau du champ de donnée
+                    alert("Un compte existe déjà pour l'adresse email donnée.");//indiquer cette erreur au niveau du champ de donnée
+                    break;
+
+                default:
+                    alert("Une erreur inconnue est survenue. Veuillez réessayer.");
                     break;
             }
-            disableButtonEnregistrer = false;
+            setDisableButton(false);
 
         });
 
     }
 
     function saveAccountSupp() {
-        alert("Compte supprimé");
-        setEmailSupp("");
-        setSelectedAccountSupp("");
+        setDisableButton(true);
+        fireAuth.deleteAccount(emailSupp).then((value) => {
+            switch (value) {
+                case "success":
+                    alert("Compte supprimé");
+                    setEmailSupp("");
+                    setSelectedAccountSupp("");
+                    break;
+
+                case "auth/user-not-found":
+                    alert("Aucun utilisateur existant pour l'adresse email donnée.");
+                    break;
+
+                case "auth/network-request-failed":
+                    alert("Un problème de connexion est survenu. Veuillez réessayer.");
+                    break;
+
+                case "error":
+                    alert("Une erreur est survenue lors de la suppression du compte. Veuillez réessayer.");
+                    break;
+
+                default:
+                    alert("Une erreur inconnue est survenue. Veuillez réessayer.");
+                    break;
+            }
+            setDisableButton(false);
+        });
+
     }
 
     function handleSelectAccount(event) {
