@@ -44,8 +44,7 @@ function Header({ pageRes, setPageRes, isDecoDisabled, currentPage, setCurrentPa
             }
             else {
                 userHasAuthenticated(true);
-                //Affichage erreur
-
+                alert("Un problème est survenu lors de la déconnexion. Veuillez réessayer.");
 
             }
         });

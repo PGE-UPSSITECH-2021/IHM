@@ -1,7 +1,11 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser } from "firebase/auth";
+import {
+    getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, deleteUser, sendPasswordResetEmail,
+    updateEmail, updatePassword, reauthenticateWithCredential, EmailAuthProvider} from "firebase/auth";
 import { getFirestore } from "firebase/firestore"
 import { collection, addDoc, getDoc, doc, setDoc } from "firebase/firestore";
+//import { getFunctions, httpsCallable } from "firebase/functions";
+
 
 export default class FireAuth {
 
@@ -37,11 +41,9 @@ export default class FireAuth {
                         type: type
                     })
                         .then((value) => {
-                            console.log("REUSSI");
                             result = "success"; //Insription effecutée avec succès
                         })
                         .catch((error) => {
-                            console.log("ERROR");
                             result = "error-adding-doc"; //Retour d'un message d'erreur pour récupérer et faire un retour à l'utilisateur
                             //Suppression du compte nouvellement créé pour que l'utilisateur puisse recommencer
                             deleteUser(user).catch((error) => {
@@ -111,40 +113,78 @@ export default class FireAuth {
     }
 
     async deleteAccount(email) {
+        //const auth = admin.auth();
+        
+    }
+
+    async resetPassword(email) {
         const auth = getAuth();
         var result;
-        auth.getUserByEmail(email).then((userRecord) => {
-            deleteUser(userRecord)
-                .then(() => {
-                    result = "success";
-                })
-                .catch((error) => {
-                    result = error.code; /*Erreurs possibles : - auth/network-request-failed = problème de connexion internet*/
+        await signInWithEmailAndPassword(auth, email, "")
+            .catch(async (error) => {
+                console.log(error.code);
+                if (error.code != "auth/user-not-found") {
+                    await sendPasswordResetEmail(auth, email).then(() => {
+                        result = "success";
+                    }).catch((error) => {
+                        result = "error";
+                    });
+                }
+                else {
+                    result = error.code;
+                }
             });
-        })
-            .catch((error) => {
-                result = error.code;/*Erreurs possibles : - auth/network-request-failed = problème de connexion internet
-                                                          - auth/user-not-found = aucun utilisateur pour cette adresse email */
+        
+        return Promise.resolve(result);
+        
 
+    }
+
+    async changeEmail(newEmail, email, password) {
+        const auth = getAuth();
+        var result;
+        var user = auth.currentUser;
+        const credential = EmailAuthProvider.credential(
+            email,
+            password
+        );
+        await reauthenticateWithCredential(user, credential).then(async (userCredential) => {
+            user = userCredential.user;
+            await updateEmail(user, newEmail).then(() => {
+                result = "success";
+            }).catch((error) => {
+                result = error.code; /* Erreurs possibles : - auth/network-request-failed = problème de connexion internet
+                                                        - auth/invalid-email = email invalide
+                                                        - auth/email-already-exists = email déjà utilisé */
+            });
+        }).catch((error) => {
+            result = error.code;
         });
         return Promise.resolve(result);
 
 
     }
 
-    async resetPassword() {
+    async changePassword(newPassword, email, password) {
         const auth = getAuth();
-        
-
-    }
-
-    async changeEmail(newEmail) {
-        const auth = getAuth();
-
-
-    }
-
-    async changePassword(newPassword) {
+        var result;
+        var user = auth.currentUser;
+        const credential = EmailAuthProvider.credential(
+            email,
+            password
+        );
+        await reauthenticateWithCredential(user, credential).then(async (userCredential) => {
+            user = userCredential.user;
+            await updatePassword(user, newPassword).then(() => {
+                result = "success";
+            }).catch((error) => {
+                result = error.code; /* Erreurs possibles : - auth/network-request-failed = problème de connexion internet
+                                                        - auth/weak-password = mot de passe trop faible */
+            });
+        }).catch((error) => {
+            result = error.code;
+        });
+        return Promise.resolve(result);
 
     }
 

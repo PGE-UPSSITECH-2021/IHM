@@ -4,9 +4,56 @@ import CheckListPwd from './CheckListPwd';
 import Button from 'react-bootstrap/Button';
 import { BiShowAlt } from "react-icons/bi";
 import { BiHide } from "react-icons/bi";
+import FireAuth from "./FireAuth";
+import PopUpConfirm from "./PopUpConfirm";
+import Form from 'react-bootstrap/Form';
 
+
+
+var fireAuth = new FireAuth();
+var error = "";
 function PasswordStrength() {
 
+    //Popups
+    const [isOpen, setIsOpen] = useState(false);
+
+    const togglePopup = () => {
+        setIsOpen(!isOpen);
+        if (!isOpen) {
+            setCurrentEmail("");
+            setCurrentPassword("");
+        }
+        userHasFailed(false);
+
+    }
+    const [currentEmail, setCurrentEmail] = useState("");
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [failed, userHasFailed] = useState(false);
+
+    function validateMail() {
+        return currentEmail.length > 0 && currentEmail.includes("@") && currentEmail.includes(".");
+    }
+
+    function validateForm() {
+        if (disableButton) {
+            return false;
+        }
+        return currentEmail.length > 0 && currentPassword.length > 0 && validateMail();
+    }
+
+    function handleSubmit(event) {
+        setDisableButton(true);
+        userHasFailed(false);
+        event.preventDefault();
+        saveNewPassword();
+        setDisableButton(false);
+    }
+
+
+    //
+
+
+    const [disableButton, setDisableButton] = useState(false);
     const [newPassword, setNewPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
 
@@ -34,6 +81,7 @@ function PasswordStrength() {
     const [passwordConfirmIsVisible, setPasswordConfirmIsVisible] = useState(false);
 
     const validatePassword = () => {
+
 
         if (newPassword.toLowerCase() !== newPassword) {
             setContainsUL(true);
@@ -74,6 +122,9 @@ function PasswordStrength() {
 
 
     function enableSave() {
+        if (disableButton) {
+            return false;
+        }
         return checkListValid;
     }
 
@@ -87,10 +138,50 @@ function PasswordStrength() {
     }
 
     function saveNewPassword() {
-        setShowMust(false);
-        setNewPassword("");
-        setPasswordConfirm("");
-        setContainsUL(false);
+        setDisableButton(true);
+        fireAuth.changePassword(newPassword, currentEmail, currentPassword).then((value) => {
+            error = value;
+
+            switch (value) {
+
+                case "success":
+                    setShowMust(false);
+                    setNewPassword("");
+                    setPasswordConfirm("");
+                    setCurrentEmail("");
+                    setCurrentPassword("");
+                    togglePopup();
+                    setContainsUL(false);
+                    alert("Mot de passe changé avec succès.");
+                    break;
+
+                case "auth/network-request-failed":
+                    setShowMust(false);
+                    setContainsUL(false);
+                    setCurrentEmail("");
+                    setCurrentPassword("");
+                    togglePopup();
+                    alert("Une problème de connexion est survenu. Veuillez réessayer.");
+                    break;
+
+                case "auth/weak-password":
+                    setShowMust(false);
+                    setContainsUL(false);
+                    setCurrentEmail("");
+                    setCurrentPassword("");
+                    togglePopup();
+                    alert("Le nouveau mot de passe est trop faible. Veuillez le changer puis réessayer.");
+                    break;
+
+                default:
+                    userHasFailed(true);
+                    break;
+            }
+            
+            setDisableButton(false);
+
+        });
+        
         //alert("Mot de passe modifié !");
     }
 
@@ -118,9 +209,54 @@ function PasswordStrength() {
                 />
                 <button className="icon-set-mdp-visible" onClick={() => setPasswordConfirmIsVisible(!passwordConfirmIsVisible)}> {passwordConfirmIsVisible ? <BiShowAlt className="icon-eye" /> : <BiHide className="icon-eye" />} </button>
             </div>
-            <Button block size="lg" type="submit" disabled={!(containsUL && containsLL && containsN && containsSC && contains7C && passwordMatch)} className='mdp-sauv-button' onClick={saveNewPassword}>
+            <Button block size="lg" type="submit" disabled={!(containsUL && containsLL && containsN && containsSC && contains7C && passwordMatch)||disableButton} className='mdp-sauv-button' onClick={togglePopup}>
                 Enregistrer
             </Button>
+            {isOpen && <PopUpConfirm
+                content={<>
+                    <h3 className="popup-title">Identification</h3>
+                    <p className="popup-recap-title"> Veuillez vérifier votre identité </p>
+                    <div className='pge-id-champ'>
+                        <Form onSubmit={handleSubmit} className="login" autocomplete="off">
+                            <Form.Group size="lg" controlId="userID">
+                                <Form.Label className="label">Nom d'utilisateur :</Form.Label>
+                                <Form.Control
+                                    autoFocus
+                                    type="userID"
+                                    value={currentEmail}
+                                    onChange={(e) => setCurrentEmail(e.target.value)}
+                                    className={failed ? "input-box-fail" : "input-box"}
+                                />
+                            </Form.Group>
+                            <Form.Group size="lg" controlId="password">
+                                <Form.Label className="label">Mot de passe :</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    value={currentPassword}
+                                    onChange={(e) => setCurrentPassword(e.target.value)}
+                                    className={failed ? "input-box-fail" : "input-box"}
+                                />
+                            </Form.Group>
+                            <div className="lineCo">
+
+                                <Button block size="lg" type="submit" disabled={!validateForm()} className="input-button">
+                                    Confirmer
+                                </Button>
+                                <Button block size="lg" className="input-button" onClick={togglePopup}>
+                                    Annuler
+                                </Button>
+                            </div>
+                            {failed ?
+                                <div className='info-erreur'>{error === "auth/user-not-found" ? "Aucun utilisateur trouvé pour cette adresse mail."
+                                    : error === "auth/wrong-password" ? "Mot de passe erroné." : error === "auth/invalid-email" ? "L'email n'est pas valide." : "Un problème d'identification est survenu. Veuillez réessayer."}</div> : <div></div>}
+
+                        </Form>
+                    </div>
+
+                </>}
+
+
+            />}
             <br></br>
             {showMust ?
                 <div className="must-container">
